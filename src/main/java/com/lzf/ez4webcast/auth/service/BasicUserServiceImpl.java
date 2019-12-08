@@ -17,7 +17,7 @@ import static com.lzf.ez4webcast.common.ServiceResponse.response;
  * 登录注册服务
  */
 @Service
-public class BasicUserServiceImpl implements BasicUserService {
+class BasicUserServiceImpl implements BasicUserService {
 
     @Autowired
     private UserDao userDao;

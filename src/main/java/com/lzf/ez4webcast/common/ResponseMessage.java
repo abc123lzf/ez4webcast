@@ -18,7 +18,7 @@ public class ResponseMessage implements Serializable {
         this.message = message;
     }
 
-    public static ResponseMessage build(int code, String message) {
+    public static ResponseMessage message(int code, String message) {
         return new ResponseMessage(code, message);
     }
 

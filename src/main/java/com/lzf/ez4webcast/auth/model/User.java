@@ -21,13 +21,15 @@ public class User {
         return user;
     };
 
-    private int uid;
+    private Integer uid;
 
     private String nickName;
 
     private String password;
 
     private String email;
+
+    private Integer headImage;
 
     public User() { }
 }

@@ -13,7 +13,7 @@ public class ComplexResponseMessage<T> extends ResponseMessage {
         this.data = data;
     }
 
-    public static <T> ComplexResponseMessage<T> build(int code, String message, T data) {
+    public static <T> ComplexResponseMessage<T> message(int code, String message, T data) {
         return new ComplexResponseMessage<>(code, message, data);
     }
 

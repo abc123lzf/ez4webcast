@@ -31,6 +31,10 @@ public class ServiceResponse<T> {
         return new ServiceResponse<>(code, data);
     }
 
+    public boolean success() {
+        return code == 0;
+    }
+
     public int code() {
         return code;
     }
