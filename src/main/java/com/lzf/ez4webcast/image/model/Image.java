@@ -1,6 +1,7 @@
 package com.lzf.ez4webcast.image.model;
 
 import lombok.Data;
+import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.Timestamp;
 
@@ -11,9 +12,20 @@ import java.sql.Timestamp;
 @Data
 public class Image {
 
+    public static final RowMapper<Image> ROW_MAPPER = (rs, rowNum) -> {
+        Image image = new Image();
+        image.setId(rs.getInt("image_id"));
+        image.setPath(rs.getString("image_path"));
+        image.setUploadTime(rs.getTimestamp("image_upload_time"));
+        image.setContentType(rs.getString("image_type"));
+        return image;
+    };
+
     private Integer id;
 
     private String path;
+
+    private String contentType;
 
     private Timestamp uploadTime;
 }

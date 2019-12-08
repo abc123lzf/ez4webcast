@@ -1,8 +1,12 @@
 package com.lzf.ez4webcast.room.service;
 
 import com.lzf.ez4webcast.common.ServiceResponse;
+import com.lzf.ez4webcast.room.dao.BasicRoomDao;
 import com.lzf.ez4webcast.room.model.Room;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import static com.lzf.ez4webcast.common.ServiceResponse.response;
 
 /**
  * @author lizifan 695199262@qq.com
@@ -11,14 +15,19 @@ import org.springframework.stereotype.Service;
 @Service
 class BasicRoomServiceImpl implements BasicRoomService {
 
+    @Autowired
+    private BasicRoomDao basicRoomDao;
+
     @Override
-    public ServiceResponse<Void> createRoom(int uid) {
-        return null;
+    public ServiceResponse<Void> createRoom(int uid, String title) {
+        boolean succ = basicRoomDao.add(uid, title);
+        return succ ? response(0) : response(1);
     }
 
     @Override
     public ServiceResponse<Room> roomInfo(int roomId) {
-        return null;
+        Room room = basicRoomDao.fromRoomID(roomId);
+        return room != null ? response(0, room) : response(1);
     }
 
 }

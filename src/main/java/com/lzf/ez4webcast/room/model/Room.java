@@ -1,6 +1,7 @@
 package com.lzf.ez4webcast.room.model;
 
 import lombok.Data;
+import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.Timestamp;
 
@@ -10,6 +11,17 @@ import java.sql.Timestamp;
  */
 @Data
 public class Room {
+
+    public static final RowMapper<Room> ROW_MAPPER = (rs, rowNum) -> {
+        Room room = new Room();
+        room.setId(rs.getInt("room_id"));
+        room.setUid(rs.getInt("room_uid"));
+        room.setTitle(rs.getString("room_title"));
+        room.setTitleImage(rs.getInt("room_image_id"));
+        room.setCreateTime(rs.getTimestamp("room_create_time"));
+        room.setLastLiveTime(rs.getTimestamp("room_last_live_time"));
+        return room;
+    };
 
     private Integer id;
 
