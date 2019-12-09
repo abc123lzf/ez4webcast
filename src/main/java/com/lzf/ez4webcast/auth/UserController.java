@@ -1,7 +1,6 @@
 package com.lzf.ez4webcast.auth;
 
 
-import com.lzf.ez4webcast.auth.model.User;
 import com.lzf.ez4webcast.auth.service.BasicUserService;
 import com.lzf.ez4webcast.common.ResponseMessage;
 import com.lzf.ez4webcast.common.ServiceResponse;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import static com.lzf.ez4webcast.common.ResponseMessage.message;
 
@@ -27,25 +25,18 @@ public class UserController {
     @Autowired
     private BasicUserService basicUserService;
 
-
-    @PostMapping("login")
-    public ResponseMessage login(HttpServletRequest request, HttpSession session, HttpServletResponse response) {
-        String user = request.getParameter("username");
+    @PostMapping("register")
+    public ResponseMessage register(HttpServletRequest request, HttpServletResponse response) {
+        String email = request.getParameter("email");
+        String nick = request.getParameter("nickname");
         String pass = request.getParameter("password");
 
-        ServiceResponse<User> resp = basicUserService.login(user, pass);
+        ServiceResponse<Void> resp = basicUserService.register(email, nick, pass);
         if(resp.success()) {
-            session.setAttribute("auth.user", resp.data());
             return message(0, "SUCCESS");
         }
 
         return message(resp.code(), "FAILURE");
-    }
-
-
-    public ResponseMessage register(HttpServletRequest request, HttpSession session, HttpServletResponse response) {
-
-        return null;
     }
 
 }

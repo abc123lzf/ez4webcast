@@ -29,7 +29,7 @@ class UserDaoImpl extends AbstractJdbcDao implements UserDao {
 
     @Override
     public void add(User user) {
-        jdbcTemplate.update("insert into user_inf(nickname, password, email) value (?,?,?)",
+        jdbcTemplate.update("insert into user_inf(nickname, password, email, register_time) value (?,?,?,now())",
                 user.getNickName(), user.getPassword(), user.getEmail());
     }
 }

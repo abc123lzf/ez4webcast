@@ -1,5 +1,7 @@
 package com.lzf.ez4webcast.common;
 
+import com.alibaba.fastjson.JSONAware;
+
 import java.io.Serializable;
 
 /**
@@ -7,7 +9,7 @@ import java.io.Serializable;
  * @since 2019.12.8 15:58
  * 附加消息JSON消息体
  */
-public class ResponseMessage implements Serializable {
+public class ResponseMessage implements JSONAware, Serializable {
 
     private final int code;
 
@@ -28,5 +30,9 @@ public class ResponseMessage implements Serializable {
 
     public String message() {
         return message;
+    }
+
+    public String toJSONString() {
+        return String.format("{\"code\":%d,\"msg\":\"%s\"}", code, message);
     }
 }

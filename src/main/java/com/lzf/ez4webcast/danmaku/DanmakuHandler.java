@@ -5,7 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.lzf.ez4webcast.auth.model.User;
 import com.lzf.ez4webcast.common.WsSessionManager;
 import com.lzf.ez4webcast.danmaku.model.Danmaku;
+import com.lzf.ez4webcast.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -30,7 +32,12 @@ public class DanmakuHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        int uid = ((User)session.getAttributes().get("auth.user")).getUid();
+        User user = UserUtils.contextPrincipal();
+        if(user == null) {
+            return;
+        }
+
+        int uid = user.getUid();
         String uidStr = Integer.toString(uid);
         if(sessionManager.contanins(uidStr)) {
             sessionManager.removeAndClose(uidStr);
@@ -41,13 +48,18 @@ public class DanmakuHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        User user = UserUtils.contextPrincipal();
+        if(user == null) {
+            return;
+        }
+
         JSONObject obj = JSON.parseObject(message.getPayload());
         Danmaku dmk = Danmaku.fromJSON(obj);
         if(dmk == null) {
             return;
         }
 
-        User user = (User)session.getAttributes().get("auth.user");
+
         dmk.setUser(user);
 
         String broad = dmk.toJSONString();
@@ -65,7 +77,11 @@ public class DanmakuHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        int uid = ((User)session.getAttributes().get("auth.user")).getUid();
-        sessionManager.remove(Integer.toString(uid));
+        User user = UserUtils.contextPrincipal();
+        if(user == null) {
+            return;
+        }
+
+        sessionManager.remove(Integer.toString(user.getUid()));
     }
 }

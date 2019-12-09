@@ -16,7 +16,7 @@ import java.io.IOException;
  * @since 2019/12/9 16:14
  */
 @Controller
-@RequestMapping("/image")
+@RequestMapping("/api/image")
 public class ImageController {
 
     @Autowired
