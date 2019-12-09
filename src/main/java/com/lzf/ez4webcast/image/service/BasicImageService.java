@@ -15,6 +15,6 @@ public interface BasicImageService {
     ServiceResponse<Void> uploadImage(byte[] bytes, String contentType);
 
 
-    ServiceResponse<Void> writeImage(int id, OutputStream os);
+    ServiceResponse<String> readImage(int id, OutputStream os);
 
 }
