@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
  * @since 2019.12.8 16:56
  */
 @Repository
-public class UserDaoImpl extends AbstractJdbcDao implements UserDao {
+class UserDaoImpl extends AbstractJdbcDao implements UserDao {
 
     private static final RowMapper<User> rowMapper = new BeanPropertyRowMapper<>(User.class);
 

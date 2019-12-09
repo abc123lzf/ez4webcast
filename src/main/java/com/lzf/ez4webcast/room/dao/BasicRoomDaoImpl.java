@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
  * @since 2019.12.8 20:30
  */
 @Repository
-public class BasicRoomDaoImpl extends AbstractJdbcDao implements BasicRoomDao {
+class BasicRoomDaoImpl extends AbstractJdbcDao implements BasicRoomDao {
 
     @Override
     public Room fromRoomID(int roomId) {
