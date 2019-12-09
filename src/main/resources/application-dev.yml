@@ -30,6 +30,5 @@ server:
     session:
       timeout: 600
   address: 127.0.0.1
-
 logging:
-  level: info
+  level.root: info

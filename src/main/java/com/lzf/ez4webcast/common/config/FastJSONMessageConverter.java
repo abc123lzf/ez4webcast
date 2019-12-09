@@ -1,4 +1,4 @@
-package com.lzf.ez4webcast.config;
+package com.lzf.ez4webcast.common.config;
 
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;

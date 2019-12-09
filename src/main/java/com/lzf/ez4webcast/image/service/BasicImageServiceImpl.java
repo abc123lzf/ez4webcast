@@ -7,7 +7,6 @@ import com.lzf.ez4webcast.image.dao.ImageFileManager;
 import com.lzf.ez4webcast.image.model.Image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.OutputStream;
 

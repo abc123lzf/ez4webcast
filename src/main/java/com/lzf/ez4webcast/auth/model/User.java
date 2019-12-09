@@ -2,7 +2,15 @@ package com.lzf.ez4webcast.auth.model;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.Tolerate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author lizifan 695199262@qq.com
@@ -10,7 +18,7 @@ import org.springframework.jdbc.core.RowMapper;
  */
 @Data
 @Builder
-public class User {
+public class User implements UserDetails {
 
     public static final RowMapper<User> ROW_MAPPER = (rs, num) -> {
         User user = new User();
@@ -31,5 +39,38 @@ public class User {
 
     private Integer headImage;
 
+    private List<Role> roles = Collections.emptyList();
+
+    @Tolerate
     public User() { }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

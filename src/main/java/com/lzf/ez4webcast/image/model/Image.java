@@ -2,6 +2,7 @@ package com.lzf.ez4webcast.image.model;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.Tolerate;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.Timestamp;
@@ -31,5 +32,6 @@ public class Image {
 
     private Timestamp uploadTime;
 
+    @Tolerate
     public Image() { }
 }

@@ -21,7 +21,7 @@ import static com.lzf.ez4webcast.common.ResponseMessage.message;
  * @since 2019.12.8 16:46
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
@@ -35,6 +35,7 @@ public class UserController {
 
         ServiceResponse<User> resp = basicUserService.login(user, pass);
         if(resp.success()) {
+            session.setAttribute("auth.user", resp.data());
             return message(0, "SUCCESS");
         }
 
