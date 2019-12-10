@@ -62,7 +62,7 @@ public class DanmakuHandler extends TextWebSocketHandler {
 
         dmk.setUser(user);
 
-        String broad = dmk.toJSONString();
+        TextMessage broad = new TextMessage(dmk.toJSONString());
 
         sessionManager.forEach(s -> {  //广播弹幕
             if(s == session) {
@@ -70,7 +70,7 @@ public class DanmakuHandler extends TextWebSocketHandler {
             }
 
             try {
-                session.sendMessage(new TextMessage(broad));
+                session.sendMessage(broad);
             } catch (IOException ignore) { }
         });
     }

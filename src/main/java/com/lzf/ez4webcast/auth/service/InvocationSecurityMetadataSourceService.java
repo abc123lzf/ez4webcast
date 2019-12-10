@@ -30,7 +30,9 @@ class InvocationSecurityMetadataSourceService implements FilterInvocationSecurit
     @Autowired
     private RoleDao roleDao;
 
-    private final Map<String, Collection<ConfigAttribute>> map = new LinkedHashMap<>();
+    private final Map<String, Collection<ConfigAttribute>> map = new HashMap<>();
+
+    private final Map<String, AntPathRequestMatcher> matchers = new LinkedHashMap<>();
 
     @Override
     public void afterPropertiesSet() {
@@ -46,6 +48,8 @@ class InvocationSecurityMetadataSourceService implements FilterInvocationSecurit
                         return ca;
                     }
                 });
+
+                matchers.put(p.getUrl(), new AntPathRequestMatcher(p.getUrl()));
             }
         }
     }
@@ -57,8 +61,10 @@ class InvocationSecurityMetadataSourceService implements FilterInvocationSecurit
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         HttpServletRequest request = ((FilterInvocation) object).getRequest();
-        for (String url : map.keySet()) {
-            if(new AntPathRequestMatcher(url).matches(request)) {
+        for (Map.Entry<String, AntPathRequestMatcher> entry : matchers.entrySet()) {
+            String url = entry.getKey();
+            AntPathRequestMatcher matcher = entry.getValue();
+            if(matcher.matches(request)) {
                 return map.get(url);
             }
         }

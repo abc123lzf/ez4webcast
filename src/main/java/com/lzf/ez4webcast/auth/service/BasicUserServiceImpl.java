@@ -3,9 +3,9 @@ package com.lzf.ez4webcast.auth.service;
 import com.lzf.ez4webcast.auth.dao.UserDao;
 import com.lzf.ez4webcast.auth.model.User;
 import com.lzf.ez4webcast.common.ServiceResponse;
-import com.lzf.ez4webcast.utils.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import static com.lzf.ez4webcast.utils.StringTypeUtils.isEmail;
 import static com.lzf.ez4webcast.utils.StringTypeUtils.isNumber;
@@ -37,7 +37,7 @@ class BasicUserServiceImpl implements BasicUserService {
             return response(1);
         }
 
-        String cur = MD5Utils.encode(password);
+        String cur = DigestUtils.md5DigestAsHex(password.getBytes());
         if(!cur.equals(user.getPassword())) {
             return response(1);
         }
@@ -57,7 +57,11 @@ class BasicUserServiceImpl implements BasicUserService {
         }
 
         try {
-            User user = User.builder().nickName(nickName).password(MD5Utils.encode(password)).email(email).build();
+            User user = User.builder()
+                    .nickName(nickName)
+                    .password(DigestUtils.md5DigestAsHex(password.getBytes()))
+                    .email(email)
+                    .build();
             userDao.add(user);
         } catch (RuntimeException e) {
             return response(1);
