@@ -4,6 +4,7 @@ import com.lzf.ez4webcast.auth.dao.RoleDao;
 import com.lzf.ez4webcast.auth.dao.UserDao;
 import com.lzf.ez4webcast.auth.model.Role;
 import com.lzf.ez4webcast.auth.model.User;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
