@@ -24,6 +24,8 @@ public class DanmakuConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(danmakuHandler, "/api/danmaku/ws").addInterceptors(danmakuInterceptor).setAllowedOrigins("*");
+        registry.addHandler(danmakuHandler, "/api/danmaku/ws")
+                .addInterceptors(danmakuInterceptor)
+                .setAllowedOrigins("*");
     }
 }

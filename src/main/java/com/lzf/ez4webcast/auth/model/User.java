@@ -1,5 +1,7 @@
 package com.lzf.ez4webcast.auth.model;
 
+import com.alibaba.fastjson.JSONAware;
+import com.alibaba.fastjson.JSONObject;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
@@ -7,7 +9,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 @Data
 @Builder
-public class User implements UserDetails {
+public class User implements UserDetails, JSONAware {
 
     public static final RowMapper<User> ROW_MAPPER = (rs, num) -> {
         User user = new User();
@@ -46,7 +47,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roles;
     }
 
     @Override
@@ -72,5 +73,16 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toJSONString() {
+        JSONObject obj = new JSONObject(8);
+        obj.put("uid", uid);
+        obj.put("nickname", nickName);
+        obj.put("email", email);
+        obj.put("headImage", headImage);
+
+        return obj.toJSONString();
     }
 }
