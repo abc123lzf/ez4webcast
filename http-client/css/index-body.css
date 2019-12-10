@@ -1,0 +1,13 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.content {
+    margin-top: 100px;
+    background: #f2f5f6;
+    width: 100%;
+    height: 2000px;
+    margin-left: 0;
+    margin-right: 0;
+}

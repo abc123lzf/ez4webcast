@@ -4,6 +4,8 @@ import com.lzf.ez4webcast.common.AbstractJdbcDao;
 import com.lzf.ez4webcast.room.model.Room;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author lizifan 695199262@qq.com
  * @since 2019.12.8 20:30
@@ -31,5 +33,11 @@ class BasicRoomDaoImpl extends AbstractJdbcDao implements BasicRoomDao {
 
         return jdbcTemplate.update("insert into room_inf(room_uid, room_title, room_create_time) values(?,?,now())",
                 uid, title) == 1;
+    }
+
+    @Override
+    public List<Room> all() {
+        return jdbcTemplate.query("select room_id, room_uid, room_title, room_image_id, room_create_time from room_inf",
+                Room.ROW_MAPPER);
     }
 }
