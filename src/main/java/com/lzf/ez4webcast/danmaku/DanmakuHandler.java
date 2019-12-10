@@ -6,8 +6,8 @@ import com.lzf.ez4webcast.auth.model.User;
 import com.lzf.ez4webcast.common.WsSessionManager;
 import com.lzf.ez4webcast.danmaku.model.Danmaku;
 import com.lzf.ez4webcast.utils.UserUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -15,6 +15,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  * @author lizifan 695199262@qq.com
@@ -34,6 +35,9 @@ public class DanmakuHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         User user = UserUtils.contextPrincipal();
         if(user == null) {
+            String id = UUID.randomUUID().toString();
+            session.getAttributes().put("danmaku.tourist.id", id);
+            sessionManager.add(id, session);
             return;
         }
 
@@ -79,6 +83,11 @@ public class DanmakuHandler extends TextWebSocketHandler {
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         User user = UserUtils.contextPrincipal();
         if(user == null) {
+            String id = (String) session.getAttributes().get("danmaku.tourist.id");
+            if(id == null) {
+                return;
+            }
+            sessionManager.remove(id);
             return;
         }
 
