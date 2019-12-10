@@ -21,8 +21,8 @@ public class RmtpController {
     @Autowired
     private BasicRoomService basicRoomService;
 
-    @RequestMapping("auth")
-    public void auth(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @RequestMapping("publish")
+    public void publishCallback(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String room = request.getParameter("room");
         String key = request.getParameter("key");
 
@@ -37,6 +37,7 @@ public class RmtpController {
         ServiceResponse<String> resp = basicRoomService.rmtpAuthKey(rid);
         if(resp.success()) {
             if(resp.data().equals(key)) {
+                basicRoomService.updateLastLiveTime(rid);
                 return;
             } else {
                 response.sendError(403);
@@ -46,4 +47,8 @@ public class RmtpController {
         response.sendError(403);
     }
 
+    @RequestMapping("done")
+    public void doneCallback(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+    }
 }

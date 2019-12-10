@@ -31,6 +31,15 @@ public interface BasicRoomService {
      */
     ServiceResponse<List<Room>> allRoomInfo();
 
+
+    /**
+     * 更新直播间
+     * @param roomId 房间ID
+     * @return 结果
+     */
+    ServiceResponse<Void> updateLastLiveTime(int roomId);
+
+
     /**
      * 获取直播间推流密钥
      * @param rid 直播间ID

@@ -1,6 +1,5 @@
 package com.lzf.ez4webcast.utils;
 
-import com.lzf.ez4webcast.auth.model.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 

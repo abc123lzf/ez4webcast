@@ -17,4 +17,6 @@ public interface BasicRoomDao {
     boolean add(int uid, String title);
 
     List<Room> all();
+
+    void updateLastLiveTime(int rid);
 }

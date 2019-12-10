@@ -69,7 +69,7 @@ public class DanmakuController {
     public void onMessage(Session session, String text, @PathParam("room") String room) {
         Map<String, Object> properties = session.getUserProperties();
         if((Boolean) properties.get("tourist")) {
-            return;  //游客禁止发送弹幕
+            return;  //游客禁止发送弹幕           b
         }
 
         Danmaku dmk = Danmaku.fromJSON(JSON.parseObject(text));

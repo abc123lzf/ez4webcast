@@ -50,4 +50,9 @@ class BasicRoomServiceImpl implements BasicRoomService {
 
         return response(0, key);
     }
+
+    @Override
+    public ServiceResponse<Void> updateLastLiveTime(int roomId) {
+        return null;
+    }
 }
