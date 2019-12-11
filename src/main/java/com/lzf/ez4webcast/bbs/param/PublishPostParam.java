@@ -10,7 +10,10 @@ import lombok.Data;
 @Data
 public class PublishPostParam {
 
+    private Integer roomId;
+
     private String title;
 
     private String content;
+
 }

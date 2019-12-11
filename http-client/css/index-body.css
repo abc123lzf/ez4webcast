@@ -13,7 +13,16 @@ body {
 }
 
 .content .live-block {
-    display: grid;
-    grid-gap: 10px;
-    grid-template-columns: repeat(4, 1fr);
+    width: 260px;
+    height: 170px;
+    margin-top: 30px;
+}
+.indexUserImg{
+    color: #a7a7a7;
+    height:10px;
+    width: 10px;
+}
+.live-block-image{
+    border-radius: 2%;
+    width: 250px;
 }

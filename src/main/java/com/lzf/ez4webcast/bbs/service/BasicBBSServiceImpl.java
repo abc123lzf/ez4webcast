@@ -1,5 +1,6 @@
 package com.lzf.ez4webcast.bbs.service;
 
+import com.lzf.ez4webcast.auth.model.User;
 import com.lzf.ez4webcast.auth.service.BasicUserService;
 import com.lzf.ez4webcast.auth.vo.UserVo;
 import com.lzf.ez4webcast.bbs.dao.FloorDao;
@@ -8,12 +9,16 @@ import com.lzf.ez4webcast.bbs.dao.ReplyDao;
 import com.lzf.ez4webcast.bbs.model.Floor;
 import com.lzf.ez4webcast.bbs.model.Post;
 import com.lzf.ez4webcast.bbs.model.Reply;
+import com.lzf.ez4webcast.bbs.param.PublishPostParam;
 import com.lzf.ez4webcast.bbs.vo.FloorVo;
 import com.lzf.ez4webcast.bbs.vo.PostVo;
 import com.lzf.ez4webcast.bbs.vo.ReplyVo;
 import com.lzf.ez4webcast.common.ServiceResponse;
+import com.lzf.ez4webcast.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -83,5 +88,34 @@ class BasicBBSServiceImpl implements BasicBBSService {
         PostVo vo = new PostVo(post);
         vo.setFloors(floorVos);
         return response(0, vo);
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public ServiceResponse<Void> publishPost(PublishPostParam param) {
+        User user = UserUtils.contextPrincipal();
+        if(user == null) {
+            return response(-1);
+        }
+
+        Post post = new Post();
+        post.setRoomId(param.getRoomId());
+        post.setTitle(param.getTitle());
+        post.setCreateUID(user.getUid());
+
+        postDao.insert(post);
+        /*if(!postDao.insert(post)) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return response(1);
+        }*/
+
+
+        Floor floor = new Floor();
+        floor.setContent(param.getContent());
+        floor.setCreateUID(user.getUid());
+        floor.setFloorNumber(1);
+
+
+        return null;
     }
 }

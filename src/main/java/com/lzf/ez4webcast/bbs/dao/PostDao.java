@@ -14,5 +14,5 @@ public interface PostDao {
 
     Post fromPostId(int postId);
 
-    boolean insert(Post post);
+    int insert(Post post);
 }
