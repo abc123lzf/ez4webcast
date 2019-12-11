@@ -1,6 +1,8 @@
 package com.lzf.ez4webcast.bbs.service;
 
+import com.lzf.ez4webcast.bbs.param.PublishFloorParam;
 import com.lzf.ez4webcast.bbs.param.PublishPostParam;
+import com.lzf.ez4webcast.bbs.param.PublishReplyParam;
 import com.lzf.ez4webcast.bbs.vo.PostVo;
 import com.lzf.ez4webcast.common.ServiceResponse;
 
@@ -27,5 +29,24 @@ public interface BasicBBSService {
     ServiceResponse<PostVo> postDetail(int postId);
 
 
+    /**
+     * 发布帖子
+     * @param param 参数
+     * @return 服务响应
+     */
     ServiceResponse<Void> publishPost(PublishPostParam param);
+
+    /**
+     * 发布帖子下的楼层
+     * @param param 参数
+     * @return 服务响应
+     */
+    ServiceResponse<Void> publishFloor(PublishFloorParam param);
+
+    /**
+     *
+     * @param param
+     * @return
+     */
+    ServiceResponse<Void> publishFloorReply(PublishReplyParam param);
 }

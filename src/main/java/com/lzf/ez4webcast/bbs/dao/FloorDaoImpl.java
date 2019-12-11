@@ -23,13 +23,18 @@ class FloorDaoImpl extends AbstractJdbcDao implements FloorDao {
     @Override
     @Transactional
     public boolean insertFloor(Floor floor) {
-        jdbcTemplate.execute("select * from bbs_floor_inf where post_id = " + floor.getPostId() + " for update ");
-        Integer max = jdbcTemplate.queryForObject("select max(floor_number) from bbs_floor_inf where post_id = " + floor.getPostId(), Integer.class);
-        if(max == null) {
-            return false;
-        }
+        if (floor.getFloorNumber() == null) {
+            jdbcTemplate.execute("select * from bbs_floor_inf where post_id = " + floor.getPostId() + " for update ");
+            Integer max = jdbcTemplate.queryForObject("select max(floor_number) from bbs_floor_inf where post_id = " + floor.getPostId(), Integer.class);
+            if (max == null) {
+                return false;
+            }
 
-        return jdbcTemplate.update("insert into bbs_floor_inf(floor_number,floor_content,post_id,create_uid,create_time,status) " +
-                "values(?,?,?,?,now(),0)", parameters(max + 1, floor.getContent(), floor.getPostId(), floor.getCreateUID())) > 0;
+            return jdbcTemplate.update("insert into bbs_floor_inf(floor_number,floor_content,post_id,create_uid,create_time,status) " +
+                    "values(?,?,?,?,now(),0)", parameters(max + 1, floor.getContent(), floor.getPostId(), floor.getCreateUID())) > 0;
+        } else {
+            return jdbcTemplate.update("insert into bbs_floor_inf(floor_number,floor_content,post_id,create_uid,create_time,status) " +
+                    "values(?,?,?,?,now(),0)", parameters(floor.getFloorNumber(), floor.getContent(), floor.getPostId(), floor.getCreateUID())) > 0;
+        }
     }
 }

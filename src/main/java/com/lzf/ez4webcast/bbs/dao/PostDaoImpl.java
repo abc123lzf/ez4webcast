@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
@@ -36,13 +35,15 @@ class PostDaoImpl extends AbstractJdbcDao implements PostDao {
     public int insert(Post post) {
         KeyHolder holder = new GeneratedKeyHolder();
         PreparedStatementCreator creator = (Connection con) -> {
-            return con.prepareStatement("insert into bbs_post_inf(post_title, room_id, create_uid, " +
+            PreparedStatement ps = con.prepareStatement("insert into bbs_post_inf(post_title, room_id, create_uid, " +
                         "create_time, update_time, status) values(?,?,?,now(),now(),0)", Statement.RETURN_GENERATED_KEYS);
-
+            statementParams(ps, post.getTitle(), post.getRoomId(), post.getCreateUID());
+            return ps;
         };
 
         jdbcTemplate.update(creator, holder);
 
-        return (int)holder.getKey().longValue();
+        Number key = holder.getKey();
+        return key == null ? -1 : key.intValue();
     }
 }

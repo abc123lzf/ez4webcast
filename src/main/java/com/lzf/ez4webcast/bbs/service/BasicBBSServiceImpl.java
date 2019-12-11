@@ -9,12 +9,15 @@ import com.lzf.ez4webcast.bbs.dao.ReplyDao;
 import com.lzf.ez4webcast.bbs.model.Floor;
 import com.lzf.ez4webcast.bbs.model.Post;
 import com.lzf.ez4webcast.bbs.model.Reply;
+import com.lzf.ez4webcast.bbs.param.PublishFloorParam;
 import com.lzf.ez4webcast.bbs.param.PublishPostParam;
+import com.lzf.ez4webcast.bbs.param.PublishReplyParam;
 import com.lzf.ez4webcast.bbs.vo.FloorVo;
 import com.lzf.ez4webcast.bbs.vo.PostVo;
 import com.lzf.ez4webcast.bbs.vo.ReplyVo;
 import com.lzf.ez4webcast.common.ServiceResponse;
 import com.lzf.ez4webcast.utils.UserUtils;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +35,7 @@ import static com.lzf.ez4webcast.common.ServiceResponse.response;
  * @since 2019/12/11 16:16
  */
 @Service
+@Log4j2
 class BasicBBSServiceImpl implements BasicBBSService {
 
     @Autowired
@@ -103,19 +107,50 @@ class BasicBBSServiceImpl implements BasicBBSService {
         post.setTitle(param.getTitle());
         post.setCreateUID(user.getUid());
 
-        postDao.insert(post);
-        /*if(!postDao.insert(post)) {
+        int postId = postDao.insert(post);
+        if(postId == -1) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return response(1);
-        }*/
-
+        }
 
         Floor floor = new Floor();
         floor.setContent(param.getContent());
         floor.setCreateUID(user.getUid());
         floor.setFloorNumber(1);
+        floor.setPostId(postId);
 
+        floorDao.insertFloor(floor);
+        return response(0);
+    }
 
-        return null;
+    @Override
+    public ServiceResponse<Void> publishFloor(PublishFloorParam param) {
+        User user = UserUtils.contextPrincipal();
+        if(user == null) {
+            return response(-1);
+        }
+
+        Floor floor = new Floor();
+        floor.setContent(param.getContent());
+        floor.setPostId(param.getPostId());
+        floor.setCreateUID(user.getUid());
+
+        return floorDao.insertFloor(floor) ? response(0) : response(1);
+    }
+
+    @Override
+    public ServiceResponse<Void> publishFloorReply(PublishReplyParam param) {
+        User user = UserUtils.contextPrincipal();
+        if(user == null) {
+            return response(-1);
+        }
+
+        Reply reply = new Reply();
+        reply.setCreateUID(user.getUid());
+        reply.setContent(param.getContent());
+        reply.setReplyObjectId(param.getReplyObjectId());
+        reply.setFloorId(param.getFloorId());
+
+        return replyDao.insert(reply) ? response(0) : response(1);
     }
 }
