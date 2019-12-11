@@ -38,10 +38,12 @@ public class RmtpController {
         if(resp.success()) {
             if(resp.data().equals(key)) {
                 basicRoomService.updateLastLiveTime(rid);
+                response.setStatus(200);
                 return;
-            } else {
-                response.sendError(403);
             }
+
+            response.sendError(403);
+            return;
         }
 
         response.sendError(403);

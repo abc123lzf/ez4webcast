@@ -11,3 +11,9 @@ body {
     margin-left: 0;
     margin-right: 0;
 }
+
+.content .live-block {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+}
