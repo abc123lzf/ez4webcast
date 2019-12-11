@@ -1,6 +1,7 @@
 package com.lzf.ez4webcast.auth.service;
 
 import com.lzf.ez4webcast.auth.model.User;
+import com.lzf.ez4webcast.auth.vo.UserVo;
 import com.lzf.ez4webcast.common.ServiceResponse;
 
 /**
@@ -11,11 +12,10 @@ public interface BasicUserService {
 
     /**
      * 登录
-     * @param username 电子邮箱/UID
-     * @param password 密码
+     * @param uid 用户ID
      * @return 登录情况 0:成功 1:
      */
-    ServiceResponse<User> login(String username, String password);
+    ServiceResponse<UserVo> findUserByUID(int uid);
 
     /**
      * 注册

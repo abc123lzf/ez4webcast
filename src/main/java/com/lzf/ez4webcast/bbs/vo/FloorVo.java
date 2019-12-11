@@ -2,6 +2,7 @@ package com.lzf.ez4webcast.bbs.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.lzf.ez4webcast.auth.vo.UserVo;
+import com.lzf.ez4webcast.bbs.model.Floor;
 import lombok.Data;
 
 import java.util.Date;
@@ -27,7 +28,7 @@ public class FloorVo {
     private List<ReplyVo> replies;
 
     @JSONField
-    private String postId;
+    private Integer postId;
 
     @JSONField
     private UserVo createUser;
@@ -37,5 +38,16 @@ public class FloorVo {
 
     @JSONField
     private Integer status;
+
+    public FloorVo() { }
+
+    public FloorVo(Floor floor) {
+        this.id = floor.getId();
+        this.floorNumber = floor.getFloorNumber();
+        this.content = floor.getContent();
+        this.postId = floor.getPostId();
+        this.createTime = floor.getCreateTime();
+        this.status = floor.getStatus();
+    }
 
 }

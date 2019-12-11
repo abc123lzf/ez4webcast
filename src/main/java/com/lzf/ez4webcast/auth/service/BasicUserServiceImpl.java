@@ -2,6 +2,7 @@ package com.lzf.ez4webcast.auth.service;
 
 import com.lzf.ez4webcast.auth.dao.UserDao;
 import com.lzf.ez4webcast.auth.model.User;
+import com.lzf.ez4webcast.auth.vo.UserVo;
 import com.lzf.ez4webcast.common.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,29 +22,6 @@ class BasicUserServiceImpl implements BasicUserService {
 
     @Autowired
     private UserDao userDao;
-
-    @Override
-    public ServiceResponse<User> login(String username, String password) {
-        User user;
-        if(isNumber(username)) {
-            user = userDao.fromUID(Integer.parseInt(username));
-        } else if(isEmail(username)) {
-            user = userDao.fromEmail(username);
-        } else {
-            return response(2);
-        }
-
-        if(user == null) {
-            return response(1);
-        }
-
-        String cur = DigestUtils.md5DigestAsHex(password.getBytes());
-        if(!cur.equals(user.getPassword())) {
-            return response(1);
-        }
-
-        return response(0, user);
-    }
 
     @Override
     public ServiceResponse<Void> register(String email, String nickName, String password) {
@@ -68,5 +46,15 @@ class BasicUserServiceImpl implements BasicUserService {
         }
 
         return response(0);
+    }
+
+    @Override
+    public ServiceResponse<UserVo> findUserByUID(int uid) {
+        User user = userDao.fromUID(uid);
+        if(user == null) {
+            return response(1);
+        }
+
+        return response(0, new UserVo(user));
     }
 }

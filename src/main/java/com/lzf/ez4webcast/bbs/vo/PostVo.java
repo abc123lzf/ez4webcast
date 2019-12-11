@@ -2,6 +2,7 @@ package com.lzf.ez4webcast.bbs.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.lzf.ez4webcast.auth.vo.UserVo;
+import com.lzf.ez4webcast.bbs.model.Post;
 import lombok.Data;
 
 import java.util.Date;
@@ -38,4 +39,14 @@ public class PostVo {
     @JSONField
     private Integer status;
 
+    public PostVo() { }
+
+    public PostVo(Post post) {
+        this.id = post.getId();
+        this.title = post.getTitle();
+        this.roomId = post.getRoomId();
+        this.createTime = post.getCreateTime();
+        this.updateTime = post.getUpdateTime();
+        this.status = post.getStatus();
+    }
 }

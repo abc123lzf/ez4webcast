@@ -24,4 +24,10 @@ class PostDaoImpl extends AbstractJdbcDao implements PostDao {
         return getFirst(jdbcTemplate.query("select post_id,post_title,room_id,create_uid,create_time,update_time,status " +
                 "from bbs_post_inf where post_id = ?", parameters(postId), Post.ROW_MAPPER));
     }
+
+    @Override
+    public boolean insert(Post post) {
+        return jdbcTemplate.update("insert into bbs_post_inf(post_title, room_id, create_uid, create_time, update_time, status) " +
+                " values(?,?,?,now(),now(),0)", parameters(post.getTitle(), post.getRoomId(), post.getCreateUID())) > 0;
+    }
 }

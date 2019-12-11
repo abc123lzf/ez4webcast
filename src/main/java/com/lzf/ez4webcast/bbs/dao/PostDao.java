@@ -13,4 +13,6 @@ public interface PostDao {
     List<Post> listFromRoomId(int roomId);
 
     Post fromPostId(int postId);
+
+    boolean insert(Post post);
 }

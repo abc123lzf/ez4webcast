@@ -9,7 +9,8 @@ import java.util.List;
  * @since 2019/12/11 12:38
  */
 public interface FloorDao {
-    
+
     List<Floor> fromPostId(int postId);
-    
+
+    boolean insertFloor(Floor floor);
 }

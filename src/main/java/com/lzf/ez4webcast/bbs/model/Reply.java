@@ -16,6 +16,7 @@ public class Reply {
     public static final RowMapper<Reply> ROW_MAPPER = (rs, rowNum) -> {
         Reply reply = new Reply();
         reply.setId(rs.getInt("reply_id"));
+        reply.setReplyNumber(rs.getInt("reply_number"));
         reply.setContent(rs.getString("reply_content"));
         reply.setReplyObjectId(rs.getInt("reply_object_id"));
         reply.setFloorId(rs.getInt("floor_id"));
@@ -26,6 +27,8 @@ public class Reply {
     };
 
     private Integer id;
+
+    private Integer replyNumber;
 
     private String content;
 

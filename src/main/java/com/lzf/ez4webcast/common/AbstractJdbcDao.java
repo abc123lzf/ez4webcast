@@ -18,7 +18,6 @@ public abstract class AbstractJdbcDao {
     @Autowired
     protected NamedParameterJdbcTemplate namedJdbcTemplate;
 
-
     protected static Object[] parameters(Object... args) {
         return args;
     }
