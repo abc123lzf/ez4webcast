@@ -24,10 +24,13 @@ public class ComplexResponseMessage<T> extends ResponseMessage {
     }
 
     public String toJSONString() {
+        if(data == null) {
+            return super.toJSONString();
+        }
+
         JSONObject object = new JSONObject(4);
         object.put("code", code());
         object.put("msg", message());
-        object.put("data", data);
         return object.toJSONString();
     }
 }

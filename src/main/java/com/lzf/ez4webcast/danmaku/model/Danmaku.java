@@ -2,7 +2,7 @@ package com.lzf.ez4webcast.danmaku.model;
 
 import com.alibaba.fastjson.JSONAware;
 import com.alibaba.fastjson.JSONObject;
-import com.lzf.ez4webcast.auth.model.User;
+import com.lzf.ez4webcast.auth.vo.UserVo;
 import lombok.Data;
 
 
@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 public class Danmaku implements JSONAware {
 
-    private User user;
+    private UserVo user;
 
     private String content;
 

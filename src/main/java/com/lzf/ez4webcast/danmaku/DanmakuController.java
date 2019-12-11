@@ -2,6 +2,7 @@ package com.lzf.ez4webcast.danmaku;
 
 import com.alibaba.fastjson.JSON;
 import com.lzf.ez4webcast.auth.model.User;
+import com.lzf.ez4webcast.auth.vo.UserVo;
 import com.lzf.ez4webcast.danmaku.model.Danmaku;
 import com.lzf.ez4webcast.utils.UserUtils;
 import lombok.extern.log4j.Log4j2;
@@ -69,7 +70,7 @@ public class DanmakuController {
     public void onMessage(Session session, String text, @PathParam("room") String room) {
         Map<String, Object> properties = session.getUserProperties();
         if((Boolean) properties.get("tourist")) {
-            return;  //游客禁止发送弹幕           b
+            return;  //游客禁止发送弹幕
         }
 
         Danmaku dmk = Danmaku.fromJSON(JSON.parseObject(text));
@@ -80,7 +81,7 @@ public class DanmakuController {
 
         User user = (User) properties.get("user");
         if(user != null) {
-            dmk.setUser(user);
+            dmk.setUser(new UserVo(user));
         }
 
         String send = dmk.toJSONString();

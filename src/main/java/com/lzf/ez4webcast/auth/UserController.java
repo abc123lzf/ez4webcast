@@ -1,10 +1,15 @@
 package com.lzf.ez4webcast.auth;
 
 
+import com.lzf.ez4webcast.auth.model.User;
 import com.lzf.ez4webcast.auth.service.BasicUserService;
+import com.lzf.ez4webcast.auth.vo.UserVo;
+import com.lzf.ez4webcast.common.ComplexResponseMessage;
 import com.lzf.ez4webcast.common.ResponseMessage;
 import com.lzf.ez4webcast.common.ServiceResponse;
+import com.lzf.ez4webcast.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,4 +44,13 @@ public class UserController {
         return message(resp.code(), "FAILURE");
     }
 
+    @GetMapping("context")
+    public ComplexResponseMessage<UserVo> contextUser() {
+        User user = UserUtils.contextPrincipal();
+        if(user == null) {
+            return ComplexResponseMessage.message(1, "Not login", null);
+        }
+
+        return ComplexResponseMessage.message(0, "SUCCESS", new UserVo(user));
+    }
 }
