@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/header.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="modal-dialog" style="margin-top: 10%;">
+    <div class="modal-content">
+        <div class="modal-header">
+
+            <h4 class="modal-title text-center" id="myModalLabel">登录</h4>
+        </div>
+        <div class="modal-body" id = "model-body">
+            <div class="form-group">
+
+                <input type="text" class="form-control"placeholder="邮箱" autocomplete="off" id="email">
+            </div>
+            <div class="form-group">
+
+                <input type="password" class="form-control" placeholder="密码" autocomplete="off" id="password">
+            </div>
+        </div>
+        <div class="modal-footer">
+
+            <div class="form-group">
+                <button type="button" class="btn btn-primary form-control" style="width:320px;float: left" onclick = "ajax();">登录</button>
+            </div>
+
+            <div class="form-group">
+                <button type="button" class="btn btn-default form-control" style="width:200px;margin-top:-14px;">注册</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    function createXMLHttpRequest() {
+        var XMLHttpRequest1;
+        if(window.XMLHttpRequest) {
+            XMLhttpRequest1 = new XMLHttpRequest();
+        }else if(window.ActiveXObject) {
+            try{
+                XMLHttpRequest1 = new ActiveXObject();
+            }catch(e){
+                XMLHttpRequest1 = new ActiveXObject("MicroSoft.XMLHTTP");
+            }
+        }
+        return XMLHttpRequest1;
+    }
+
+    function ajax() {
+        alert("aaaa");
+        var param1 = document.getElementById("email").value;
+        var param2 = document.getElementById("password").value;
+
+        var XMLHttpRequest1 = createXMLHttpRequest();
+        var url = "http://fs2.lzfnb.top:8080/api/user/login"
+        XMLHttpRequest1.open("POST",url,true);
+        XMLHttpRequest1.setRequestHeader("Content-type","application/x-www-form-urlencode");
+        XMLHttpRequest1.send("username="+param1+",password="+param2);
+        alert("aaaad");
+
+        XMLHttpRequest1.onreadystatechange = function() {
+            alert("XMLHttpRequest1.readyState");
+            if(XMLHttpRequest1.readyState == 4) {
+                if(XMLHttpRequest1.status == 200) {
+                    alert(XMLHttpRequest1.responseText);
+                }else{
+                    alert("网络连接中断！");
+                }
+            }
+        };
+    }
+</script>
+</head>
+
+</body>
+</html>
