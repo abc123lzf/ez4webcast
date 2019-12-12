@@ -41,43 +41,39 @@
 
 <script type="text/javascript">
 
-    function createXMLHttpRequest() {
-        var XMLHttpRequest1;
-        if(window.XMLHttpRequest) {
-            XMLhttpRequest1 = new XMLHttpRequest();
-        }else if(window.ActiveXObject) {
-            try{
-                XMLHttpRequest1 = new ActiveXObject();
-            }catch(e){
-                XMLHttpRequest1 = new ActiveXObject("MicroSoft.XMLHTTP");
+        function ajax() {
+            var xmlhttp;
+            if (window.XMLHttpRequest) {
+                // IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                // IE6, IE5 浏览器执行代码
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            if(xmlhttp!=null) {
+                alert("ddsfgsd");
+                xmlhttp.onreadystatechange = changeState;
+                xmlhttp.open("POST","fs2.lzfnb.top:8080/api/user/login",true);
+                xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                xmlhttp.send("username=aaa&password=sss");
+            }
+
+        }
+
+        function changeState()
+        {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                alert("SUCCESS");
+                //document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+            }
+            else{
+                alert(xmlhttp.status)
+                console.log(xmlhttp.readyState);
+
             }
         }
-        return XMLHttpRequest1;
-    }
 
-    function ajax() {
-        alert("aaaa");
-        var param1 = document.getElementById("email").value;
-        var param2 = document.getElementById("password").value;
 
-        var XMLHttpRequest1 = createXMLHttpRequest();
-        var url = "http://fs2.lzfnb.top:8080/api/user/login"
-        XMLHttpRequest1.open("POST",url,true);
-        XMLHttpRequest1.setRequestHeader("Content-type","application/x-www-form-urlencode");
-        XMLHttpRequest1.send("username="+param1+",password="+param2);
-        alert("aaaad");
-
-        XMLHttpRequest1.onreadystatechange = function() {
-            alert("XMLHttpRequest1.readyState");
-            if(XMLHttpRequest1.readyState == 4) {
-                if(XMLHttpRequest1.status == 200) {
-                    alert(XMLHttpRequest1.responseText);
-                }else{
-                    alert("网络连接中断！");
-                }
-            }
-        };
-    }
 </script>
 </head>
 
