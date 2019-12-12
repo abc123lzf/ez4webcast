@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.lzf.ez4webcast.common.ComplexResponseMessage.message;
+
 /**
  * @author lzf abc123lzf@126.com
  * @since 2019/12/9 16:14
@@ -46,8 +48,10 @@ public class ImageController {
     @RequestMapping(value = "upload", method = {RequestMethod.POST, RequestMethod.PUT})
     public void uploadImage(@RequestParam("file") MultipartFile file, HttpServletResponse response)
             throws IOException {
-        ServiceResponse<Void> resp = basicImageService.uploadImage(file.getBytes(), file.getContentType());
+        ServiceResponse<Integer> resp = basicImageService.uploadImage(file.getBytes(), file.getContentType());
         if(resp.success()) {
+            response.setContentType("application/json");
+            response.getWriter().write(message(0, "SUCCESS", resp.data()).toJSONString());
             return;
         }
 
@@ -55,6 +59,8 @@ public class ImageController {
         switch (code) {
             case 1: response.setStatus(403); break;
             case 2: response.setStatus(500); break;
+            default:
+                response.setStatus(500); break;
         }
     }
 

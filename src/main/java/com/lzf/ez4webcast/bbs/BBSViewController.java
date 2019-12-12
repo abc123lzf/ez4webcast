@@ -3,11 +3,9 @@ package com.lzf.ez4webcast.bbs;
 import com.lzf.ez4webcast.bbs.service.BasicBBSService;
 import com.lzf.ez4webcast.bbs.vo.PostVo;
 import com.lzf.ez4webcast.common.ComplexResponseMessage;
-import com.lzf.ez4webcast.common.ResponseMessage;
 import com.lzf.ez4webcast.common.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +21,8 @@ import static com.lzf.ez4webcast.common.ComplexResponseMessage.message;
  * 贴吧控制器
  */
 @RestController
-@RequestMapping("/api/bbs")
-public class BBSController {
+@RequestMapping("/api/bbs/view")
+public class BBSViewController {
 
     @Autowired
     private BasicBBSService basicBBSService;
@@ -67,5 +65,7 @@ public class BBSController {
 
         return message(resp.code(), "FAILURE", null);
     }
+
+
 
 }

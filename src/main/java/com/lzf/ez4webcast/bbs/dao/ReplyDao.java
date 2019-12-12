@@ -16,4 +16,6 @@ public interface ReplyDao {
 
     boolean insert(Reply reply);
 
+    boolean changeStatus(int replyId, int status);
+
 }

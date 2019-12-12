@@ -12,9 +12,12 @@ import java.io.OutputStream;
 public interface BasicImageService {
 
 
-    ServiceResponse<Void> uploadImage(byte[] bytes, String contentType);
+    ServiceResponse<Integer> uploadImage(byte[] bytes, String contentType);
 
 
     ServiceResponse<String> readImage(int id, OutputStream os);
+
+
+    ServiceResponse<Boolean> containsImage(int id);
 
 }

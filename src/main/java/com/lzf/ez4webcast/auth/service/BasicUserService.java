@@ -1,6 +1,5 @@
 package com.lzf.ez4webcast.auth.service;
 
-import com.lzf.ez4webcast.auth.model.User;
 import com.lzf.ez4webcast.auth.vo.UserVo;
 import com.lzf.ez4webcast.common.ServiceResponse;
 

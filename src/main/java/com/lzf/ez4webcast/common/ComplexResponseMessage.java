@@ -31,6 +31,7 @@ public class ComplexResponseMessage<T> extends ResponseMessage {
         JSONObject object = new JSONObject(4);
         object.put("code", code());
         object.put("msg", message());
+        object.put("data", data);
         return object.toJSONString();
     }
 }

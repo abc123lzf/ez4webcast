@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import static com.lzf.ez4webcast.utils.StringTypeUtils.isEmail;
-import static com.lzf.ez4webcast.utils.StringTypeUtils.isNumber;
 import static com.lzf.ez4webcast.common.ServiceResponse.response;
 
 /**

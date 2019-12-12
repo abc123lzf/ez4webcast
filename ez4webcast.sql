@@ -11,7 +11,7 @@
  Target Server Version : 50727
  File Encoding         : 65001
 
- Date: 11/12/2019 11:40:59
+ Date: 12/12/2019 14:09:57
 */
 
 SET NAMES utf8mb4;
@@ -22,7 +22,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `bbs_floor_inf`;
 CREATE TABLE `bbs_floor_inf`  (
-  `floor_id` int(11) NOT NULL,
+  `floor_id` int(11) NOT NULL AUTO_INCREMENT,
   `floor_number` int(11) NOT NULL,
   `floor_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `post_id` int(11) NOT NULL,
@@ -30,14 +30,20 @@ CREATE TABLE `bbs_floor_inf`  (
   `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   `status` smallint(6) NOT NULL,
   PRIMARY KEY (`floor_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of bbs_floor_inf
+-- ----------------------------
+INSERT INTO `bbs_floor_inf` VALUES (1, 1, '买东西先绑定手机安全令，这样以后就方便了,记得淘宝买挂，反正被封后花钱就可以解了，随便开', 1, 5, '2019-12-12 09:33:47', 0);
+INSERT INTO `bbs_floor_inf` VALUES (2, 2, '兄弟们，我可能被5e误封号了，联系在线客服让我写邮件过去，现在邮件发过去了，但是看到细则说申述会被忽视…那我该咋办。。之所以说误封是因为我把号借给一老哥玩了一晚上，第二天就登不上去了。我去查了下战绩基本都是负数的，也不像开了挂呀', 1, 5, '2019-12-12 09:45:47', 0);
 
 -- ----------------------------
 -- Table structure for bbs_post_inf
 -- ----------------------------
 DROP TABLE IF EXISTS `bbs_post_inf`;
 CREATE TABLE `bbs_post_inf`  (
-  `post_id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL AUTO_INCREMENT,
   `post_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `room_id` int(11) NOT NULL,
   `create_uid` int(11) NOT NULL,
@@ -47,14 +53,20 @@ CREATE TABLE `bbs_post_inf`  (
   PRIMARY KEY (`post_id`) USING BTREE,
   INDEX `room_id`(`room_id`) USING BTREE,
   INDEX `update_time`(`update_time`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of bbs_post_inf
+-- ----------------------------
+INSERT INTO `bbs_post_inf` VALUES (1, '大家好，既将加入rushb大家庭，新人有什么要注意的吗', 1, 5, '2019-12-12 09:33:47', '2019-12-12 09:33:47', 0);
 
 -- ----------------------------
 -- Table structure for bbs_reply_inf
 -- ----------------------------
 DROP TABLE IF EXISTS `bbs_reply_inf`;
 CREATE TABLE `bbs_reply_inf`  (
-  `reply_id` int(11) NOT NULL,
+  `reply_id` int(11) NOT NULL AUTO_INCREMENT,
+  `reply_number` int(11) NOT NULL,
   `reply_content` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `reply_object_id` int(11) NULL DEFAULT NULL,
   `floor_id` int(11) NOT NULL,
@@ -62,7 +74,12 @@ CREATE TABLE `bbs_reply_inf`  (
   `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`reply_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of bbs_reply_inf
+-- ----------------------------
+INSERT INTO `bbs_reply_inf` VALUES (1, 1, '负数就是没开挂吗?负数就是没开挂吗?负数就是没开挂吗?负数就是没开挂吗?负数就是没开挂吗?负数就是没开挂吗?负数就是没开挂吗?', NULL, 2, 5, '2019-12-12 09:52:07', '0');
 
 -- ----------------------------
 -- Table structure for image_inf
@@ -91,9 +108,9 @@ CREATE TABLE `permission_inf`  (
 -- ----------------------------
 -- Records of permission_inf
 -- ----------------------------
-INSERT INTO `permission_inf` VALUES (1, '/admin/', 'admin', NULL);
-INSERT INTO `permission_inf` VALUES (2, '/room/', 'anchor', NULL);
-INSERT INTO `permission_inf` VALUES (3, '/', 'common_user', NULL);
+INSERT INTO `permission_inf` VALUES (1, '/api/admin/', 'admin', NULL);
+INSERT INTO `permission_inf` VALUES (2, '/api/room/', 'anchor', NULL);
+INSERT INTO `permission_inf` VALUES (3, '/api/', 'common_user', NULL);
 
 -- ----------------------------
 -- Table structure for role_inf
@@ -142,6 +159,11 @@ CREATE TABLE `room_inf`  (
   PRIMARY KEY (`room_id`) USING BTREE,
   UNIQUE INDEX `room_uid`(`room_uid`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of room_inf
+-- ----------------------------
+INSERT INTO `room_inf` VALUES (1, 5, 'CSGO直播间', NULL, '2019-12-12 09:30:10', '2019-12-12 09:30:10');
 
 -- ----------------------------
 -- Table structure for room_key_inf

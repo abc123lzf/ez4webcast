@@ -15,4 +15,6 @@ public interface PostDao {
     Post fromPostId(int postId);
 
     int insert(Post post);
+
+    boolean changeStatus(int postId, int status);
 }

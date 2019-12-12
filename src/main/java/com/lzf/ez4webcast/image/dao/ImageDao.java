@@ -11,4 +11,6 @@ public interface ImageDao {
     int add(Image image);
 
     Image fromId(int id);
+
+    boolean contains(int id);
 }

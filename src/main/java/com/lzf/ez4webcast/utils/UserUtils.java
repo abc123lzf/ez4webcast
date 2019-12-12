@@ -1,5 +1,6 @@
 package com.lzf.ez4webcast.utils;
 
+import com.lzf.ez4webcast.auth.model.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -9,14 +10,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 public class UserUtils {
 
-    @SuppressWarnings("unchecked")
-    public static <T> T contextPrincipal() {
+    public static User contextPrincipal() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(auth == null) {
             return null;
         }
-
-        return (T)auth.getPrincipal();
+        return auth.getPrincipal() instanceof User ? (User) auth.getPrincipal() : null;
     }
 
     private UserUtils() { }

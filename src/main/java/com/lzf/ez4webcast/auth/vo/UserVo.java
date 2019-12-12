@@ -1,7 +1,5 @@
 package com.lzf.ez4webcast.auth.vo;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONAware;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.lzf.ez4webcast.auth.model.User;
 import lombok.Data;
@@ -11,7 +9,7 @@ import lombok.Data;
  * @since 2019/12/11 10:10
  */
 @Data
-public class UserVo implements JSONAware {
+public class UserVo {
 
     @JSONField
     private Integer uid;
@@ -32,8 +30,4 @@ public class UserVo implements JSONAware {
         this.headImage = user.getHeadImage();
     }
 
-    @Override
-    public String toJSONString() {
-        return JSON.toJSONString(this);
-    }
 }

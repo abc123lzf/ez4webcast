@@ -14,4 +14,6 @@ public interface UserDao {
 
     void add(User user);
 
+    boolean updateHeadImage(int uid, int imageId);
+
 }

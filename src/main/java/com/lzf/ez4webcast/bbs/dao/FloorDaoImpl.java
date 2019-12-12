@@ -37,4 +37,9 @@ class FloorDaoImpl extends AbstractJdbcDao implements FloorDao {
                     "values(?,?,?,?,now(),0)", parameters(floor.getFloorNumber(), floor.getContent(), floor.getPostId(), floor.getCreateUID())) > 0;
         }
     }
+
+    @Override
+    public boolean changeStatus(int floorId, int status) {
+        return jdbcTemplate.update("update bbs_floor_inf set status = ? where floor_id = ?", parameters(status, floorId)) > 0;
+    }
 }

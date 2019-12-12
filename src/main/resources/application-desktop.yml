@@ -3,7 +3,7 @@ spring:
     name: ez4webcast
   redis:
     database: 0
-    host: 192.168.142.129
+    host: 192.168.142.130
     port: 6379
     jedis:
       pool:

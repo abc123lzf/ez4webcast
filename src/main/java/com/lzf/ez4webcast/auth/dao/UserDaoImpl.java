@@ -32,4 +32,9 @@ class UserDaoImpl extends AbstractJdbcDao implements UserDao {
         jdbcTemplate.update("insert into user_inf(nickname, password, email, register_time) value (?,?,?,now())",
                 user.getNickName(), user.getPassword(), user.getEmail());
     }
+
+    @Override
+    public boolean updateHeadImage(int uid, int imageId) {
+        return jdbcTemplate.update("update user_inf set head_image_id = ? where uid = ?", parameters(imageId, uid)) > 0;
+    }
 }

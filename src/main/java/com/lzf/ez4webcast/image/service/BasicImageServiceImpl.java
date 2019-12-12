@@ -26,7 +26,7 @@ class BasicImageServiceImpl implements BasicImageService {
     private ImageFileManager imageFileManager;
 
     @Override
-    public ServiceResponse<Void> uploadImage(byte[] bytes, String contentType) {
+    public ServiceResponse<Integer> uploadImage(byte[] bytes, String contentType) {
         Image image = Image.builder().contentType(contentType).build();
         try {
             boolean succ = imageFileManager.write(image, bytes);
@@ -37,8 +37,8 @@ class BasicImageServiceImpl implements BasicImageService {
             imageFileManager.delete(image);
             return response(2);
         }
-        imageDao.add(image);
-        return response(0);
+        int id = imageDao.add(image);
+        return id == -1 ? response(1) : response(0, id);
     }
 
     @Override
@@ -57,5 +57,11 @@ class BasicImageServiceImpl implements BasicImageService {
         }
 
         return response(0, image.getContentType());
+    }
+
+    @Override
+    public ServiceResponse<Boolean> containsImage(int id) {
+        boolean ans = imageDao.contains(id);
+        return ans ? response(0, true) : response(0, false);
     }
 }

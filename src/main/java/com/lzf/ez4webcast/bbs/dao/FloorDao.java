@@ -13,4 +13,6 @@ public interface FloorDao {
     List<Floor> fromPostId(int postId);
 
     boolean insertFloor(Floor floor);
+
+    boolean changeStatus(int floorId, int status);
 }
