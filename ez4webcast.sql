@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : local
  Source Server Type    : MySQL
- Source Server Version : 50727
+ Source Server Version : 50726
  Source Host           : localhost:3306
  Source Schema         : ez4webcast
 
  Target Server Type    : MySQL
- Target Server Version : 50727
+ Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 12/12/2019 14:09:57
+ Date: 12/12/2019 15:11:32
 */
 
 SET NAMES utf8mb4;
@@ -47,7 +47,7 @@ CREATE TABLE `bbs_post_inf`  (
   `post_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `room_id` int(11) NOT NULL,
   `create_uid` int(11) NOT NULL,
-  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
+  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
   `update_time` timestamp(0) NOT NULL,
   `status` smallint(6) NOT NULL,
   PRIMARY KEY (`post_id`) USING BTREE,
@@ -186,7 +186,7 @@ CREATE TABLE `user_inf`  (
   `password` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `head_image_id` int(11) NULL DEFAULT NULL,
-  `register_time` timestamp(0) NOT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+  `register_time` timestamp(0) NOT NULL,
   PRIMARY KEY (`uid`, `email`) USING BTREE,
   UNIQUE INDEX `email`(`email`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
