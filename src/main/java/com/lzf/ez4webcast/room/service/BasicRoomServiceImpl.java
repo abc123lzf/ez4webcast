@@ -16,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static com.lzf.ez4webcast.common.ServiceResponse.response;
@@ -89,6 +90,14 @@ class BasicRoomServiceImpl implements BasicRoomService {
         List<RoomVo> vos = new ArrayList<>(list.size());
         list.forEach(e -> vos.add(new RoomVo(e)));
         return response(0, vos);
+    }
+
+
+    @Override
+    public ServiceResponse<List<RoomVo>> roomInfo(Collection<Integer> ids) {
+        List<Room> resp = basicRoomDao.fromRoomID(ids);
+        //TODO
+        return null;
     }
 
     @Override

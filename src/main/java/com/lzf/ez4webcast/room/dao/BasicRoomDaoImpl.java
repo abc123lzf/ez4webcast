@@ -2,8 +2,10 @@ package com.lzf.ez4webcast.room.dao;
 
 import com.lzf.ez4webcast.common.AbstractJdbcDao;
 import com.lzf.ez4webcast.room.model.Room;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -23,6 +25,14 @@ class BasicRoomDaoImpl extends AbstractJdbcDao implements BasicRoomDao {
     public Room fromUID(int uid) {
         return getFirst(jdbcTemplate.query("select room_id, room_uid, room_title, room_image_id, room_create_time " +
                 "from room_inf where room_uid = ?", parameters(uid), Room.ROW_MAPPER));
+    }
+
+    @Override
+    public List<Room> fromRoomID(Collection<Integer> ids) {
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("ids", ids);
+        return namedJdbcTemplate.query("select room_id, room_uid, room_title, room_image_id, room_create_time from " +
+                "room_inf where room_inf in (:ids)", param, Room.ROW_MAPPER);
     }
 
     @Override

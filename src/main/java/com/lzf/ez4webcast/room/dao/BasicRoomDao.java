@@ -2,6 +2,7 @@ package com.lzf.ez4webcast.room.dao;
 
 import com.lzf.ez4webcast.room.model.Room;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -17,6 +18,8 @@ public interface BasicRoomDao {
     boolean add(int uid, String title);
 
     List<Room> all();
+
+    List<Room> fromRoomID(Collection<Integer> ids);
 
     void updateLastLiveTime(int rid);
 }

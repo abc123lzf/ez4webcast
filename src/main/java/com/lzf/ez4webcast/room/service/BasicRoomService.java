@@ -1,10 +1,10 @@
 package com.lzf.ez4webcast.room.service;
 
 import com.lzf.ez4webcast.common.ServiceResponse;
-import com.lzf.ez4webcast.room.model.Room;
 import com.lzf.ez4webcast.room.vo.RoomDetailVo;
 import com.lzf.ez4webcast.room.vo.RoomVo;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -32,6 +32,13 @@ public interface BasicRoomService {
      * @return 直播间基本信息
      */
     ServiceResponse<List<RoomVo>> allRoomInfo();
+
+    /**
+     * 获取直播间基本信息
+     * @param ids 直播间ID
+     * @return 直播间基本信息
+     */
+    ServiceResponse<List<RoomVo>> roomInfo(Collection<Integer> ids);
 
 
     /**
