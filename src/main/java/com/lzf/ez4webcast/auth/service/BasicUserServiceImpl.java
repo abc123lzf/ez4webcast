@@ -4,9 +4,13 @@ import com.lzf.ez4webcast.auth.dao.UserDao;
 import com.lzf.ez4webcast.auth.model.User;
 import com.lzf.ez4webcast.auth.vo.UserVo;
 import com.lzf.ez4webcast.common.ServiceResponse;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.lzf.ez4webcast.utils.StringTypeUtils.isEmail;
 import static com.lzf.ez4webcast.common.ServiceResponse.response;
@@ -17,6 +21,7 @@ import static com.lzf.ez4webcast.common.ServiceResponse.response;
  * 登录注册服务
  */
 @Service
+@Log4j2
 class BasicUserServiceImpl implements BasicUserService {
 
     @Autowired
@@ -41,7 +46,8 @@ class BasicUserServiceImpl implements BasicUserService {
                     .build();
             userDao.add(user);
         } catch (RuntimeException e) {
-            return response(1);
+            log.error(e);
+            return response(3);
         }
 
         return response(0);
@@ -55,5 +61,17 @@ class BasicUserServiceImpl implements BasicUserService {
         }
 
         return response(0, new UserVo(user));
+    }
+
+    @Override
+    public ServiceResponse<List<UserVo>> findUserByUID(List<Integer> uidList) {
+        List<User> list = userDao.fromUIDList(uidList);
+        if(list == null) {
+            return response(1);
+        }
+
+        List<UserVo> ans = new ArrayList<>(list.size());
+        list.forEach(e -> ans.add(new UserVo(e)));
+        return response(0, ans);
     }
 }

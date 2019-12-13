@@ -11,4 +11,7 @@ public interface UserManageService {
 
     ServiceResponse<Void> updateHeadImage(int imageId);
 
+    ServiceResponse<Void> updatePassword(String oldPass, String newPass);
+
+    ServiceResponse<Void> updateNickName(String newName);
 }

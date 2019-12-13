@@ -48,7 +48,7 @@ CREATE TABLE `bbs_post_inf`  (
   `post_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `room_id` int(11) NOT NULL,
   `create_uid` int(11) NOT NULL,
-  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `create_time` timestamp(0) NOT NULL,
   `update_time` timestamp(0) NOT NULL,
   `status` smallint(6) NOT NULL,
   PRIMARY KEY (`post_id`) USING BTREE,

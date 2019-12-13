@@ -5,6 +5,7 @@ import com.lzf.ez4webcast.image.dao.ImageApiException;
 import com.lzf.ez4webcast.image.dao.ImageDao;
 import com.lzf.ez4webcast.image.dao.ImageFileManager;
 import com.lzf.ez4webcast.image.model.Image;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import static com.lzf.ez4webcast.common.ServiceResponse.response;
  * @since 2019.12.8 20:54
  */
 @Service
+@Log4j2
 class BasicImageServiceImpl implements BasicImageService {
 
     @Autowired
@@ -53,6 +55,7 @@ class BasicImageServiceImpl implements BasicImageService {
                 return response(2);
             }
         } catch (ImageApiException e) {
+            log.error(e);
             return response(3);
         }
 

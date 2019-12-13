@@ -1,12 +1,21 @@
 package com.lzf.ez4webcast.room.service;
 
+import com.lzf.ez4webcast.auth.service.BasicUserService;
+import com.lzf.ez4webcast.auth.vo.UserVo;
 import com.lzf.ez4webcast.common.ServiceResponse;
 import com.lzf.ez4webcast.room.dao.BasicRoomDao;
 import com.lzf.ez4webcast.room.dao.RoomStreamKeyDao;
 import com.lzf.ez4webcast.room.model.Room;
+import com.lzf.ez4webcast.room.vo.RoomDetailVo;
+import com.lzf.ez4webcast.room.vo.RoomVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lzf.ez4webcast.common.ServiceResponse.response;
@@ -16,13 +25,27 @@ import static com.lzf.ez4webcast.common.ServiceResponse.response;
  * @since 2019.12.8 19:25
  */
 @Service
+@PropertySource("live.properties")
 class BasicRoomServiceImpl implements BasicRoomService {
+
+    @Autowired
+    private BasicUserService basicUserService;
 
     @Autowired
     private BasicRoomDao basicRoomDao;
 
     @Autowired
     private RoomStreamKeyDao roomStreamKeyDao;
+
+    @Value("${ez4webcast.live.flv.url.prefix}")
+    private String flvUri;
+
+    @Value("${ez4webcast.live.flv.url.argument.app}")
+    private String flvUriAppArg;
+
+    @Value("${ez4webcast.live.flv.url.argument.stream}")
+    private String flvUriStreamArg;
+
 
     @Override
     public ServiceResponse<Void> createRoom(int uid, String title) {
@@ -31,14 +54,41 @@ class BasicRoomServiceImpl implements BasicRoomService {
     }
 
     @Override
-    public ServiceResponse<Room> roomInfo(int roomId) {
+    public ServiceResponse<RoomDetailVo> roomInfo(int roomId) {
         Room room = basicRoomDao.fromRoomID(roomId);
-        return room != null ? response(0, room) : response(1);
+        if(room == null) {
+            return response(1);
+        }
+
+        ServiceResponse<UserVo> resp = basicUserService.findUserByUID(room.getUid());
+        if(!resp.success()) {
+            return response(2);
+        }
+
+        RoomDetailVo vo = new RoomDetailVo(room);
+        vo.setAnchor(resp.data());
+        vo.getAnchor().setEmail(null);  //防止泄露Email
+
+        URI flv = UriComponentsBuilder.fromUriString(flvUri)
+                    .queryParam(flvUriAppArg, "ez4webcast")
+                    .queryParam(flvUriStreamArg, room.getId())
+                    .build()
+                    .toUri();
+
+        vo.setFlvUri(flv.toString());
+        vo.setDanmakuUri("/api/damanku/ws/message/" + room.getId());
+        return response(0, vo);
     }
 
     @Override
-    public ServiceResponse<List<Room>> allRoomInfo() {
-        return response(0, basicRoomDao.all());
+    public ServiceResponse<List<RoomVo>> allRoomInfo() {
+        List<Room> list = basicRoomDao.all();
+        if(list == null) {
+            return response(1);
+        }
+        List<RoomVo> vos = new ArrayList<>(list.size());
+        list.forEach(e -> vos.add(new RoomVo(e)));
+        return response(0, vos);
     }
 
     @Override
@@ -53,6 +103,7 @@ class BasicRoomServiceImpl implements BasicRoomService {
 
     @Override
     public ServiceResponse<Void> updateLastLiveTime(int roomId) {
-        return null;
+        basicRoomDao.updateLastLiveTime(roomId);
+        return response(0);
     }
 }

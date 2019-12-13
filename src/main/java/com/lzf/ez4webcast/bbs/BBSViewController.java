@@ -50,15 +50,15 @@ public class BBSViewController {
     @RequestMapping("post")
     public ComplexResponseMessage<PostVo> postDetail(HttpServletRequest request,
                                                      HttpServletResponse response) throws IOException {
-        int roomId;
+        int id;
         try {
-            roomId = Integer.parseInt(request.getParameter("room"));
+            id = Integer.parseInt(request.getParameter("post"));
         } catch (NumberFormatException e) {
             response.sendError(400);
             return null;
         }
 
-        ServiceResponse<PostVo> resp = basicBBSService.postDetail(roomId);
+        ServiceResponse<PostVo> resp = basicBBSService.postDetail(id);
         if(resp.success()) {
             return message(0, "SUCCESS", resp.data());
         }

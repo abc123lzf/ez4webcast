@@ -7,6 +7,7 @@ import com.lzf.ez4webcast.image.service.BasicImageService;
 import com.lzf.ez4webcast.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import static com.lzf.ez4webcast.common.ServiceResponse.response;
 
@@ -42,4 +43,34 @@ class UserManageServiceImpl implements UserManageService {
         return userDao.updateHeadImage(user.getUid(), imageId) ? response(0) : response(3);
     }
 
+    @Override
+    public ServiceResponse<Void> updatePassword(String oldPass, String newPass) {
+        User user = UserUtils.contextPrincipal();
+        if(user == null) {
+            return response(-1);
+        }
+
+        String od = DigestUtils.md5DigestAsHex(oldPass.getBytes());
+        if(user.getPassword().equals(od)) {
+            return response(1);
+        }
+
+        String nw = DigestUtils.md5DigestAsHex(newPass.getBytes());
+        if(userDao.updatePassword(user.getUid(), nw)) {
+            user.setPassword(nw);
+            return response(0);
+        }
+
+        return response(2);
+    }
+
+
+    public ServiceResponse<Void> updateNickName(String newName) {
+        User user = UserUtils.contextPrincipal();
+        if(user == null) {
+            return response(-1);
+        }
+
+        return userDao.updateNickname(user.getUid(), newName) ? response(0) : response(1);
+    }
 }

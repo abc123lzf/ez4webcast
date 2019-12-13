@@ -22,11 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.lzf.ez4webcast.common.ServiceResponse.response;
 
@@ -73,10 +71,13 @@ class BasicBBSServiceImpl implements BasicBBSService {
             return response(1);
         }
 
+
         List<Floor> floors = floorDao.fromPostId(post.getId());
 
-        List<FloorVo> floorVos = new ArrayList<>(floors.size());
+        List<FloorVo> floorVos = new ArrayList<>(floors.size()); //楼层视图
         Map<Integer, FloorVo> floorMap = new HashMap<>(floors.size(), 1);
+        List<Integer> queryUserIds = new ArrayList<>(); //查询用户ID
+        Map<Integer, Object> queryUserMap = new HashMap<>();
         List<Integer> ids = new ArrayList<>(floors.size());
         floors.forEach(e -> {
             ids.add(e.getId());
@@ -84,15 +85,50 @@ class BasicBBSServiceImpl implements BasicBBSService {
             vo.setReplies(new ArrayList<>());
             floorVos.add(vo);
             floorMap.put(e.getId(), vo);
+
+            queryUserIds.add(e.getCreateUID());
+            queryUserMap.put(e.getCreateUID(), e);
         });
 
+
         List<Reply> replies = replyDao.fromFloorId(ids);
-        replies.forEach(e -> floorMap.get(e.getFloorId()).getReplies().add(new ReplyVo(e)));
+        replies.forEach(e -> {
+            ReplyVo vo = new ReplyVo(e);
+            queryUserIds.add(e.getCreateUID());
+            queryUserMap.put(e.getCreateUID(), e);
+            floorMap.get(e.getFloorId()).getReplies().add(vo);
+        });
+
+
+        Map<Integer, UserVo> uidQueryRes = mapper(basicUserService.findUserByUID(queryUserIds).data());
+        queryUserMap.forEach((k, v) -> {
+            UserVo vo = uidQueryRes.get(k);
+            if(vo != null) {
+                if(v instanceof FloorVo) {
+                    ((FloorVo)v).setCreateUser(vo);
+                } else if(v instanceof ReplyVo) {
+                    ((ReplyVo)v).setCreateUser(vo);
+                }
+            }
+        });
 
         PostVo vo = new PostVo(post);
         vo.setFloors(floorVos);
+        vo.setCreateUser(basicUserService.findUserByUID(post.getCreateUID()).data());
         return response(0, vo);
     }
+
+
+    private static Map<Integer, UserVo> mapper(List<UserVo> list) {
+        if(CollectionUtils.isEmpty(list)) {
+            return Collections.emptyMap();
+        }
+
+        Map<Integer, UserVo> map = new HashMap<>(list.size() * 2);
+        list.forEach(e -> map.put(e.getUid(), e));
+        return map;
+    }
+
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)

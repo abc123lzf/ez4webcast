@@ -3,6 +3,8 @@ package com.lzf.ez4webcast.auth.service;
 import com.lzf.ez4webcast.auth.vo.UserVo;
 import com.lzf.ez4webcast.common.ServiceResponse;
 
+import java.util.List;
+
 /**
  * @author lizifan 695199262@qq.com
  * @since 2019.12.8 15:43
@@ -15,6 +17,13 @@ public interface BasicUserService {
      * @return 登录情况 0:成功 1:
      */
     ServiceResponse<UserVo> findUserByUID(int uid);
+
+    /**
+     * 登录
+     * @param uidList 用户ID
+     * @return 登录情况 0:成功 1:
+     */
+    ServiceResponse<List<UserVo>> findUserByUID(List<Integer> uidList);
 
     /**
      * 注册
