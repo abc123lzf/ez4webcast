@@ -11,7 +11,7 @@
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 12/12/2019 15:11:32
+ Date: 13/12/2019 00:01:24
 */
 
 SET NAMES utf8mb4;
@@ -29,7 +29,8 @@ CREATE TABLE `bbs_floor_inf`  (
   `create_uid` int(11) NOT NULL,
   `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   `status` smallint(6) NOT NULL,
-  PRIMARY KEY (`floor_id`) USING BTREE
+  PRIMARY KEY (`floor_id`) USING BTREE,
+  INDEX `post_id`(`post_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -73,13 +74,27 @@ CREATE TABLE `bbs_reply_inf`  (
   `create_uid` int(11) NOT NULL,
   `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`reply_id`) USING BTREE
+  PRIMARY KEY (`reply_id`) USING BTREE,
+  INDEX `floor_id`(`floor_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of bbs_reply_inf
 -- ----------------------------
 INSERT INTO `bbs_reply_inf` VALUES (1, 1, '负数就是没开挂吗?负数就是没开挂吗?负数就是没开挂吗?负数就是没开挂吗?负数就是没开挂吗?负数就是没开挂吗?负数就是没开挂吗?', NULL, 2, 5, '2019-12-12 09:52:07', '0');
+
+-- ----------------------------
+-- Table structure for care_inf
+-- ----------------------------
+DROP TABLE IF EXISTS `care_inf`;
+CREATE TABLE `care_inf`  (
+  `care_id` int(11) NOT NULL AUTO_INCREMENT,
+  `care_room_id` int(11) NOT NULL,
+  `belong_uid` int(11) NOT NULL,
+  `care_time` timestamp(0) NOT NULL,
+  PRIMARY KEY (`care_id`) USING BTREE,
+  INDEX `belong_uid`(`belong_uid`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for image_inf
