@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,7 +28,7 @@ class UserDaoImpl extends AbstractJdbcDao implements UserDao {
     }
 
     @Override
-    public List<User> fromUIDList(List<Integer> ids) {
+    public List<User> fromUIDList(Collection<Integer> ids) {
         if(CollectionUtils.isEmpty(ids)) {
             return Collections.emptyList();
         }

@@ -10,9 +10,9 @@ import java.util.List;
  */
 public interface CareDao {
 
-    void add(Care care);
+    boolean add(Care care);
 
-    boolean delete(int id);
+    boolean delete(int uid, int roomId);
 
     Care fromId(int id);
 

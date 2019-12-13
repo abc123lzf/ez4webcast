@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static com.lzf.ez4webcast.utils.StringTypeUtils.isEmail;
@@ -64,7 +65,7 @@ class BasicUserServiceImpl implements BasicUserService {
     }
 
     @Override
-    public ServiceResponse<List<UserVo>> findUserByUID(List<Integer> uidList) {
+    public ServiceResponse<List<UserVo>> findUserByUID(Collection<Integer> uidList) {
         List<User> list = userDao.fromUIDList(uidList);
         if(list == null) {
             return response(1);

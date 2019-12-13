@@ -14,14 +14,15 @@ import java.util.List;
 class CareDaoImpl extends AbstractJdbcDao implements CareDao {
 
     @Override
-    public void add(Care care) {
-        jdbcTemplate.update("insert into care_inf(care_room_id, belong_uid, care_time) value (?, ?, now())",
-                parameters(care.getUid(), care.getRoomId()));
+    public boolean add(Care care) {
+        return jdbcTemplate.update("insert into care_inf(care_room_id, belong_uid, care_time) select ?, ?, now() from care_inf " +
+                        "where not exists(select care_room_id from care_inf where care_room_id = ?)",
+                parameters(care.getUid(), care.getRoomId(), care.getRoomId())) > 0;
     }
 
     @Override
-    public boolean delete(int id) {
-        return jdbcTemplate.update("delete from care_inf where care_id = ?", parameters(id)) > 0;
+    public boolean delete(int uid, int roomId) {
+        return jdbcTemplate.update("delete from care_inf where belong_uid = ? and care_room_id = ?", parameters(uid, roomId)) > 0;
     }
 
     @Override

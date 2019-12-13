@@ -15,7 +15,7 @@ public interface BasicRoomDao {
 
     Room fromUID(int uid);
 
-    boolean add(int uid, String title);
+    boolean add(int uid, String title, Integer titleImage);
 
     List<Room> all();
 

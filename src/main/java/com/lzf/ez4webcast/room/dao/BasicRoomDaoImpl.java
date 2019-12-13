@@ -36,13 +36,16 @@ class BasicRoomDaoImpl extends AbstractJdbcDao implements BasicRoomDao {
     }
 
     @Override
-    public boolean add(int uid, String title) {
+    public boolean add(int uid, String title, Integer image) {
         if(fromUID(uid) != null) {
             return false;
         }
 
-        return jdbcTemplate.update("insert into room_inf(room_uid, room_title, room_create_time) values(?,?,now())",
-                uid, title) == 1;
+        return image == null ?
+                jdbcTemplate.update("insert into room_inf(room_uid, room_title, room_create_time) values(?,?,now())",
+                        uid, title) > 0 :
+                jdbcTemplate.update("insert into room_inf (room_uid, room_title, room_image_id, room_create_time) values " +
+                        "(?, ?, ?, now())", uid, title, image) > 0;
     }
 
     @Override

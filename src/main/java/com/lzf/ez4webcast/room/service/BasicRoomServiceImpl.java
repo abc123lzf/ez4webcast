@@ -1,5 +1,6 @@
 package com.lzf.ez4webcast.room.service;
 
+import com.lzf.ez4webcast.auth.model.User;
 import com.lzf.ez4webcast.auth.service.BasicUserService;
 import com.lzf.ez4webcast.auth.vo.UserVo;
 import com.lzf.ez4webcast.common.ServiceResponse;
@@ -8,6 +9,7 @@ import com.lzf.ez4webcast.room.dao.RoomStreamKeyDao;
 import com.lzf.ez4webcast.room.model.Room;
 import com.lzf.ez4webcast.room.vo.RoomDetailVo;
 import com.lzf.ez4webcast.room.vo.RoomVo;
+import com.lzf.ez4webcast.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -47,10 +49,13 @@ class BasicRoomServiceImpl implements BasicRoomService {
     @Value("${ez4webcast.live.flv.url.argument.stream}")
     private String flvUriStreamArg;
 
-
     @Override
-    public ServiceResponse<Void> createRoom(int uid, String title) {
-        boolean succ = basicRoomDao.add(uid, title);
+    public ServiceResponse<Void> createRoom(String title, Integer image) {
+        User user = UserUtils.contextPrincipal();
+        if(user == null) {
+            return response(-1);
+        }
+        boolean succ = basicRoomDao.add(user.getUid(), title, image);
         return succ ? response(0) : response(1);
     }
 
@@ -95,9 +100,15 @@ class BasicRoomServiceImpl implements BasicRoomService {
 
     @Override
     public ServiceResponse<List<RoomVo>> roomInfo(Collection<Integer> ids) {
-        List<Room> resp = basicRoomDao.fromRoomID(ids);
-        //TODO
-        return null;
+        List<Room> list = basicRoomDao.fromRoomID(ids);
+        if(list == null) {
+            return response(1);
+        }
+
+        List<RoomVo> ans = new ArrayList<>(list.size());
+        list.forEach(e -> ans.add(new RoomVo(e)));
+
+        return response(0, ans);
     }
 
     @Override

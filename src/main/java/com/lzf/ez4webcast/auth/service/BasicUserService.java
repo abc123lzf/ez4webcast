@@ -3,6 +3,7 @@ package com.lzf.ez4webcast.auth.service;
 import com.lzf.ez4webcast.auth.vo.UserVo;
 import com.lzf.ez4webcast.common.ServiceResponse;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public interface BasicUserService {
      * @param uidList 用户ID
      * @return 登录情况 0:成功 1:
      */
-    ServiceResponse<List<UserVo>> findUserByUID(List<Integer> uidList);
+    ServiceResponse<List<UserVo>> findUserByUID(Collection<Integer> uidList);
 
     /**
      * 注册

@@ -1,5 +1,6 @@
 package com.lzf.ez4webcast.common.config;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.serializer.ToStringSerializer;
@@ -31,13 +32,13 @@ public class FastJSONMessageConverter extends FastJsonHttpMessageConverter {
         super();
         FastJsonConfig config = new FastJsonConfig();
         config.setCharset(charset);
-        config.setSerializerFeatures(SerializerFeature.BrowserCompatible,
+        config.setSerializerFeatures(SerializerFeature.DisableCircularReferenceDetect,
+                SerializerFeature.BrowserCompatible,
                 SerializerFeature.WriteNullListAsEmpty,
                 SerializerFeature.PrettyFormat,
                 SerializerFeature.WriteDateUseDateFormat,
                 SerializerFeature.WriteNullStringAsEmpty,
-                SerializerFeature.WriteMapNullValue,
-                SerializerFeature.DisableCircularReferenceDetect);
+                SerializerFeature.WriteMapNullValue);
         SerializeConfig sc = SerializeConfig.globalInstance;
         sc.put(BigInteger.class, ToStringSerializer.instance);
         sc.put(BigDecimal.class, ToStringSerializer.instance);

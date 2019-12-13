@@ -2,6 +2,7 @@ package com.lzf.ez4webcast.bbs.dao;
 
 import com.lzf.ez4webcast.bbs.model.Reply;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ public interface ReplyDao {
 
     List<Reply> fromFloorId(int floorId);
 
-    List<Reply> fromFloorId(List<Integer> floorIds);
+    List<Reply> fromFloorId(Collection<Integer> floorIds);
 
     boolean insert(Reply reply);
 

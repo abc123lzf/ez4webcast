@@ -2,6 +2,7 @@ package com.lzf.ez4webcast.room;
 
 import com.lzf.ez4webcast.common.ServiceResponse;
 import com.lzf.ez4webcast.room.service.BasicRoomService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import java.io.IOException;
  * @since 2019.12.10 21:01
  */
 @Controller
+@Log4j2
 @RequestMapping("/api/room/rmtp")
 public class RmtpController {
 
@@ -37,7 +39,9 @@ public class RmtpController {
         ServiceResponse<String> resp = basicRoomService.rmtpAuthKey(rid);
         if(resp.success()) {
             if(resp.data().equals(key)) {
-                basicRoomService.updateLastLiveTime(rid);
+                if(!basicRoomService.updateLastLiveTime(rid).success()) {
+                    log.warn("Update room {} last live time failure", room);
+                }
                 response.setStatus(200);
                 return;
             }

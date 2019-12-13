@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,7 +25,7 @@ class ReplyDaoImpl extends AbstractJdbcDao implements ReplyDao {
     }
 
     @Override
-    public List<Reply> fromFloorId(List<Integer> floorIds) {
+    public List<Reply> fromFloorId(Collection<Integer> floorIds) {
         if(CollectionUtils.isEmpty(floorIds)) {
             return Collections.emptyList();
         }

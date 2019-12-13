@@ -76,41 +76,38 @@ class BasicBBSServiceImpl implements BasicBBSService {
 
         List<FloorVo> floorVos = new ArrayList<>(floors.size()); //楼层视图
         Map<Integer, FloorVo> floorMap = new HashMap<>(floors.size(), 1);
-        List<Integer> queryUserIds = new ArrayList<>(); //查询用户ID
-        Map<Integer, Object> queryUserMap = new HashMap<>();
-        List<Integer> ids = new ArrayList<>(floors.size());
+        Set<Integer> queryUIDs = new HashSet<>();
         floors.forEach(e -> {
-            ids.add(e.getId());
             FloorVo vo = new FloorVo(e);
             vo.setReplies(new ArrayList<>());
             floorVos.add(vo);
             floorMap.put(e.getId(), vo);
 
-            queryUserIds.add(e.getCreateUID());
-            queryUserMap.put(e.getCreateUID(), e);
+            queryUIDs.add(e.getCreateUID());
         });
 
 
-        List<Reply> replies = replyDao.fromFloorId(ids);
+        List<Reply> replies = replyDao.fromFloorId(floorMap.keySet());
+        Map<Integer, ReplyVo> replyVos = new HashMap<>(replies.size() * 2);
         replies.forEach(e -> {
             ReplyVo vo = new ReplyVo(e);
-            queryUserIds.add(e.getCreateUID());
-            queryUserMap.put(e.getCreateUID(), e);
+            replyVos.put(e.getId(), vo);
+            queryUIDs.add(e.getCreateUID());
             floorMap.get(e.getFloorId()).getReplies().add(vo);
         });
 
 
-        Map<Integer, UserVo> uidQueryRes = mapper(basicUserService.findUserByUID(queryUserIds).data());
-        queryUserMap.forEach((k, v) -> {
-            UserVo vo = uidQueryRes.get(k);
-            if(vo != null) {
-                if(v instanceof FloorVo) {
-                    ((FloorVo)v).setCreateUser(vo);
-                } else if(v instanceof ReplyVo) {
-                    ((ReplyVo)v).setCreateUser(vo);
-                }
-            }
+        Map<Integer, UserVo> uidQueryRes = mapper(basicUserService.findUserByUID(queryUIDs).data());
+        floors.forEach(e -> {
+            FloorVo vo = floorMap.get(e.getId());
+            vo.setCreateUser(uidQueryRes.get(e.getCreateUID()));
         });
+
+        replies.forEach(e -> {
+            ReplyVo vo = replyVos.get(e.getId());
+            vo.setCreateUser(uidQueryRes.get(e.getCreateUID()));
+        });
+
 
         PostVo vo = new PostVo(post);
         vo.setFloors(floorVos);

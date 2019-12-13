@@ -1,6 +1,7 @@
 package com.lzf.ez4webcast.common;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * @author lizifan 695199262@qq.com
@@ -8,6 +9,7 @@ import com.alibaba.fastjson.JSONObject;
  */
 public class ComplexResponseMessage<T> extends ResponseMessage {
 
+    @JSONField
     private final T data;
 
     public ComplexResponseMessage(int code, String message, T data) {
@@ -20,6 +22,10 @@ public class ComplexResponseMessage<T> extends ResponseMessage {
     }
 
     public T data() {
+        return data;
+    }
+
+    public T getData() {
         return data;
     }
 

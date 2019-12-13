@@ -2,6 +2,7 @@ package com.lzf.ez4webcast.auth.dao;
 
 import com.lzf.ez4webcast.auth.model.User;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ public interface UserDao {
 
     User fromUID(int uid);
 
-    List<User> fromUIDList(List<Integer> ids);
+    List<User> fromUIDList(Collection<Integer> ids);
 
     User fromEmail(String email);
 

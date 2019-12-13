@@ -15,10 +15,9 @@ public interface BasicRoomService {
 
     /**
      * 创建直播间
-     * @param uid 用户ID
      * @return 是否创建成功
      */
-    ServiceResponse<Void> createRoom(int uid, String title);
+    ServiceResponse<Void> createRoom(String title, Integer titleImage);
 
     /**
      * 获取直播间基本信息

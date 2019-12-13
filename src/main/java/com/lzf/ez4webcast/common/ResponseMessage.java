@@ -1,6 +1,6 @@
 package com.lzf.ez4webcast.common;
 
-import com.alibaba.fastjson.JSONAware;
+import com.alibaba.fastjson.annotation.JSONField;
 
 import java.io.Serializable;
 
@@ -9,10 +9,12 @@ import java.io.Serializable;
  * @since 2019.12.8 15:58
  * 附加消息JSON消息体
  */
-public class ResponseMessage implements JSONAware, Serializable {
+public class ResponseMessage implements Serializable {
 
+    @JSONField
     private final int code;
 
+    @JSONField
     private final String message;
 
     public ResponseMessage(int code, String message) {
@@ -29,6 +31,14 @@ public class ResponseMessage implements JSONAware, Serializable {
     }
 
     public String message() {
+        return message;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public String getMessage() {
         return message;
     }
 
