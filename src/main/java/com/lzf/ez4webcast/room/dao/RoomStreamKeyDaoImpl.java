@@ -13,10 +13,14 @@ import java.util.UUID;
 class RoomStreamKeyDaoImpl extends AbstractJdbcDao implements RoomStreamKeyDao {
 
     @Override
-    public void makeKey(int rid) {
+    public String makeKey(int rid) {
         String key = UUID.randomUUID().toString().replace("/", "");
-        jdbcTemplate.update("insert into room_key_inf(room_id,room_key,update_time) values(?, ?, now()) on duplicate key update room_key = values(?)",
-                rid, key, key);
+        if(jdbcTemplate.update("insert into room_key_inf(room_id,room_key,update_time) values(?, ?, now()) on duplicate key update room_key = values(?)",
+                rid, key, key) > 0) {
+            return key;
+        }
+
+        return null;
     }
 
     @Override

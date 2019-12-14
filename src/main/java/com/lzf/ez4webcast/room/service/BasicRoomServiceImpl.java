@@ -50,16 +50,6 @@ class BasicRoomServiceImpl implements BasicRoomService {
     private String flvUriStreamArg;
 
     @Override
-    public ServiceResponse<Void> createRoom(String title, Integer image) {
-        User user = UserUtils.contextPrincipal();
-        if(user == null) {
-            return response(-1);
-        }
-        boolean succ = basicRoomDao.add(user.getUid(), title, image);
-        return succ ? response(0) : response(1);
-    }
-
-    @Override
     public ServiceResponse<RoomDetailVo> roomInfo(int roomId) {
         Room room = basicRoomDao.fromRoomID(roomId);
         if(room == null) {
@@ -111,19 +101,5 @@ class BasicRoomServiceImpl implements BasicRoomService {
         return response(0, ans);
     }
 
-    @Override
-    public ServiceResponse<String> rmtpAuthKey(int rid) {
-        String key = roomStreamKeyDao.getKey(rid);
-        if(key == null) {
-            return response(1);
-        }
 
-        return response(0, key);
-    }
-
-    @Override
-    public ServiceResponse<Void> updateLastLiveTime(int roomId) {
-        basicRoomDao.updateLastLiveTime(roomId);
-        return response(0);
-    }
 }

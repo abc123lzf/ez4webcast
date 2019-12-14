@@ -14,12 +14,6 @@ import java.util.List;
 public interface BasicRoomService {
 
     /**
-     * 创建直播间
-     * @return 是否创建成功
-     */
-    ServiceResponse<Void> createRoom(String title, Integer titleImage);
-
-    /**
      * 获取直播间基本信息
      * @param roomId 直播间ID
      * @return 直播间基本信息
@@ -40,18 +34,5 @@ public interface BasicRoomService {
     ServiceResponse<List<RoomVo>> roomInfo(Collection<Integer> ids);
 
 
-    /**
-     * 更新直播间
-     * @param roomId 房间ID
-     * @return 结果
-     */
-    ServiceResponse<Void> updateLastLiveTime(int roomId);
 
-
-    /**
-     * 获取直播间推流密钥
-     * @param rid 直播间ID
-     * @return 密钥
-     */
-    ServiceResponse<String> rmtpAuthKey(int rid);
 }

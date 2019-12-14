@@ -6,7 +6,7 @@ package com.lzf.ez4webcast.room.dao;
  */
 public interface RoomStreamKeyDao {
 
-    void makeKey(int rid);
+    String makeKey(int rid);
 
     String getKey(int rid);
 }
