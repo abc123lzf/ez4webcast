@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/header.css">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
@@ -16,18 +17,18 @@
         </div>
         <div class="modal-body" id = "model-body">
             <div class="form-group">
-
-                <input type="text" class="form-control"placeholder="邮箱" autocomplete="off" id="email">
+                <input type="text" class="form-control" placeholder="邮箱" autocomplete="off" id="email">
             </div>
             <div class="form-group">
 
                 <input type="password" class="form-control" placeholder="密码" autocomplete="off" id="password">
             </div>
+            <span id="msg" style="color: red"></span>
         </div>
         <div class="modal-footer">
 
             <div class="form-group">
-                <button type="button" class="btn btn-primary form-control" style="width:320px;float: left" onclick = "ajax();">登录</button>
+                <button type="button" class="btn btn-primary form-control" style="width:320px;float: left" id="btn">登录</button>
             </div>
 
             <div class="form-group">
@@ -41,40 +42,57 @@
 
 <script type="text/javascript">
 
-        function ajax() {
-            var xmlhttp;
-            if (window.XMLHttpRequest) {
-                // IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
-                xmlhttp = new XMLHttpRequest();
-            } else {
-                // IE6, IE5 浏览器执行代码
-                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            if(xmlhttp!=null) {
-                alert("ddsfgsd");
-                xmlhttp.onreadystatechange = changeState;
-                xmlhttp.open("POST","fs2.lzfnb.top:8080/api/user/login",true);
-                xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-                xmlhttp.send("username=aaa&password=sss");
+
+    window.onload = function () {
+
+        var btn = document.getElementById("btn");
+
+        btn.onclick = function () {
+
+            var username = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+
+            console.log("aaa"+username+password);
+
+            var xmlHttp = createXMLHttpRequest()
+
+            xmlHttp.open("POST",'http://fs2.lzfnb.top:8080/api/user/login', true);
+            xmlHttp.onreadystatechange = handler;
+            xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+            xmlHttp.setRequestHeader('Access-Control-Allow-Origin','*');
+            xmlHttp.setRequestHeader('Access-Control-Allow-Method','POST,GET');
+            var data = 'username=' + username  + '&password=' + password;
+            xmlHttp.send(data);
+
+            function handler() {
+                console.log(xmlHttp.readyState);
+                console.log(xmlHttp.status);
+
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+
+                    var responseText = xmlHttp.responseText;
+                    var info = JSON.parse(responseText);
+
+                    if(info.code == 1){
+                        var msg="用户名或密码错误";
+                        document.getElementById("msg").innerText=msg;
+
+                    }else{//成功
+                        url = "index.html";
+                        window.location.href = url;
+                        //console.log("Cookie: " + xmlHttp.getResponseHeader("Set-Cookie"));
+                    }
+                }
             }
 
         }
+    };
 
-        function changeState()
-        {
-            if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                alert("SUCCESS");
-                //document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
-            }
-            else{
-                alert(xmlhttp.status)
-                console.log(xmlhttp.readyState);
-
-            }
-        }
-
-
+    function createXMLHttpRequest() {
+        return new XMLHttpRequest()
+    }
 </script>
+
 </head>
 
 </body>

@@ -16,24 +16,25 @@
         </div>
         <div class="modal-body" id = "model-body">
             <div class="form-group">
-                <input type="text" class="form-control"placeholder="邮箱" autocomplete="off">
+                <input type="text" class="form-control"placeholder="邮箱" autocomplete="off" id="email">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control"placeholder="昵称" autocomplete="off">
-            </div>
-            <div class="form-group">
-
-                <input type="password" class="form-control" placeholder="密码" autocomplete="off">
+                <input type="text" class="form-control"placeholder="昵称" autocomplete="off" id="nickname">
             </div>
             <div class="form-group">
 
-                <input type="password" class="form-control" placeholder="确认密码" autocomplete="off">
+                <input type="password" class="form-control" placeholder="密码" autocomplete="off" id="password1">
             </div>
+            <div class="form-group">
+
+                <input type="password" class="form-control" placeholder="确认密码" autocomplete="off" id="password2">
+            </div>
+            <span style="color: red" id="msg"></span>
         </div>
         <div class="modal-footer">
 
             <div class="form-group">
-                <button type="button" class="btn btn-primary form-control" style="width:320px;float: left">注册</button>
+                <button type="button" class="btn btn-primary form-control" style="width:320px;float: left" id="btn">注册</button>
             </div>
 
             <div class="form-group">
@@ -41,8 +42,66 @@
             </div>
 
         </div>
-    </div><!-- /.modal-content -->
-</div><!-- /.modal -->
+    </div>
+</div>
+<script>
+    window.onload = function () {
+        var btn = document.getElementById("btn");
+        btn.onclick = function () {
 
+            var email = document.getElementById("email").value;
+            var nickname = document.getElementById("nickname").value;
+            var password1 = document.getElementById("password1").value;
+            var password2 = document.getElementById("password2").value;
+
+            console.log("nickname"+nickname);
+            if (email == null || password1 == null || password2 == null || nickname == null) {
+                document.getElementById("msg").innerText = "信息未填写完整";
+            } else if (password1 != password2) {
+                document.getElementById("msg").innerText = "两次密码输入不一致";
+            } else {
+                var xmlHttp = createXMLHttpRequest()
+                xmlHttp.open("POST", 'http://fs2.lzfnb.top:8080/api/user/register', true);
+                xmlHttp.onreadystatechange = handler;
+                xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xmlHttp.setRequestHeader('Access-Control-Allow-Origin', '*');
+                xmlHttp.setRequestHeader('Access-Control-Allow-Method', 'POST,GET');
+                var data = 'email=' + email + '&password=' + password1 + '&nickname=' + nickname;
+                xmlHttp.send(data);
+
+                function handler() {
+                    console.log(xmlHttp.readyState);
+                    console.log(xmlHttp.status);
+
+                    if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+
+                        var responseText = xmlHttp.responseText;
+                        var info = JSON.parse(responseText);
+
+                        if (info.code == 1) {
+                            var msg = "邮箱已经注册";
+                            document.getElementById("msg").innerText = msg;
+
+                        }else if(info.code == 2){
+                            var msg = "格式错误";
+                            document.getElementById("msg").innerText = msg;
+
+                        }else if(info.code == 0){//成功
+                            url = "login.html";
+                            window.location.href = url;
+                            //console.log("Cookie: " + xmlHttp.getResponseHeader("Set-Cookie"));
+                        }
+
+                    }
+                }
+
+            }
+        };
+
+        function createXMLHttpRequest() {
+            return new XMLHttpRequest()
+        }
+    };
+</script>
 </body>
 </html>
