@@ -32,6 +32,12 @@ class PostDaoImpl extends AbstractJdbcDao implements PostDao {
     }
 
     @Override
+    public int postFloorCount(int postId) {
+        Integer v = getFirst(jdbcTemplate.queryForList("select count(*) from bbs_floor_inf where post_id = " + postId, Integer.class));
+        return v != null ? v : 0;
+    }
+
+    @Override
     public int insert(Post post) {
         KeyHolder holder = new GeneratedKeyHolder();
         PreparedStatementCreator creator = (Connection con) -> {

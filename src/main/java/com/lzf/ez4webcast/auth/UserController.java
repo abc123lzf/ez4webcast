@@ -9,7 +9,6 @@ import com.lzf.ez4webcast.common.ResponseMessage;
 import com.lzf.ez4webcast.common.ServiceResponse;
 import com.lzf.ez4webcast.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.lzf.ez4webcast.common.ResponseMessage.message;
+import static com.lzf.ez4webcast.common.ComplexResponseMessage.message;
 
 /**
  * @author lizifan 695199262@qq.com
@@ -44,7 +43,7 @@ public class UserController {
         return message(resp.code(), "FAILURE");
     }
 
-    @GetMapping("context")
+    @PostMapping("context")
     public ComplexResponseMessage<UserVo> contextUser() {
         User user = UserUtils.contextPrincipal();
         if(user == null) {

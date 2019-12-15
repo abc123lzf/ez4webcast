@@ -25,6 +25,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.lzf.ez4webcast.common.ServiceResponse.response;
 
@@ -52,12 +53,14 @@ class BasicBBSServiceImpl implements BasicBBSService {
     public ServiceResponse<List<PostVo>> simplePostList(int roomId) {
         List<Post> list = postDao.listFromRoomId(roomId);
         List<PostVo> ans = new ArrayList<>(list.size());
+        AtomicInteger count = new AtomicInteger(0);
         list.forEach(e -> {
             PostVo vo = new PostVo(e);
             ServiceResponse<UserVo> resp = basicUserService.findUserByUID(e.getCreateUID());
             if(resp.success()) {
                 vo.setCreateUser(resp.data());
             }
+            vo.setFloorCount(postDao.postFloorCount(e.getId()));
             ans.add(vo);
         });
 

@@ -37,6 +37,9 @@ public class PostVo {
     private Date updateTime;
 
     @JSONField
+    private Integer floorCount;
+
+    @JSONField
     private Integer status;
 
     public PostVo() { }
