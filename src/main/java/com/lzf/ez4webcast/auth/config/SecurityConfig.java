@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.session.web.http.HeaderHttpSessionIdResolver;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.DigestUtils;
 
@@ -62,7 +63,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler((req, resp, auth) -> {
                     resp.setContentType("application/json;charset=utf-8");
                     String token = Base64Utils.encodeToString(req.getSession().getId().getBytes());
-                    resp.setHeader("Platform-Token", token);
+                    resp.setHeader("Platform-Token-Base64", token);
+                    resp.setHeader("Platform-Token", req.getSession().getId());
                     resp.setHeader("Access-Control-Expose-Headers", "Platform-Token, Set-Cookie");
                     resp.getWriter().write(SUCCESS);
                 })
