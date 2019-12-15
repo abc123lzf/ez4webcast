@@ -63,6 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     resp.setContentType("application/json;charset=utf-8");
                     String token = Base64Utils.encodeToString(req.getSession().getId().getBytes());
                     resp.setHeader("Platform-Token", token);
+                    resp.setHeader("Access-Control-Expose-Headers", "Platform-Token, Set-Cookie");
                     resp.getWriter().write(SUCCESS);
                 })
                 .failureHandler((req, resp, auth) -> {
