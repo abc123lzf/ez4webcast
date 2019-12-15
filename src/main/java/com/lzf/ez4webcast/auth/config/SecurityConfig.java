@@ -49,9 +49,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-
-
         http.authorizeRequests()
                 .antMatchers("/api/user/*", "/api/image/load", "/api/damanku/ws/**", "/api/room/rmtp/**")
                 .permitAll()
@@ -63,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")
                 .successHandler((req, resp, auth) -> {
                     resp.setContentType("application/json;charset=utf-8");
+                    resp.setHeader("Authorization", req.getSession().getId());
                     resp.getWriter().write(SUCCESS);
                 })
                 .failureHandler((req, resp, auth) -> {
