@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.Base64Utils;
 import org.springframework.util.DigestUtils;
 
 /**
@@ -60,7 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")
                 .successHandler((req, resp, auth) -> {
                     resp.setContentType("application/json;charset=utf-8");
-                    resp.setHeader("Authorization", req.getSession().getId());
+                    String token = Base64Utils.encodeToString(req.getSession().getId().getBytes());
+                    resp.setHeader("Authorization", token);
                     resp.getWriter().write(SUCCESS);
                 })
                 .failureHandler((req, resp, auth) -> {
