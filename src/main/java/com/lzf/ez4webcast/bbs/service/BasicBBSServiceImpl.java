@@ -111,7 +111,6 @@ class BasicBBSServiceImpl implements BasicBBSService {
             vo.setCreateUser(uidQueryRes.get(e.getCreateUID()));
         });
 
-
         PostVo vo = new PostVo(post);
         vo.setFloors(floorVos);
         vo.setCreateUser(basicUserService.findUserByUID(post.getCreateUID()).data());

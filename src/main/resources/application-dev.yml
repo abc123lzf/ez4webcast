@@ -22,6 +22,8 @@ spring:
       enabled: true
       max-file-size: 5MB
       max-request-size: 8MB
+  session:
+    timeout: 10800
 
 server:
   port: 8080

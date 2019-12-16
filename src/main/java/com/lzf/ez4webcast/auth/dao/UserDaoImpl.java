@@ -23,7 +23,7 @@ class UserDaoImpl extends AbstractJdbcDao implements UserDao {
 
     @Override
     public User fromUID(int uid) {
-        return getFirst(jdbcTemplate.query("select uid,nickname,password,email from user_inf where uid = ?",
+        return getFirst(jdbcTemplate.query("select uid,nickname,password,head_image_id,email from user_inf where uid = ?",
                 parameters(uid), rowMapper));
     }
 
@@ -36,7 +36,7 @@ class UserDaoImpl extends AbstractJdbcDao implements UserDao {
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue("ids", ids);
 
-        return namedJdbcTemplate.query("select uid, nickname, password, email from user_inf where uid in (:ids)",
+        return namedJdbcTemplate.query("select uid,nickname,password,head_image_id,email from user_inf where uid in (:ids)",
                 param, User.ROW_MAPPER);
     }
 
@@ -48,7 +48,7 @@ class UserDaoImpl extends AbstractJdbcDao implements UserDao {
 
     @Override
     public void add(User user) {
-        jdbcTemplate.update("insert into user_inf(nickname, password, email, register_time) value (?,?,?,now())",
+        jdbcTemplate.update("insert into user_inf(nickname,password,email,register_time) value (?,?,?,now())",
                 user.getNickName(), user.getPassword(), user.getEmail());
     }
 
