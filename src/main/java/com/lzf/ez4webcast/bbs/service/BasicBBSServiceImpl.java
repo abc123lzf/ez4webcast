@@ -170,7 +170,7 @@ class BasicBBSServiceImpl implements BasicBBSService {
         floor.setContent(param.getContent());
         floor.setPostId(param.getPostId());
         floor.setCreateUID(user.getUid());
-
+        postDao.resetPostUpdateTime(param.getPostId());
         return floorDao.insertFloor(floor) ? response(0) : response(1);
     }
 

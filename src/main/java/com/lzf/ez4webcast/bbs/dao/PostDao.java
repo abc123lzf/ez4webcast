@@ -19,4 +19,6 @@ public interface PostDao {
     int insert(Post post);
 
     boolean changeStatus(int postId, int status);
+
+    boolean resetPostUpdateTime(int postId);
 }

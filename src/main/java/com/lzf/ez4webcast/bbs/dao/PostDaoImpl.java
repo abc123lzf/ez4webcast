@@ -57,4 +57,9 @@ class PostDaoImpl extends AbstractJdbcDao implements PostDao {
     public boolean changeStatus(int postId, int status) {
         return jdbcTemplate.update("update bbs_post_inf set status = ? where post_id = ?", parameters(postId, status)) > 0;
     }
+
+    @Override
+    public boolean resetPostUpdateTime(int postId) {
+        return jdbcTemplate.update("update bbs_post_inf set update_time = now() where post_id = ?", parameters(postId)) > 0;
+    }
 }
