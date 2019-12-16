@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.sql.Timestamp;
 
 /**
  * @author lizifan 695199262@qq.com
@@ -20,6 +21,7 @@ class ImageDaoImpl extends AbstractJdbcDao implements ImageDao {
 
     @Override
     public int add(Image image) {
+        image.setUploadTime(new Timestamp(System.currentTimeMillis()));
         KeyHolder holder = new GeneratedKeyHolder();
         PreparedStatementCreator creator = (Connection con) -> {
             PreparedStatement ps = con.prepareStatement("insert into image_inf(image_path, image_type, image_upload_time) values(?,?,?)",

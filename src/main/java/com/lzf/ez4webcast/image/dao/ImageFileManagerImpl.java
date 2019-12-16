@@ -54,6 +54,7 @@ class ImageFileManagerImpl implements ImageFileManager, InitializingBean {
         }
 
         String fileName = UUID.randomUUID().toString();
+        image.setPath(fileName);
         try(FileOutputStream fos = new FileOutputStream(new File(path, fileName))) {
             fos.write(bytes);
         } catch (IOException e) {
