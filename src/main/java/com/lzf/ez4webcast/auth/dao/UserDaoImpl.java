@@ -19,12 +19,10 @@ import java.util.List;
 @Repository
 class UserDaoImpl extends AbstractJdbcDao implements UserDao {
 
-    private static final RowMapper<User> rowMapper = new BeanPropertyRowMapper<>(User.class);
-
     @Override
     public User fromUID(int uid) {
         return getFirst(jdbcTemplate.query("select uid,nickname,password,head_image_id,email from user_inf where uid = ?",
-                parameters(uid), rowMapper));
+                parameters(uid), User.ROW_MAPPER));
     }
 
     @Override
@@ -42,8 +40,8 @@ class UserDaoImpl extends AbstractJdbcDao implements UserDao {
 
     @Override
     public User fromEmail(String email) {
-        return getFirst(jdbcTemplate.query("select uid,nickname,password,email from user_inf where email = ?",
-                parameters(email), rowMapper));
+        return getFirst(jdbcTemplate.query("select uid,nickname,password,email,head_image_id from user_inf where email = ?",
+                parameters(email), User.ROW_MAPPER));
     }
 
     @Override
