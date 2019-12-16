@@ -27,6 +27,7 @@ public class User implements UserDetails, JSONAware {
         user.setNickName(rs.getString("nickname"));
         user.setPassword(rs.getString("password"));
         user.setEmail(rs.getString("email"));
+        user.setHeadImage(rs.getInt("head_image_id"));
         return user;
     };
 
