@@ -69,7 +69,7 @@
 
             function handler() {
 
-                if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
 
                     var responseText = xmlHttp.responseText;
                     var info = JSON.parse(responseText);
