@@ -17,13 +17,12 @@
 <body>
     <!-- 顶部开始 -->
     <div class="container">
-        <div class="logo"><a href="./index.html">EZ4直播平台</a></div>
+        <div class="logo"><a href="./index.html">个人中心</a></div>
         <div class="open-nav"><i class="iconfont">&#xe699;</i></div>
         <ul class="layui-nav right" lay-filter="">
           <li class="layui-nav-item">
             <a id="user-nick-name" href="login.html">登录/注册</a>
             <dl class="layui-nav-child" style="visibility: hidden"> <!-- 二级菜单 -->
-              <dd><a href="person-center.html">个人中心</a></dd>
               <dd><a href="login.html">切换帐号</a></dd>
               <dd><a id="logout-url" href="/api/user/logout">退出</a></dd>
             </dl>
@@ -39,9 +38,9 @@
           <div id="side-nav">
             <ul id="nav">
                 <li class="list" current>
-                    <a href="./index.html">
+                    <a href="#">
                         <i class="iconfont">&#xe761;</i>
-                        欢迎页面
+                        基本资料
                         <i class="iconfont nav_right">&#xe697;</i>
                     </a>
                 </li>
@@ -202,13 +201,56 @@
         <!-- 右侧主体开始 -->
         <div class="page-content">
           <div class="content">
-            <!-- 右侧内容框架，更改从这里开始 -->
-            <blockquote class="layui-elem-quote">
-                注意：x-admin 1.1每个页面都可以独立设置一个背景主题，如果每个都设置会比较消耗本地的存储，如果想全部恢复，请重置。
-            </blockquote>
-            <blockquote class="layui-elem-quote">
-                欢迎使用x-admin 后台模版！<span class="f-14">v1.0</span>官方交流群： 519492808
-            </blockquote>
+              <fieldset class="layui-elem-field layui-field-title site-title">
+                  <legend>基本信息</legend>
+              </fieldset>
+
+              <div class="basic-info">
+                  <h3>昵称：<span id="basic-info-nickname"></span></h3>
+                  <h3>头像：</h3>
+                  <img id="basic-info-head-image" alt="Unload" src="" style="width: 100px"></div>
+              </div>
+
+              <fieldset class="layui-elem-field layui-field-title site-title">
+                  <legend>修改密码</legend>
+              </fieldset>
+              <form class="layui-form">
+                  <div class="layui-form-item">
+                      <label for="L_repass" class="layui-form-label">
+                          <span class="x-red">*</span>旧密码
+                      </label>
+                      <div class="layui-input-inline">
+                          <input type="password" id="L_repass" name="oldpass" required="" lay-verify="required"
+                                 autocomplete="off" class="layui-input">
+                      </div>
+                  </div>
+                  <div class="layui-form-item">
+                      <label for="L_pass" class="layui-form-label">
+                          <span class="x-red">*</span>新密码
+                      </label>
+                      <div class="layui-input-inline">
+                          <input type="password" id="L_pass" name="newpass" required="" lay-verify="required"
+                                 autocomplete="off" class="layui-input">
+                      </div>
+                      <div class="layui-form-mid layui-word-aux">
+                          6到16个字符
+                      </div>
+                  </div>
+                  <div class="layui-form-item">
+                      <label for="L_repass" class="layui-form-label">
+                          <span class="x-red">*</span>确认密码
+                      </label>
+                      <div class="layui-input-inline">
+                          <input type="password" id="L_repass" name="repass" required="" lay-verify="required"
+                                 autocomplete="off" class="layui-input">
+                      </div>
+                  </div>
+                  <div class="layui-form-item">
+                      <label for="L_repass" class="layui-form-label">
+                      </label>
+                      <button  class="layui-btn" lay-filter="save" lay-submit="">修改</button>
+                  </div>
+              </form>
             <fieldset class="layui-elem-field layui-field-title site-title">
               <legend><a name="default">信息统计</a></legend>
             </fieldset>
@@ -417,7 +459,28 @@
                     if(code === 0) {
                         const userinfo = resp.data;
                         $("#user-nick-name").text(userinfo.nickName);
+                        $("#basic-info-nickname").text(userinfo.nickName);
                         $(".layui-nav-child").attr("style", "");
+
+                        if(userinfo.headImage == null || userinfo.headImage === 0) {
+                            return;
+                        }
+
+                        const xhr = new XMLHttpRequest();
+                        xhr.open("GET", SEND_HOST + "/api/image/load?id=" + userinfo.headImage);
+                        xhr.responseType = "blob";
+                        xhr.onreadystatechange = function() {
+                            if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+                                const blob = this.response;
+                                $("#basic-info-head-image").attr("src", window.URL.createObjectURL(blob));
+                            }
+                        };
+
+                        xhr.setRequestHeader("Platform-Token", token);
+                        xhr.setRequestHeader('Access-Control-Allow-Origin','*');
+                        xhr.setRequestHeader('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie, token');
+                        xhr.setRequestHeader('Access-Control-Allow-Method','POST,GET');
+                        xhr.send();
                     } else {
                         sessionStorage.removeItem('token');
                         console.log("Session timeout")

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>登录 ez4webcast</title>
+	<title>注册 ez4webcast</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="./css/font.css">
@@ -13,14 +13,19 @@
     <script src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
     <script type="text/javascript" src="./js/constants.js"></script>
+    <style type="text/css">
+        .login-box {
+            height: 540px;
+        }
+    </style>
 </head>
 <body>
     <div class="login-logo"><h1>ez4webcast LIVE</h1></div>
     <div class="login-box">
         <form class="layui-form layui-form-pane" action="">
               
-            <h3>登录你的帐号</h3>
-            <label class="login-title" for="username">帐号</label>
+            <h3>注册帐户</h3>
+            <label class="login-title" for="username">邮箱名</label>
             <div class="layui-form-item">
                 <label class="layui-form-label login-form"><i class="iconfont">&#xe6b8;</i></label>
                 <div class="layui-input-inline login-inline">
@@ -34,9 +39,26 @@
                   <input type="text" name="password" lay-verify="required" placeholder="请输入你的密码" autocomplete="off" class="layui-input">
                 </div>
             </div>
+
+            <label class="login-title" for="repassword">确认密码</label>
+            <div class="layui-form-item">
+                <label class="layui-form-label login-form"><i class="iconfont">&#xe82b;</i></label>
+                <div class="layui-input-inline login-inline">
+                    <input type="text" name="repassword" lay-verify="required" placeholder="请输入你的密码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <label class="login-title" for="nickname">昵称</label>
+            <div class="layui-form-item">
+                <label class="layui-form-label login-form"><i class="iconfont">&#xe82b;</i></label>
+                <div class="layui-input-inline login-inline">
+                    <input type="text" name="nickname" lay-verify="required" placeholder="请输入你的昵称" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
             <div class="form-actions">
-                <button class="btn btn-warning pull-right" lay-submit lay-filter="login"  type="submit">登录</button> 
-                <div class="forgot"><a href="register.html" class="forgot">注册</a></div>
+                <button class="btn btn-warning pull-right" lay-submit lay-filter="login"  type="submit">注册</button>
+                <div class="forgot"><a href="login.html" class="forgot">登录页面</a></div>
             </div>
         </form>
     </div>
@@ -61,18 +83,35 @@
         <div id="changer-set"><i class="iconfont">&#xe696;</i></div>   
     </div>
     <script>
-        $(function  () {
+        $(function() {
             layui.use('form', function(){
               const form = layui.form();
-                //监听提交
               form.on('submit(login)', function(data){
                   const authObj = JSON.stringify(data.field);
                   const authStr = JSON.parse(authObj);
                   const username = authStr.username;
                   const password = authStr.password;
+                  const repassword = authStr.repassword;
+
+                  if(password !== repassword) {
+                      layer.msg("确认密码不正确", null);
+                      return false;
+                  }
+
+                  if(password.length < 6) {
+                      layer.msg("密码长度应当大于等于6位", null);
+                      return false;
+                  }
+
+                  const nickname = authStr.nickname;
+                  if(nickname.length < 4) {
+                      layer.msg("昵称应当大于等于4个字符", null);
+                      return false;
+                  }
+
                   const xmlHttp = new XMLHttpRequest();
 
-                  xmlHttp.open("POST", SEND_HOST + "/api/user/login", true);
+                  xmlHttp.open("POST", SEND_HOST + "/api/user/register", true);
                   xmlHttp.onreadystatechange = function () {
                       if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
                           var responseText = xmlHttp.responseText;
@@ -81,11 +120,13 @@
                           if(code === 0) {
                               var token = xmlHttp.getResponseHeader("Platform-Token");
                               sessionStorage.setItem("token", token);
-                              layer.msg("登录成功,正在跳转至首页", function () {
-                                  location.href = "index.html"
+                              layer.msg("注册成功，正在跳转至登录页面", function () {
+                                  location.href = "login.html"
                               });
                           } else if(code === 1) {
-                              layer.msg("用户名或密码错误", null);
+                              layer.msg("邮箱名已存在", null);
+                          } else if(code === 2) {
+                              layer.msg("邮箱名不合法", null);
                           } else {
                               layer.msg("Server Error", null);
                           }
@@ -96,11 +137,8 @@
                   xmlHttp.setRequestHeader('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie, token');
                   xmlHttp.setRequestHeader('Access-Control-Allow-Method','POST,GET');
 
-                  xmlHttp.send("username=" + username + "&password=" + password);
-                /*layer.msg(JSON.stringify(data.field),function(){
-                    location.href='index.html'
-                });*/
-                return false;
+                  xmlHttp.send("email=" + username + "&password=" + password + "&nickname=" + nickname);
+                  return false;
               });
             });
         });

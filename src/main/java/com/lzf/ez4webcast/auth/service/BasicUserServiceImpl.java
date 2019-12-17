@@ -48,7 +48,7 @@ class BasicUserServiceImpl implements BasicUserService {
             userDao.add(user);
         } catch (RuntimeException e) {
             log.error(e);
-            return response(3);
+            return response(-1);
         }
 
         return response(0);
