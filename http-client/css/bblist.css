@@ -8,6 +8,7 @@
     height: 100%;
     margin-left: 15%;
     border-top:130px solid #dceffe;
+    border-bottom: 1px solid #eee;
 }
 .bblistBody1List{
     height: 50px;
@@ -41,4 +42,17 @@
     margin-left:100px;
     margin-top: -60px;
 
+}
+.bblistBodyUser{
+    color: #ff411c;
+    font-size: 16px;
+    display: block;
+    margin-left:25%;
+    margin-top: -60px;
+}
+.bblistBodyTime{
+    font-size: 14px;
+    display: block;
+    margin-left:7%;
+    margin-top: -60px;
 }

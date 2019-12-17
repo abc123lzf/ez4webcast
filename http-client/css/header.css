@@ -30,7 +30,13 @@ a:hover {
 .header .header-right {
     float: right;
 }
-
+.userHeadImg{
+    margin-top:-10px;
+    margin-right: 10%;
+    border-radius:50%;
+    float: right;
+    height: 50px;
+}
 .header .header-menu-link {
     position: relative;
     margin: 0 4px;
@@ -43,6 +49,7 @@ a:hover {
     margin-top: 2%;
     margin-left: 15%;
 }
+
 
 .header-menu a {
     font-size: 24px;

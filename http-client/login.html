@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/header.css">
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta http-equiv="Access-Control-Expose-Headers" content="*">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
@@ -54,19 +55,19 @@
 
             console.log("aaa"+username+password);
 
-            var xmlHttp = createXMLHttpRequest()
+            var xmlHttp = createXMLHttpRequest();
 
-            xmlHttp.open("POST",'http://fs2.lzfnb.top:8080/api/user/login', true);
+            xmlHttp.open("POST",'http://fs2.lzfnb.top/api/user/login', true);
             xmlHttp.onreadystatechange = handler;
             xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
             xmlHttp.setRequestHeader('Access-Control-Allow-Origin','*');
+            xmlHttp.setRequestHeader('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie, token');
             xmlHttp.setRequestHeader('Access-Control-Allow-Method','POST,GET');
             var data = 'username=' + username  + '&password=' + password;
+
             xmlHttp.send(data);
 
             function handler() {
-                console.log(xmlHttp.readyState);
-                console.log(xmlHttp.status);
 
                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
 
@@ -78,9 +79,15 @@
                         document.getElementById("msg").innerText=msg;
 
                     }else{//成功
+                        //保存token数据到session
+
+                        var cookie = xmlHttp.getResponseHeader("Platform-Token");
+                        var aa = xmlHttp.getAllResponseHeaders();
+                        console.log(cookie);
+                        sessionStorage.setItem('token',cookie);
+
                         url = "index.html";
                         window.location.href = url;
-                        //console.log("Cookie: " + xmlHttp.getResponseHeader("Set-Cookie"));
                     }
                 }
             }

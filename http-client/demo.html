@@ -13,6 +13,8 @@
     <div class="barrageHead">
         <img src="https://apic.douyucdn.cn/upload/avanew/face/201707/20/15/5943dc2abe5848085036bd78b3a1077f_big.jpg">
         <span >【直播中】中越 AG vs eStar</span>
+        <embed style="float: right;height:50px;margin-top:30px" src="img/add-care.svg" type="image/svg+xml"/>
+        <embed style="float: right;height:48px;display: none;margin-top:30px" src="img/icon-cared.svg" type="image/svg+xml"/>
     </div>
 
     <div class="mainContainer barrage-container-wrap" style="float: left;margin-left: 211px;">
@@ -25,13 +27,13 @@
         </div>
 
         <div class="controls">
-            <button onclick="flv_load()">Load</button>
+            <button onclick="flv_load()" style="margin-top:10px">Load</button>
         </div>
 
         <textarea name="logcatbox" class="logcatBox" rows="10" readonly style="display: none;"></textarea>
     </div>
 
-    <textarea readonly style="overflow-y:hidden;float: left;height: 492px;width: 20%;background-color: red;margin-left: 100px;margin-top:100px;" name="barrageArea">
+    <textarea readonly style="overflow-y:hidden;float: left;height: 492px;width: 20%;margin-left: 100px;margin-top:5px;" name="barrageArea">
     </textarea>
 
     <div class="box">
@@ -197,7 +199,7 @@
 
         ];
         var barrageColorArray = [
-            '#0099CC','#333333', '#009966','#FFFF66','#9933FF','#FFFF99','#CCCCFF','#CC9933','#FFFF66'
+            'white'
         ];
         var barrageTipWidth = 50; //提示语的长度
 
@@ -257,7 +259,7 @@
         function addTextArea() {
             var text = inputBox.value;
             var barrageArea = document.getElementsByName('barrageArea')[0];
-            barrageArea.value = barrageArea.value + text + '\n';
+            barrageArea.value = barrageArea.value + "\n   abc : "+text + '\n';
             barrageArea.scrollTop = barrageArea.scrollHeight;
         }
 

@@ -65,6 +65,7 @@
     margin-right: auto;
     margin-top: 8px;
     margin-bottom: 10px;
+
 }
 
 .logcatBox {
@@ -198,9 +199,9 @@
 .barrageHead{
     margin-top:120px;
     position: relative;
-    width: 45%;
+    width: 48%;
     text-align: center;
     color: red;
     font-size: 25px;
-
+    margin-bottom: 30px;
 }

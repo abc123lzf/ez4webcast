@@ -3,8 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <link rel="stylesheet" href="css/bblist.css">
-    <script src="js/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="css/bblist.css"/>
+    <script src="js/jquery-3.4.1.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.12/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var token = sessionStorage.getItem('token');
+            var vm = new Vue({
+                el: '#bbslist',
+                data:{
+                    info:null,
+                },
+
+                created: function () {
+                    console.log("created");
+                    this.fetchData();
+                },
+                methods: {
+                    fetchData() {
+                        axios.get('http://fs2.lzfnb.top/api/bbs/view/list', {
+                            params: {
+                                room: 1,
+                            },
+                            headers: {
+                                "Accept": "application/json; charset=utf-8",
+                                "Content-Type": "application/javascript; charset=utf-8",
+                                "Access-Control-Allow-Origin": "*",
+                                'Platform-Token': token,
+                            },
+                            dataType: 'json',
+                        }).then(response => {
+                            this.info = response.data.data;
+                            console.log(this.info[0].title);
+                            console.log(this.info.length);
+
+                        }).catch(error => {
+                            console.log("error" + error);
+                            console.log("failure")
+                        })
+                    },
+                }
+
+            });
+        })
+    </script>
+
 </head>
 <body>
 <script>
@@ -12,47 +57,35 @@
         $(".headerpage").load('header.html');
     });
 </script>
-    <div>
-        <div class="headerpage"></div>
-    </div>
-    <div class="bblistBody">
-        <div class="bblistBody1">
-            <div class="bblistBody1List">
+
+    <div id="bbslist">
+        <div>
+            <div class="headerpage"></div>
+        </div>
+        <div class="bblistBody">
+
+            <div class="bblistBody1" >
+                <div class="bblistBody1List" v-for="temp in info">
                 <span class="bblistBodyReq">
                     <span >250</span>
                 </span>
-                <span class="bblistBodyTop">
+                    <span class="bblistBodyTop">
                     <embed class="bblistBodyTop" src="img/top.svg" type="image/svg+xml"/>
                 </span>
-                <span class="bblistBodyTital" style="display: inline-block;">
-                    【D8招募】帝吧招募小吧主，吧友中的精英，收获荣誉，
+                    <span class="bblistBodyTital" style="display: inline-block;">
+                        <a href="detail.html">{{temp.title}}</a>
                 </span>
+                    <span class="bblistBodyUser" style="display: inline-block;">
+                    {{temp.createUser.nickName}}
+                </span>
+                    <span class="bblistBodyTime" style="display: inline-block;">
+                    {{temp.updateTime}}
+                </span>
+                </div>
             </div>
 
-            <div class="bblistBody1List">
-                <span class="bblistBodyReq">
-                    <span >250</span>
-                </span>
-                <span class="bblistBodyTop">
-                    <embed class="bblistBodyTop" src="img/top.svg" type="image/svg+xml"/>
-                </span>
-                <span class="bblistBodyTital" style="display: inline-block;">
-                    【D8招募】帝吧招募小吧主，吧友中的精英，收获荣誉，
-                </span>
-            </div>
-
-            <div class="bblistBody1List">
-                <span class="bblistBodyReq">
-                    <span >250</span>
-                </span>
-                <span class="bblistBodyTop">
-                    <embed class="bblistBodyTop" src="img/top.svg" type="image/svg+xml"/>
-                </span>
-                <span class="bblistBodyTital" style="display: inline-block;">
-                    【D8招募】帝吧招募小吧主，吧友中的精英，收获荣誉，
-                </span>
-            </div>
         </div>
     </div>
+
 </body>
 </html>

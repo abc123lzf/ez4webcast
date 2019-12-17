@@ -16,15 +16,19 @@
         <ul class="header-menu">
             <li class="header-menu-link header-left"><a href="index.html">首页</a></li>
             <li class="header-menu-link header-left"><a href="index.html">直播</a></li>
-            <li class="header-menu-link header-left"><a href="index.html">贴吧</a></li>
+            <li class="header-menu-link header-left"><a href="bbslist.html">贴吧</a></li>
             <li class="header-menu-link header-left"><a href="index.html">反馈</a></li>
         </ul>
 
 
-        <div class="header-right login-register-button">
+        <div id="loginBtn" class="header-right login-register-button" >
             <a href="login.html">登录</a>
             <span style="color: white"> / </span>
             <a href="register.html">注册</a>
+        </div>
+
+        <div>
+            <img id="headImg" style="display:none; margin-top:-10px;margin-right: 10%;border-radius:50%;float: right;height: 50px;" src="#">
         </div>
 
         <div class="header-right header-right-menu-items">
@@ -42,6 +46,63 @@
         </div>
     </div>
 
+    <script>
+        $(document).ready(function() {
+            //alert("aaa");
+            var token = sessionStorage.getItem('token');
+            //alert(token);
+            console.log(token);
+            var xmlHttp = createXMLHttpRequest();
+
+            xmlHttp.open("POST",'http://fs2.lzfnb.top/api/user/context', true);
+            xmlHttp.onreadystatechange = handler;
+            xmlHttp.withCredentialstrue = true;
+            xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+            xmlHttp.setRequestHeader('Access-Control-Allow-Origin','*');
+            xmlHttp.setRequestHeader('Access-Control-Allow-Method','POST,GET');
+            xmlHttp.setRequestHeader('Platform-Token',token);
+
+            xmlHttp.send(null);
+
+            function handler() {
+
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+
+                    var responseText = xmlHttp.responseText;
+                    var info = JSON.parse(responseText);
+
+                    if(info.code == 1){
+                        var msg="请先登录！";
+                        alert(msg);
+                        window.location.href = 'login.html';
+
+                    }else if(info.code == 0){//成功
+
+                        var username = info.data.nickName;
+                        var headImg = info.data.headImage;
+
+                        if(headImg == null){
+                            $("#headImg").attr("src", "https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2133261431,2800577620&fm=26&gp=0.jpg");
+                            $("#loginBtn").css("display",'none');
+                            $("#headImg").css("display",'');
+                        }else{
+                            $("#headImg").attr("src",headImg);
+                            $("#loginBtn").css("display",'none');
+                            $("#headImg").css("display",'');
+                        }
+
+                        console.log(username);
+
+                    }
+                }
+            }
+
+        });
+
+        function createXMLHttpRequest() {
+            return new XMLHttpRequest()
+        }
+    </script>
 
 
 </body>
