@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.lzf.ez4webcast.auth.vo.UserVo;
 import lombok.Data;
 
+import java.util.Objects;
+
 
 /**
  * @author lizifan 695199262@qq.com
@@ -14,39 +16,31 @@ import lombok.Data;
 @Data
 public class Danmaku implements JSONAware {
 
-    private UserVo user;
-
     private String type;
 
     private String color;
 
     private String content;
 
-    private long time;
+    private long sendTime;
 
     public static Danmaku fromJSON(JSONObject object) {
-        if(!object.containsKey("content")) {
-            return null;
-        }
-
+        Objects.requireNonNull(object);
         Danmaku danmaku = new Danmaku();
-        danmaku.setContent(object.getString("content"));
-        danmaku.setTime(System.currentTimeMillis());
+        danmaku.setContent(object.getString("text"));
+        danmaku.setType(object.getString("type"));
+        danmaku.setColor(object.getString("color"));
+        danmaku.setSendTime(System.currentTimeMillis());
         return danmaku;
     }
 
+    @Override
     public String toJSONString() {
         JSONObject obj = new JSONObject();
         obj.put("content", content);
-        obj.put("time", time);
+        obj.put("send_time", sendTime);
         obj.put("color", color);
         obj.put("type", type);
-
-        JSONObject user = new JSONObject();
-        user.put("uid", this.user.getUid());
-        user.put("nickname", this.user.getNickName());
-
-        obj.put("user", user);
         return obj.toJSONString();
     }
 }

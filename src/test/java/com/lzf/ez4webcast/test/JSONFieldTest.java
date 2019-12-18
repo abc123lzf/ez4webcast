@@ -13,7 +13,6 @@ import java.util.Date;
  */
 public class JSONFieldTest {
     public static void main(String[] args) {
-        BASE64Encoder encoder = new BASE64Encoder();
-        System.out.println(encoder.encode("582339c2-21a8-4670-a106-b7e2bd04325b".getBytes()));
+        System.out.println(JSON.parseObject(""));
     }
 }

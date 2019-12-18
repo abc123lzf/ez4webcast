@@ -20,6 +20,15 @@ public interface BasicRoomService {
      */
     ServiceResponse<RoomDetailVo> roomInfo(int roomId);
 
+
+    /**
+     * 判断直播间是否存在
+     * @param roomId 直播间ID
+     * @return 直播间基本信息
+     */
+    ServiceResponse<Boolean> containsRoom(int roomId);
+
+
     /**
      * 获取直播间基本信息
      * @return 直播间基本信息

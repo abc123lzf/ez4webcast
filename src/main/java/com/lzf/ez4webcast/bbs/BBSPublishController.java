@@ -44,7 +44,6 @@ public class BBSPublishController {
     @RequestMapping("floor")
     public ResponseMessage publishFloor(@RequestBody PublishFloorParam param,
                                         HttpServletResponse response) throws IOException {
-        log.info("floor {}, {}", param.getPostId(), param.getContent());
         if(param.getPostId() == null || param.getContent() == null) {
             response.sendError(400);
             return null;

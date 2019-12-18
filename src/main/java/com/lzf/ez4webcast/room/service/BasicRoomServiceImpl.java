@@ -77,6 +77,12 @@ class BasicRoomServiceImpl implements BasicRoomService {
     }
 
     @Override
+    public ServiceResponse<Boolean> containsRoom(int roomId) {
+        Room r = basicRoomDao.fromRoomID(roomId);
+        return r != null ? response(0, true) : response(0, false);
+    }
+
+    @Override
     public ServiceResponse<List<RoomVo>> allRoomInfo() {
         List<Room> list = basicRoomDao.all();
         if(list == null) {

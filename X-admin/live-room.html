@@ -109,33 +109,49 @@
         defaultXhrHeader(xmlHttp);
         setXhrToken(xmlHttp, token);
         xmlHttp.send();
-
-        const dp = new DPlayer({
-            container: document.getElementById('dplayer'),
-            live: true,
-            danmaku: true,
-            apiBackend: {
-                read: function(endpoint) {
-                    console.log(endpoint);
-                },
-                send: function(endpoint, danmakuData) {
-                    //通过WebSocket连接发送弹幕
-                    console.log("2")
-                },
-            },
-
-            video: {
-                url: FLV_LIVE_HOST + '/live?app=ez4webcast&stream=' + req['id'],
-                type: 'flv',
-            },
-        });
-
-        const ws = new WebSocket(DANMAKU_WS_HOST + "/api/danmaku/ws/message/" + req['id']);
-
     });
 
+    const dp = new DPlayer({
+        container: document.getElementById('dplayer'),
+        live: true,
+        danmaku: true,
+        apiBackend: {
+            read: function(endpoint) {
+                endpoint.success();
+            },
+            send: function(endpoint) {
+                sendDanmaku(JSON.stringify(endpoint.data));
+            },
+        },
 
+        video: {
+            url: FLV_LIVE_HOST + '/live?app=ez4webcast&stream=' + req['id'],
+            type: 'flv',
+        },
+    });
 
+    const token = sessionStorage.getItem('token');
+    const ws = new WebSocket(DANMAKU_WS_HOST + "/api/danmaku/ws/message/" + req['id']);
+    ws.onopen = function() {
+        console.log("Danmaku WS has open");
+    };
+
+    ws.onmessage = function (event) {
+        const e = JSON.parse(event.data);
+        const danmaku = {
+            text: e.text,
+            color: e.color,
+            type: e.type,
+            time: e.time,
+        };
+        dp.danmaku.draw(danmaku);
+    };
+
+    function sendDanmaku(data) {
+        ws.send(data);
+    }
+
+    dp.play();
     /*dp.danmaku.send({
         text: 'dplayer is amazing',
         color: '#b7daff',
