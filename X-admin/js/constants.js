@@ -1,1 +1,1 @@
-const SEND_HOST = "http://localhost:8080";
+const SEND_HOST = "http://fs2.lzfnb.top";
