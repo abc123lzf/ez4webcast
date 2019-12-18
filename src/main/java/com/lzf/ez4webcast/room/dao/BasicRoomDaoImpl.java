@@ -17,13 +17,13 @@ class BasicRoomDaoImpl extends AbstractJdbcDao implements BasicRoomDao {
 
     @Override
     public Room fromRoomID(int roomId) {
-        return getFirst(jdbcTemplate.query("select room_id, room_uid, room_title, room_image_id, room_create_time " +
+        return getFirst(jdbcTemplate.query("select room_id, room_uid, room_title, room_image_id, room_create_time, room_last_live_time " +
                 "from room_inf where room_id = ?", parameters(roomId), Room.ROW_MAPPER));
     }
 
     @Override
     public Room fromUID(int uid) {
-        return getFirst(jdbcTemplate.query("select room_id, room_uid, room_title, room_image_id, room_create_time " +
+        return getFirst(jdbcTemplate.query("select room_id, room_uid, room_title, room_image_id, room_create_time, room_last_live_time " +
                 "from room_inf where room_uid = ?", parameters(uid), Room.ROW_MAPPER));
     }
 
@@ -31,7 +31,7 @@ class BasicRoomDaoImpl extends AbstractJdbcDao implements BasicRoomDao {
     public List<Room> fromRoomID(Collection<Integer> ids) {
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue("ids", ids);
-        return namedJdbcTemplate.query("select room_id, room_uid, room_title, room_image_id, room_create_time from " +
+        return namedJdbcTemplate.query("select room_id, room_uid, room_title, room_image_id, room_create_time, room_last_live_time from " +
                 "room_inf where room_inf in (:ids)", param, Room.ROW_MAPPER);
     }
 
@@ -50,7 +50,7 @@ class BasicRoomDaoImpl extends AbstractJdbcDao implements BasicRoomDao {
 
     @Override
     public List<Room> all() {
-        return jdbcTemplate.query("select room_id, room_uid, room_title, room_image_id, room_create_time from room_inf",
+        return jdbcTemplate.query("select room_id, room_uid, room_title, room_image_id, room_create_time, room_last_live_time from room_inf",
                 Room.ROW_MAPPER);
     }
 

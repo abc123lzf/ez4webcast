@@ -1,1 +1,2 @@
-const SEND_HOST = "http://fs2.lzfnb.top";
+const SEND_HOST = "http://localhost:8080";
+const RTMP_HOST = "rtmp://localhost";

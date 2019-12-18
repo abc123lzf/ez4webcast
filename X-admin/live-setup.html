@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>直播间管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
+    <script src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/constants.js"></script>
+    <script type="text/javascript" src="./js/utils.js"></script>
+
+    <style type="text/css">
+        .base-content p {
+            margin: 7px;
+        }
+
+        .base-content label {
+            font-family: monospace sans-serif;
+        }
+
+    </style>
+</head>
+<body>
+<!-- 顶部开始 -->
+<div class="container">
+    <div class="logo"><a href="./index.html">个人中心</a></div>
+    <div class="open-nav"><i class="iconfont">&#xe699;</i></div>
+    <ul class="layui-nav right" lay-filter="">
+        <li class="layui-nav-item">
+            <a id="user-nick-name" href="login.html">登录/注册</a>
+            <dl class="layui-nav-child" style="visibility: hidden"> <!-- 二级菜单 -->
+                <dd><a href="login.html">切换帐号</a></dd>
+                <dd><a id="logout-url" href="/api/user/logout">退出</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a href="index.html">首页</a></li>
+    </ul>
+</div>
+<!-- 顶部结束 -->
+<!-- 中部开始 -->
+<div class="wrapper">
+    <!-- 左侧菜单开始 -->
+    <div class="left-nav">
+        <div id="side-nav">
+            <ul id="nav">
+                <li class="list" current>
+                    <a href="#">
+                        <i class="iconfont">&#xe761;</i>
+                        个人基本资料
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                </li>
+                <li class="list">
+                    <a href="javascript:">
+                        <i class="iconfont">&#xe70b;</i>
+                        直播间管理
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="current">
+                            <a href="live-create.html">
+                                <i class="iconfont">&#xe6a7;</i>
+                                直播间申请
+                            </a>
+                        </li>
+                        <li>
+                            <a href="member-del.html">
+                                <i class="iconfont">&#xe6a7;</i>
+                                直播间管理
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- 左侧菜单结束 -->
+    <!-- 右侧主体开始 -->
+    <div class="page-content">
+        <div class="content">
+            <fieldset class="layui-elem-field layui-field-title site-title">
+                <legend>直播间基本信息</legend>
+            </fieldset>
+
+            <div class="base-content">
+                <p>直播间ID：<label id="live-room-id"></label></p>
+                <p>直播间标题：<label id="live-room-title"></label></p>
+                <p>直播间创建时间：<label id="live-room-create-time"></label></p>
+                <p>上次直播时间：<label id="live-room-last-live-time"></label></p>
+                <p>推流URL：<label id="live-stream-url"></label></p>
+                <p>推流密钥：<label id="live-stream-key"></label></p>
+            </div>
+
+            <fieldset class="layui-elem-field layui-field-title site-title">
+                <legend>直播间封面</legend>
+            </fieldset>
+        </div>
+    </div>
+
+    <!-- 右侧主体结束 -->
+</div>
+<!-- 中部结束 -->
+<!-- 底部开始 -->
+<div class="footer">
+    <div class="copyright">Copyright ©2019 ez4webcast All Rights Reserved</div>
+</div>
+
+<script type="application/javascript">
+    $(document).ready(function () {
+        $("#logout-url").attr("href", SEND_HOST + "/api/user/logout");
+        const token = sessionStorage.getItem('token');
+        if (token == null) {
+            return;
+        }
+        let xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("POST", SEND_HOST + "/api/user/context", false);
+
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState === 4) {
+                if(xmlHttp.status === 200) {
+                    const resp = JSON.parse(xmlHttp.responseText);
+                    const code = resp.code;
+                    if (code === 0) {
+                        const userinfo = resp.data;
+                        $("#user-nick-name").text(userinfo.nickName);
+                        $("#basic-info-nickname").text(userinfo.nickName);
+                        $(".layui-nav-child").attr("style", "");
+                    } else {
+                        sessionStorage.removeItem('token');
+                        console.log("Session timeout")
+                    }
+                }
+            } else if(xmlHttp.status === 401) {
+                sessionStorage.removeItem('token');
+                alert("Token过期，点击跳转至登录界面");
+                location.href = "login.html";
+            }
+        };
+
+        setXhrToken(xmlHttp, token);
+        defaultXhrHeader(xmlHttp);
+        xmlHttp.send();
+
+        xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", SEND_HOST + "/api/room/manage/baseinfo", true);
+
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState === 4) {
+                if(xmlHttp.status === 200) {
+                    const resp = JSON.parse(xmlHttp.responseText);
+                    const code = resp.code;
+                    if(code === 0) {
+                        const data = resp.data;
+                        const room = data.info;
+                        $("#live-room-id").text(room.id);
+                        $("#live-room-title").text(room.title);
+                        $("#live-room-create-time").text(room.createTime);
+                        $("#live-room-last-live-time").text(room.lastLiveTime == null ? "尚未直播" : room.lastLiveTime);
+                        $("#live-stream-url").text(RTMP_HOST + data.upstreamURI);
+                        $("#live-stream-key").text(room.id + "?room=" + room.id +"&key=" + data.upstreamKey);
+                    } else {
+                        alert("尚未创建直播间，正在跳转至直播间创建页面");
+                        location.href = "live-create.html";
+                    }
+                }
+            }
+
+        };
+
+        setXhrToken(xmlHttp, token);
+        defaultXhrHeader(xmlHttp);
+        xmlHttp.send();
+    });
+
+</script>
+
+</body>
+</html>

@@ -5,6 +5,7 @@ import com.lzf.ez4webcast.room.service.RoomManageService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +28,7 @@ public class NginxRmtpController {
     public void publishCallback(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String room = request.getParameter("room");
         String key = request.getParameter("key");
-
+        key = new String(Base64Utils.decodeFromString(key));
         int rid;
         try {
             rid = Integer.parseInt(room);

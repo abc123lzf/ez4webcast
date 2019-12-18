@@ -5,9 +5,11 @@ import com.lzf.ez4webcast.common.ServiceResponse;
 import com.lzf.ez4webcast.room.dao.BasicRoomDao;
 import com.lzf.ez4webcast.room.dao.RoomStreamKeyDao;
 import com.lzf.ez4webcast.room.model.Room;
+import com.lzf.ez4webcast.room.vo.RoomBaseInfoVo;
 import com.lzf.ez4webcast.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Base64Utils;
 
 import static com.lzf.ez4webcast.common.ServiceResponse.response;
 
@@ -75,4 +77,30 @@ class RoomManageServiceImpl implements RoomManageService {
         return succ ? response(0) : response(1);
     }
 
+
+    @Override
+    public ServiceResponse<RoomBaseInfoVo> roomBaseInfo() {
+        User user = UserUtils.contextPrincipal();
+        if(user == null) {
+            return response(-1);
+        }
+
+        RoomBaseInfoVo result = new RoomBaseInfoVo();
+        Room room = basicRoomDao.fromUID(user.getUid());
+        result.setInfo(room);
+
+        ServiceResponse<String> resp = rmtpAuthKey(room.getId());
+        if(!resp.success() || resp.data() == null) {
+            String key = roomStreamKeyDao.makeKey(room.getId());
+            if(key == null) {
+                return response(2);
+            }
+            result.setUpstreamKey(Base64Utils.encodeToString(key.getBytes()));
+        } else {
+            result.setUpstreamKey(Base64Utils.encodeToString(resp.data().getBytes()));
+        }
+
+        result.setUpstreamURI("/ez4webcast");
+        return response(0, result);
+    }
 }

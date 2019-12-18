@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>直播间创建-ez4webcast</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
+    <script src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/constants.js"></script>
+    <script type="text/javascript" src="./js/utils.js"></script>
+</head>
+<body>
+<!-- 顶部开始 -->
+<div class="container">
+    <div class="logo"><a href="./index.html">个人中心</a></div>
+    <div class="open-nav"><i class="iconfont">&#xe699;</i></div>
+    <ul class="layui-nav right" lay-filter="">
+        <li class="layui-nav-item">
+            <a id="user-nick-name" href="login.html">登录/注册</a>
+            <dl class="layui-nav-child" style="visibility: hidden"> <!-- 二级菜单 -->
+                <dd><a href="login.html">切换帐号</a></dd>
+                <dd><a id="logout-url" href="/api/user/logout">退出</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a href="index.html">首页</a></li>
+    </ul>
+</div>
+<!-- 顶部结束 -->
+<!-- 中部开始 -->
+<div class="wrapper">
+    <!-- 左侧菜单开始 -->
+    <div class="left-nav">
+        <div id="side-nav">
+            <ul id="nav">
+                <li class="list" current>
+                    <a href="#">
+                        <i class="iconfont">&#xe761;</i>
+                        个人基本资料
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                </li>
+                <li class="list">
+                    <a href="javascript:">
+                        <i class="iconfont">&#xe70b;</i>
+                        直播间管理
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="current">
+                            <a href="live-create.html">
+                                <i class="iconfont">&#xe6a7;</i>
+                                直播间申请
+                            </a>
+                        </li>
+                        <li>
+                            <a href="live-setup.html">
+                                <i class="iconfont">&#xe6a7;</i>
+                                直播间管理
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- 左侧菜单结束 -->
+    <!-- 右侧主体开始 -->
+    <div class="page-content">
+        <div class="content">
+            <form class="layui-form">
+                <fieldset class="layui-elem-field layui-field-title site-title">
+                    <legend>直播间标题</legend>
+                </fieldset>
+
+                <div class="layui-form-item">
+                    <label for="live-title" class="layui-form-label">
+                        <span class="x-red">*</span>标题：
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="live-title" name="title" required="" lay-verify="required"
+                               autocomplete="off" class="layui-input" />
+                    </div>
+                </div>
+
+                <fieldset class="layui-elem-field layui-field-title site-title">
+                    <legend>直播间封面</legend>
+                </fieldset>
+
+                <div class="layui-form-item">
+                    <label for="input-room-title-image" class="layui-form-label">
+                        <span class="x-red">*</span>封面(不超过5MB)
+                    </label>
+
+                    <div class="layui-input-inline">
+                        <input type="file" id="input-room-title-image" name="file" required lay-verify="required"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <button id="live-submit" class="layui-btn">提交</button>
+                </div>
+            </form>
+            <!-- 右侧内容框架，更改从这里结束 -->
+        </div>
+    </div>
+
+    <!-- 右侧主体结束 -->
+</div>
+<!-- 中部结束 -->
+<!-- 底部开始 -->
+<div class="footer">
+    <div class="copyright">Copyright ©2019 ez4webcast All Rights Reserved</div>
+</div>
+
+<script type="application/javascript">
+    $(document).ready(function () {
+        $("#logout-url").attr("href", SEND_HOST + "/api/user/logout");
+        const token = sessionStorage.getItem('token');
+        if(token == null) {
+            return;
+        }
+        const xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("POST", SEND_HOST + "/api/user/context", true);
+
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+                const resp = JSON.parse(xmlHttp.responseText);
+                const code = resp.code;
+                if(code === 0) {
+                    const userinfo = resp.data;
+                    $("#user-nick-name").text(userinfo.nickName);
+                    $("#basic-info-nickname").text(userinfo.nickName);
+                    $(".layui-nav-child").attr("style", "");
+                } else {
+                    sessionStorage.removeItem('token');
+                    console.log("Session timeout")
+                }
+            }
+        };
+
+        xmlHttp.setRequestHeader("Platform-Token", token);
+        xmlHttp.setRequestHeader('Access-Control-Allow-Origin','*');
+        xmlHttp.setRequestHeader('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie, token');
+        xmlHttp.setRequestHeader('Access-Control-Allow-Method','POST,GET');
+        xmlHttp.send();
+    });
+
+    $("#live-submit").click(function () {
+        const title = $("#live-title").val();
+        if(title.length <= 0) {
+            return;
+        }
+
+        const imageSelect = $("#input-room-title-image");
+        if(imageSelect[0].files[0] == null) {
+            return;
+        }
+
+        const file = new FormData();
+        file.append("file", imageSelect[0].files[0], "image");
+        const token = sessionStorage.getItem('token');
+        const fileXhr = new XMLHttpRequest();
+        let imgId = null;
+        fileXhr.open('POST', SEND_HOST + "/api/image/upload", false);
+        fileXhr.onreadystatechange = function () {
+            if (fileXhr.readyState === 4) {
+                if(fileXhr.status === 200) {
+                    const info = JSON.parse(fileXhr.responseText);
+                    if(info.code === 0) {
+                        imgId = info.data;
+                    } else {
+                        alert("图片上传失败");
+                    }
+                } else if(fileXhr.status === 401) {
+                    alert("请重新登录");
+                    location.href = "login.html";
+                }
+            }
+        };
+        setXhrToken(fileXhr,token);
+        defaultXhrHeader(fileXhr);
+        fileXhr.send(file);
+        if(imgId === null) {
+            return;
+        }
+        alert(123);
+        const form = new FormData();
+        form.append("title", title);
+        form.append("image", imgId);
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', SEND_HOST + "/api/room/manage/create");
+        xhr.onreadystatechange = function () {
+            if (fileXhr.readyState === 4) {
+                if (fileXhr.status === 200) {
+                    const info = JSON.parse(xhr.responseText);
+                    if(info.code === 0) {
+                        alert("创建成功");
+                    } else if(info.code === 1) {
+                        alert("创建失败:直播间已存在");
+                    } else {
+                        alert("Not login");
+                    }
+                } else {
+                    alert("No")
+                }
+            }
+        };
+        setXhrToken(xhr, token);
+        defaultXhrHeader(xhr);
+        xhr.send(form);
+    });
+
+</script>
+
+</body>
+</html>

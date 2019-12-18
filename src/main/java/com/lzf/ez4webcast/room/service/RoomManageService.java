@@ -1,6 +1,7 @@
 package com.lzf.ez4webcast.room.service;
 
 import com.lzf.ez4webcast.common.ServiceResponse;
+import com.lzf.ez4webcast.room.vo.RoomBaseInfoVo;
 
 /**
  * @author lzf abc123lzf@126.com
@@ -37,4 +38,10 @@ public interface RoomManageService {
      */
     ServiceResponse<Void> createRoom(String title, Integer titleImage);
 
+
+    /**
+     * 主播查看自己的直播间信息
+     * @return 直播间信息
+     */
+    ServiceResponse<RoomBaseInfoVo> roomBaseInfo();
 }

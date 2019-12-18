@@ -4,7 +4,9 @@ import com.lzf.ez4webcast.common.ComplexResponseMessage;
 import com.lzf.ez4webcast.common.ResponseMessage;
 import com.lzf.ez4webcast.common.ServiceResponse;
 import com.lzf.ez4webcast.room.service.RoomManageService;
+import com.lzf.ez4webcast.room.vo.RoomBaseInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,8 +30,10 @@ public class RoomManageController {
     private RoomManageService manageService;
 
     @PostMapping("create")
-    public ResponseMessage createRoom(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public ResponseMessage createRoom(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         String title = request.getParameter("title");
+
         Integer image = null;
         try {
             String s = request.getParameter("image");
@@ -56,4 +60,12 @@ public class RoomManageController {
                 message(resp.code(), "FAILURE", null);
     }
 
+
+    @GetMapping("baseinfo")
+    public ComplexResponseMessage<RoomBaseInfoVo> baseInfo() {
+        ServiceResponse<RoomBaseInfoVo> resp = manageService.roomBaseInfo();
+        return resp.success() ?
+                message(0, "SUCCESS", resp.data()) :
+                message(resp.code(), "FAILURE", null);
+    }
 }

@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : aliyun-hd
+ Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 50728
- Source Host           : fs2.lzfnb.top:3306
+ Source Server Version : 50727
+ Source Host           : localhost:3306
  Source Schema         : ez4webcast
 
  Target Server Type    : MySQL
- Target Server Version : 50728
+ Target Server Version : 50727
  File Encoding         : 65001
 
- Date: 16/12/2019 19:19:01
+ Date: 18/12/2019 14:15:54
 */
 
 SET NAMES utf8mb4;
@@ -119,12 +119,19 @@ CREATE TABLE `image_inf`  (
   `image_type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `image_upload_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`image_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of image_inf
 -- ----------------------------
-INSERT INTO `image_inf` VALUES (1, 'bdad27e9-3912-4f11-a15e-aa2efd66595d', 'image/jpeg', '2019-12-16 18:52:18');
+INSERT INTO `image_inf` VALUES (1, '4b24be77-4f69-459f-8cd0-b4a2889cf28f', 'image/png', '2019-12-16 17:21:53');
+INSERT INTO `image_inf` VALUES (2, 'ce54a7f5-6ea4-46ab-a8f0-a161e48cbc4f', 'image/png', '2019-12-18 12:09:45');
+INSERT INTO `image_inf` VALUES (3, 'cfb3d087-ba72-4845-9297-3dbe1ca1cc04', 'image/png', '2019-12-18 12:10:24');
+INSERT INTO `image_inf` VALUES (4, '41981856-1bce-4066-a65b-3bb0274cb509', 'image/jpeg', '2019-12-18 12:44:57');
+INSERT INTO `image_inf` VALUES (5, '122b1df6-480a-4938-b5c7-3e49455b8a71', 'image/jpeg', '2019-12-18 12:46:22');
+INSERT INTO `image_inf` VALUES (6, 'e576e4a5-b1de-4977-8a30-c0ac4c09f7b2', 'image/jpeg', '2019-12-18 12:47:03');
+INSERT INTO `image_inf` VALUES (7, 'ddbe7499-0457-4071-a49c-9fb9a7e03b5c', 'image/jpeg', '2019-12-18 12:47:30');
+INSERT INTO `image_inf` VALUES (8, '1e5d80e2-0465-4dca-96f7-5ac300d246c5', 'image/jpeg', '2019-12-18 12:48:41');
 
 -- ----------------------------
 -- Table structure for permission_inf
@@ -183,7 +190,7 @@ INSERT INTO `role_permission_inf` VALUES (3, 1);
 -- ----------------------------
 DROP TABLE IF EXISTS `room_inf`;
 CREATE TABLE `room_inf`  (
-  `room_id` int(11) NOT NULL,
+  `room_id` int(11) NOT NULL AUTO_INCREMENT,
   `room_uid` int(11) NOT NULL,
   `room_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `room_image_id` int(11) NULL DEFAULT NULL,
@@ -191,23 +198,29 @@ CREATE TABLE `room_inf`  (
   `room_last_live_time` timestamp(0) NULL DEFAULT NULL,
   PRIMARY KEY (`room_id`) USING BTREE,
   UNIQUE INDEX `room_uid`(`room_uid`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of room_inf
 -- ----------------------------
 INSERT INTO `room_inf` VALUES (1, 5, 'CSGO直播间', NULL, '2019-12-12 09:30:10', '2019-12-12 09:30:10');
+INSERT INTO `room_inf` VALUES (2, 6, '最真实的直播间', 8, '2019-12-18 12:48:41', NULL);
 
 -- ----------------------------
 -- Table structure for room_key_inf
 -- ----------------------------
 DROP TABLE IF EXISTS `room_key_inf`;
 CREATE TABLE `room_key_inf`  (
-  `room_id` int(11) NOT NULL,
-  `room_key` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `room_id` int(11) NOT NULL AUTO_INCREMENT,
+  `room_key` char(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `update_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`room_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of room_key_inf
+-- ----------------------------
+INSERT INTO `room_key_inf` VALUES (2, '3558841e-9dd3-458b-a59b-bdc66316aa14', '2019-12-18 13:53:47');
 
 -- ----------------------------
 -- Table structure for user_inf
@@ -227,8 +240,8 @@ CREATE TABLE `user_inf`  (
 -- ----------------------------
 -- Records of user_inf
 -- ----------------------------
-INSERT INTO `user_inf` VALUES (5, 'Aplus', '2712440261a0f6f469f89aff7acd892b', '695199262@qq.com', 1, '2019-12-16 18:56:15');
-INSERT INTO `user_inf` VALUES (6, '111', '202cb962ac59075b964b07152d234b70', '222@126.com', NULL, '2019-12-15 09:19:31');
+INSERT INTO `user_inf` VALUES (5, 'Aplus', '2712440261a0f6f469f89aff7acd892b', '695199262@qq.com', 1, '2019-12-18 02:51:56');
+INSERT INTO `user_inf` VALUES (6, '听风说语', 'e99a18c428cb38d5f260853678922e03', 'abc123lzf@126.com', 1, '2019-12-18 02:51:59');
 
 -- ----------------------------
 -- Table structure for user_role_inf
