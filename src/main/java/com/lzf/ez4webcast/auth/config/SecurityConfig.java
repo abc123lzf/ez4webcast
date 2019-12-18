@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/api/user/*", "/api/image/load", "/api/damanku/ws/**", "/api/room/rmtp/**")
+                .antMatchers("/api/user/*", "/api/room/common/**", "/api/image/load", "/api/damanku/ws/**", "/api/room/rmtp/**")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()

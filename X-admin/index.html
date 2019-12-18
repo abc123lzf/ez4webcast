@@ -15,6 +15,7 @@
     <script type="text/javascript" src="./js/constants.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.12/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 </head>
 <body>
 <!-- 顶部开始 -->
@@ -36,171 +37,6 @@
 <!-- 顶部结束 -->
 <!-- 中部开始 -->
 <div class="wrapper">
-    <!-- 左侧菜单开始 -->
-    <div class="left-nav">
-        <div id="side-nav">
-            <ul id="nav">
-                <li class="list" current>
-                    <a href="./index.html">
-                        <i class="iconfont">&#xe761;</i>
-                        欢迎页面
-                        <i class="iconfont nav_right">&#xe697;</i>
-                    </a>
-                </li>
-                <li class="list">
-                    <a href="javascript:;">
-                        <i class="iconfont">&#xe70b;</i>
-                        会员管理
-                        <i class="iconfont nav_right">&#xe697;</i>
-                    </a>
-                    <ul class="sub-menu">
-                        <li>
-                            <a href="member-list.html">
-                                <i class="iconfont">&#xe6a7;</i>
-                                会员列表
-                            </a>
-                        </li>
-                        <li>
-                            <a href="member-del.html">
-                                <i class="iconfont">&#xe6a7;</i>
-                                会员删除
-                            </a>
-                        </li>
-                        <li>
-                            <a href="live-create.html">
-                                <i class="iconfont">&#xe6a7;</i>
-                                等级管理
-                            </a>
-                        </li>
-                        <li>
-                            <a href="member-kiss.html">
-                                <i class="iconfont">&#xe6a7;</i>
-                                积分管理
-                            </a>
-                        </li>
-                        <li>
-                            <a href="member-view.html">
-                                <i class="iconfont">&#xe6a7;</i>
-                                浏览记录
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="list">
-                    <a href="javascript:;">
-                        <i class="iconfont">&#xe6a3;</i>
-                        分类管理
-                        <i class="iconfont nav_right">&#xe697;</i>
-                    </a>
-                    <ul class="sub-menu">
-                        <li>
-                            <a href="./category.html">
-                                <i class="iconfont">&#xe6a7;</i>
-                                分类列表
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="list">
-                    <a href="javascript:;">
-                        <i class="iconfont">&#xe6a3;</i>
-                        轮播管理
-                        <i class="iconfont nav_right">&#xe697;</i>
-                    </a>
-                    <ul class="sub-menu" style="display:none">
-                        <li>
-                            <a href="./banner-list.html">
-                                <i class="iconfont">&#xe6a7;</i>
-                                轮播列表
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="list">
-                    <a href="javascript:;">
-                        <i class="iconfont">&#xe6a3;</i>
-                        管理员管理
-                        <i class="iconfont nav_right">&#xe697;</i>
-                    </a>
-                    <ul class="sub-menu" style="display:none">
-                        <li>
-                            <a href="./banner-list.html">
-                                <i class="iconfont">&#xe6a7;</i>
-                                轮播列表
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="list">
-                    <a href="javascript:;">
-                        <i class="iconfont">&#xe6a3;</i>
-                        系统统计
-                        <i class="iconfont nav_right">&#xe697;</i>
-                    </a>
-                    <ul class="sub-menu" style="display:none">
-                        <li>
-                            <a href="./echarts1.html">
-                                <i class="iconfont">&#xe6a7;</i>
-                                拆线图
-                            </a>
-                        </li>
-                        <li>
-                            <a href="./echarts2.html">
-                                <i class="iconfont">&#xe6a7;</i>
-                                柱状图
-                            </a>
-                        </li>
-                        <li>
-                            <a href="./echarts3.html">
-                                <i class="iconfont">&#xe6a7;</i>
-                                地图
-                            </a>
-                        </li>
-                        <li>
-                            <a href="./echarts4.html">
-                                <i class="iconfont">&#xe6a7;</i>
-                                饼图
-                            </a>
-                        </li>
-                        <li>
-                            <a href="./echarts5.html">
-                                <i class="iconfont">&#xe6a7;</i>
-                                k线图
-                            </a>
-                        </li>
-                        <li>
-                            <a href="./echarts6.html">
-                                <i class="iconfont">&#xe6a7;</i>
-                                仪表图
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://echarts.baidu.com/examples.html">
-                                <i class="iconfont">&#xe6a7;</i>
-                                更多案例
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="list">
-                    <a href="javascript:;">
-                        <i class="iconfont">&#xe6a3;</i>
-                        系统设置
-                        <i class="iconfont nav_right">&#xe697;</i>
-                    </a>
-                    <ul class="sub-menu" style="display:none">
-                        <li>
-                            <a href="./banner-list.html">
-                                <i class="iconfont">&#xe6a7;</i>
-                                轮播列表
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <!-- 左侧菜单结束 -->
     <!-- 右侧主体开始 -->
     <div class="page-content">
         <div id="live-room-list">
@@ -208,7 +44,7 @@
                 <fieldset class="layui-elem-field layui-field-title site-title">
                     <legend>{{temp.title}}</legend>
                 </fieldset>
-                <a v-bind:href="'/live-room.html?id=' + temp.id">
+                <a v-bind:href="'live-room.html?id=' + temp.id">
                     <img v-bind:src="'http://localhost:8080/api/image/load?id=' + temp.titleImage" alt="titleImage"/>
                 </a>
             </div>
@@ -225,32 +61,31 @@
     $(document).ready(function () {
         $("#logout-url").attr("href", SEND_HOST + "/api/user/logout");
         const token = sessionStorage.getItem('token');
-        if (token == null) {
-            return;
-        }
-        const xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("POST", SEND_HOST + "/api/user/context", true);
+        if (token != null) {
+            const xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("POST", SEND_HOST + "/api/user/context", true);
 
-        xmlHttp.onreadystatechange = function () {
-            if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-                const resp = JSON.parse(xmlHttp.responseText);
-                const code = resp.code;
-                if (code === 0) {
-                    const userinfo = resp.data;
-                    $("#user-nick-name").text(userinfo.nickName);
-                    $(".layui-nav-child").attr("style", "");
-                } else {
-                    sessionStorage.removeItem('token');
-                    console.log("Session timeout");
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+                    const resp = JSON.parse(xmlHttp.responseText);
+                    const code = resp.code;
+                    if (code === 0) {
+                        const userinfo = resp.data;
+                        $("#user-nick-name").text(userinfo.nickName);
+                        $(".layui-nav-child").attr("style", "");
+                    } else {
+                        sessionStorage.removeItem('token');
+                        console.log("Session timeout");
+                    }
                 }
-            }
-        };
+            };
 
-        xmlHttp.setRequestHeader("Platform-Token", token);
-        xmlHttp.setRequestHeader('Access-Control-Allow-Origin', '*');
-        xmlHttp.setRequestHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie, token');
-        xmlHttp.setRequestHeader('Access-Control-Allow-Method', 'POST,GET');
-        xmlHttp.send();
+            xmlHttp.setRequestHeader("Platform-Token", token);
+            xmlHttp.setRequestHeader('Access-Control-Allow-Origin', '*');
+            xmlHttp.setRequestHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie, token');
+            xmlHttp.setRequestHeader('Access-Control-Allow-Method', 'POST,GET');
+            xmlHttp.send();
+        }
 
         const vm = new Vue({
             el: '#live-room-list',
@@ -264,7 +99,7 @@
 
             methods: {
                 fetchData() {
-                    axios.get(SEND_HOST + "/api/room/common/list", {
+                    axios.get(SEND_HOST + "/api/room/common/all", {
                         headers: {
                             "Accept": "application/json; charset=utf-8",
                             "Content-Type": "application/javascript; charset=utf-8",

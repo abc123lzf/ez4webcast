@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>EZ4直播平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/dplayer/1.25.0/DPlayer.min.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
+    <script src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/constants.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.12/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="./js/utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/webtorrent/latest/webtorrent.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dashjs/dist/dash.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js/dist/hls.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/dplayer/1.25.0/DPlayer.min.js"></script>
+</head>
+<body>
+<!-- 顶部开始 -->
+<div class="container">
+    <div class="logo"><a href="./index.html">EZ4直播平台</a></div>
+    <div class="open-nav"><i class="iconfont">&#xe699;</i></div>
+    <ul class="layui-nav right" lay-filter="">
+        <li class="layui-nav-item">
+            <a id="user-nick-name" href="login.html">登录/注册</a>
+            <dl class="layui-nav-child" style="visibility: hidden"> <!-- 二级菜单 -->
+                <dd><a href="person-center.html">个人中心</a></dd>
+                <dd><a href="login.html">切换帐号</a></dd>
+                <dd><a id="logout-url" href="/api/user/logout">退出</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a href="index.html">首页</a></li>
+    </ul>
+</div>
+<!-- 顶部结束 -->
+<!-- 中部开始 -->
+<div class="wrapper">
+    <!-- 右侧主体开始 -->
+    <div class="page-content">
+
+        <div id="dplayer"></div>
+
+    </div>
+    <!-- 右侧主体结束 -->
+</div>
+<!-- 中部结束 -->
+<!-- 底部开始 -->
+<div class="footer">
+    <div class="copyright">Copyright ©2019 ez4webcast All Rights Reserved</div>
+</div>
+<script type="application/javascript">
+    const req = getRequestParams();
+    $(document).ready(function () {
+        $("#logout-url").attr("href", SEND_HOST + "/api/user/logout");
+        const token = sessionStorage.getItem('token');
+        if (token == null) {
+            return;
+        }
+        const xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("POST", SEND_HOST + "/api/user/context", true);
+
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+                const resp = JSON.parse(xmlHttp.responseText);
+                const code = resp.code;
+                if (code === 0) {
+                    const userinfo = resp.data;
+                    $("#user-nick-name").text(userinfo.nickName);
+                    $(".layui-nav-child").attr("style", "");
+                } else {
+                    sessionStorage.removeItem('token');
+                    console.log("Session timeout");
+                }
+            }
+        };
+
+        xmlHttp.setRequestHeader("Platform-Token", token);
+        xmlHttp.setRequestHeader('Access-Control-Allow-Origin', '*');
+        xmlHttp.setRequestHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie, token');
+        xmlHttp.setRequestHeader('Access-Control-Allow-Method', 'POST,GET');
+        xmlHttp.send();
+    });
+
+    const dp = new DPlayer({
+        container: document.getElementById('dplayer'),
+        live: true,
+        danmaku: true,
+        apiBackend: {
+            read: function(endpoint, callback) {
+                console.log('Pretend to connect WebSocket');
+                callback();
+            },
+            send: function(endpoint, danmakuData, callback) {
+                console.log('Pretend to send danamku via WebSocket', danmakuData);
+                callback();
+            },
+        },
+
+        video: {
+            url: FLV_LIVE_HOST + '/live?app=ez4webcast&stream=' + req['id'],
+            type: 'flv',
+        },
+    });
+
+    function callback() {
+
+    }
+
+</script>
+
+</body>
+</html>
