@@ -16,6 +16,10 @@ public class Danmaku implements JSONAware {
 
     private UserVo user;
 
+    private String type;
+
+    private String color;
+
     private String content;
 
     private long time;
@@ -35,6 +39,8 @@ public class Danmaku implements JSONAware {
         JSONObject obj = new JSONObject();
         obj.put("content", content);
         obj.put("time", time);
+        obj.put("color", color);
+        obj.put("type", type);
 
         JSONObject user = new JSONObject();
         user.put("uid", this.user.getUid());

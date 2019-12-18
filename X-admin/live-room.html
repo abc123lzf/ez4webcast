@@ -14,8 +14,8 @@
     <script src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
     <script type="text/javascript" src="./js/constants.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.12/vue.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
     <script type="text/javascript" src="./js/utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
     <script src="https://cdn.jsdelivr.net/webtorrent/latest/webtorrent.min.js"></script>
@@ -49,6 +49,7 @@
             <legend id="live-room-title"></legend>
         </fieldset>
         <p>上次直播：<span id="live-room-last-time"></span></p>
+        <a id="live-room-bbs" href="#">进入该直播间贴吧</a>
         <div id="dplayer"></div>
     </div>
     <!-- 右侧主体结束 -->
@@ -60,6 +61,7 @@
 </div>
 <script type="application/javascript">
     const req = getRequestParams();
+
     $(document).ready(function () {
         $("#logout-url").attr("href", SEND_HOST + "/api/user/logout");
         const token = sessionStorage.getItem('token');
@@ -82,15 +84,13 @@
                 }
             };
 
-            xmlHttp.setRequestHeader("Platform-Token", token);
-            xmlHttp.setRequestHeader('Access-Control-Allow-Origin', '*');
-            xmlHttp.setRequestHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie, token');
-            xmlHttp.setRequestHeader('Access-Control-Allow-Method', 'POST,GET');
+            defaultXhrHeader(xmlHttp);
+            setXhrToken(xmlHttp, token);
             xmlHttp.send();
         }
 
         let xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", SEND_HOST + "/api/room/common");
+        xmlHttp.open("GET", SEND_HOST + "/api/room/common/detail?room=" + req['id']);
         xmlHttp.onreadystatechange = function () {
             if(xmlHttp.readyState === 4) {
                 if(xmlHttp.status === 200) {
@@ -99,37 +99,42 @@
                     if(code === 0) {
                         const data = resp.data;
                         $("#live-room-title").text(data.title);
-                        $("live-room-last-time").text(data.lastLiveTime);
-                        const anchor = data.anchor;
+                        $("#live-room-last-time").text(data.lastLiveTime != null ? data.lastLiveTime : "尚未直播");
+                        $("#live-room-bbs").attr('href', 'bbslist.html?room=' + resp.data.id);
                     }
                 }
             }
         };
-    });
-    
-    function callback() {
-        
-    }
 
-    const dp = new DPlayer({
-        container: document.getElementById('dplayer'),
-        live: true,
-        danmaku: true,
-        apiBackend: {
-            read: function(endpoint) {
-                console.log(endpoint);
-            },
-            send: function(endpoint, danmakuData) {
-               //通过WebSocket连接发送弹幕
-                console.log("2")
-            },
-        },
+        defaultXhrHeader(xmlHttp);
+        setXhrToken(xmlHttp, token);
+        xmlHttp.send();
 
-        video: {
-            url: FLV_LIVE_HOST + '/live?app=ez4webcast&stream=' + req['id'],
-            type: 'flv',
-        },
+        const dp = new DPlayer({
+            container: document.getElementById('dplayer'),
+            live: true,
+            danmaku: true,
+            apiBackend: {
+                read: function(endpoint) {
+                    console.log(endpoint);
+                },
+                send: function(endpoint, danmakuData) {
+                    //通过WebSocket连接发送弹幕
+                    console.log("2")
+                },
+            },
+
+            video: {
+                url: FLV_LIVE_HOST + '/live?app=ez4webcast&stream=' + req['id'],
+                type: 'flv',
+            },
+        });
+
+        const ws = new WebSocket(DANMAKU_WS_HOST + "/api/danmaku/ws/message/" + req['id']);
+
     });
+
+
 
     /*dp.danmaku.send({
         text: 'dplayer is amazing',

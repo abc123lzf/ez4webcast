@@ -145,10 +145,8 @@
             }
         };
 
-        xmlHttp.setRequestHeader("Platform-Token", token);
-        xmlHttp.setRequestHeader('Access-Control-Allow-Origin','*');
-        xmlHttp.setRequestHeader('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie, token');
-        xmlHttp.setRequestHeader('Access-Control-Allow-Method','POST,GET');
+        setXhrToken(xmlHttp, token);
+        defaultXhrHeader(xmlHttp);
         xmlHttp.send();
     });
 
@@ -190,7 +188,7 @@
         if(imgId === null) {
             return;
         }
-        alert(123);
+
         const form = new FormData();
         form.append("title", title);
         form.append("image", imgId);
