@@ -13,7 +13,7 @@
     <script src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
     <script type="text/javascript" src="./js/constants.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.12/vue.js"></script>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 </head>
@@ -45,7 +45,7 @@
                     <legend>{{temp.title}}</legend>
                 </fieldset>
                 <a v-bind:href="'live-room.html?id=' + temp.id">
-                    <img v-bind:src="'http://localhost:8080/api/image/load?id=' + temp.titleImage" alt="titleImage"/>
+                    <img v-bind:src="'http://localhost:8080/api/image/load?id=' + temp.titleImage" alt="titleImage" style="width: 300px"/>
                 </a>
             </div>
         </div>

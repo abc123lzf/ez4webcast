@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentMap;
  * @since 2019/12/10 16:39
  * 弹幕控制器
  */
-@ServerEndpoint("/api/damanku/ws/message/{room}")
+@ServerEndpoint("/api/danmaku/ws/message/{room}")
 @Component
 @Log4j2
 public class DanmakuController {
