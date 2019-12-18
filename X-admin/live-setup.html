@@ -14,17 +14,6 @@
     <script type="text/javascript" src="./js/xadmin.js"></script>
     <script type="text/javascript" src="./js/constants.js"></script>
     <script type="text/javascript" src="./js/utils.js"></script>
-
-    <style type="text/css">
-        .base-content p {
-            margin: 7px;
-        }
-
-        .base-content label {
-            font-family: monospace sans-serif;
-        }
-
-    </style>
 </head>
 <body>
 <!-- 顶部开始 -->
@@ -89,12 +78,32 @@
             </fieldset>
 
             <div class="base-content">
-                <p>直播间ID：<label id="live-room-id"></label></p>
-                <p>直播间标题：<label id="live-room-title"></label></p>
-                <p>直播间创建时间：<label id="live-room-create-time"></label></p>
-                <p>上次直播时间：<label id="live-room-last-live-time"></label></p>
-                <p>推流URL：<label id="live-stream-url"></label></p>
-                <p>推流密钥：<label id="live-stream-key"></label></p>
+                <table class="layui-table">
+                    <tr>
+                        <td>直播间ID</td>
+                        <td id="live-room-id"></td>
+                    </tr>
+                    <tr>
+                        <td>直播间标题</td>
+                        <td id="live-room-title"></td>
+                    </tr>
+                    <tr>
+                        <td>直播间创建时间</td>
+                        <td id="live-room-create-time"></td>
+                    </tr>
+                    <tr>
+                        <td>上次直播时间</td>
+                        <td id="live-room-last-live-time"></td>
+                    </tr>
+                    <tr>
+                        <td>推流URL</td>
+                        <td id="live-stream-url"></td>
+                    </tr>
+                    <tr>
+                        <td>推流密钥</td>
+                        <td id="live-stream-key"></td>
+                    </tr>
+                </table>
             </div>
 
             <fieldset class="layui-elem-field layui-field-title site-title">
