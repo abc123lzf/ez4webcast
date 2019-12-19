@@ -45,6 +45,7 @@ class UserManageServiceImpl implements UserManageService {
         boolean ans = userDao.updateHeadImage(user.getUid(), imageId);
         if(ans) {
             user.setHeadImage(imageId);
+            UserUtils.setContextPrincipal(user);
         }
 
         return ans ? response(0) : response(3);
@@ -65,19 +66,26 @@ class UserManageServiceImpl implements UserManageService {
         String nw = DigestUtils.md5DigestAsHex(newPass.getBytes());
         if(userDao.updatePassword(user.getUid(), nw)) {
             user.setPassword(nw);
+            UserUtils.setContextPrincipal(user);
             return response(0);
         }
 
         return response(2);
     }
 
-
+    @Override
     public ServiceResponse<Void> updateNickName(String newName) {
         User user = UserUtils.contextPrincipal();
         if(user == null) {
             return response(-1);
         }
 
-        return userDao.updateNickname(user.getUid(), newName) ? response(0) : response(1);
+        boolean ans = userDao.updateNickname(user.getUid(), newName);
+        if(ans) {
+            user.setNickName(newName);
+            UserUtils.setContextPrincipal(user);
+        }
+
+        return ans ? response(0) : response(1);
     }
 }

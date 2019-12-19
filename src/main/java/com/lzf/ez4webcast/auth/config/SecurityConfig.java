@@ -76,9 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutUrl("/api/user/logout")
-                .logoutSuccessHandler((req, resp, auth) -> {
-                    resp.sendRedirect("index.html");
-                })
+                .logoutSuccessHandler((req, resp, auth) -> resp.sendRedirect("/index.html"))
                 .and()
                 .httpBasic()
                 .and().cors().and().csrf().disable();

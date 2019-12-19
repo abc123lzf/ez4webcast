@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>EZ4直播平台</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="./css/font.css">
     <link rel="stylesheet" href="./css/xadmin.css">
     <link rel="stylesheet" href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css">
@@ -92,11 +92,11 @@
         let xmlHttp = new XMLHttpRequest();
         xmlHttp.open("GET", SEND_HOST + "/api/room/common/detail?room=" + req['id']);
         xmlHttp.onreadystatechange = function () {
-            if(xmlHttp.readyState === 4) {
-                if(xmlHttp.status === 200) {
+            if (xmlHttp.readyState === 4) {
+                if (xmlHttp.status === 200) {
                     const resp = JSON.parse(xmlHttp.responseText);
                     const code = resp.code;
-                    if(code === 0) {
+                    if (code === 0) {
                         const data = resp.data;
                         $("#live-room-title").text(data.title);
                         $("#live-room-last-time").text(data.lastLiveTime != null ? data.lastLiveTime : "尚未直播");
@@ -116,10 +116,10 @@
         live: true,
         danmaku: true,
         apiBackend: {
-            read: function(endpoint) {
+            read: function (endpoint) {
                 endpoint.success();
             },
-            send: function(endpoint) {
+            send: function (endpoint) {
                 sendDanmaku(JSON.stringify(endpoint.data));
             },
         },
@@ -132,7 +132,7 @@
 
     const token = sessionStorage.getItem('token');
     const ws = new WebSocket(DANMAKU_WS_HOST + "/api/danmaku/ws/message/" + req['id']);
-    ws.onopen = function() {
+    ws.onopen = function () {
         console.log("Danmaku WS has open");
     };
 

@@ -1,107 +1,147 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/header.css">
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta charset="UTF-8">
+	<title>注册 ez4webcast</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/font.css">
+	<link rel="stylesheet" href="./css/xadmin.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
+    <script src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/constants.js"></script>
+    <style type="text/css">
+        .login-box {
+            height: 540px;
+        }
+    </style>
 </head>
 <body>
-<div class="modal-dialog" style="margin-top: 10%;">
-    <div class="modal-content">
-        <div class="modal-header">
-
-            <h4 class="modal-title text-center" id="myModalLabel">注册</h4>
-        </div>
-        <div class="modal-body" id = "model-body">
-            <div class="form-group">
-                <input type="text" class="form-control"placeholder="邮箱" autocomplete="off" id="email">
+    <div class="login-logo"><h1>ez4webcast LIVE</h1></div>
+    <div class="login-box">
+        <form class="layui-form layui-form-pane" action="">
+              
+            <h3>注册帐户</h3>
+            <label class="login-title" for="username">邮箱名</label>
+            <div class="layui-form-item">
+                <label class="layui-form-label login-form"><i class="iconfont">&#xe6b8;</i></label>
+                <div class="layui-input-inline login-inline">
+                  <input type="text" name="username" lay-verify="required" placeholder="请输入你的帐号" autocomplete="off" class="layui-input">
+                </div>
             </div>
-            <div class="form-group">
-                <input type="text" class="form-control"placeholder="昵称" autocomplete="off" id="nickname">
-            </div>
-            <div class="form-group">
-
-                <input type="password" class="form-control" placeholder="密码" autocomplete="off" id="password1">
-            </div>
-            <div class="form-group">
-
-                <input type="password" class="form-control" placeholder="确认密码" autocomplete="off" id="password2">
-            </div>
-            <span style="color: red" id="msg"></span>
-        </div>
-        <div class="modal-footer">
-
-            <div class="form-group">
-                <button type="button" class="btn btn-primary form-control" style="width:320px;float: left" id="btn">注册</button>
+            <label class="login-title" for="password">密码</label>
+            <div class="layui-form-item">
+                <label class="layui-form-label login-form"><i class="iconfont">&#xe82b;</i></label>
+                <div class="layui-input-inline login-inline">
+                  <input type="text" name="password" lay-verify="required" placeholder="请输入你的密码" autocomplete="off" class="layui-input">
+                </div>
             </div>
 
-            <div class="form-group">
-                <button type="button" class="btn btn-default form-control" style="width:200px;margin-top:-14px;">登录</button>
+            <label class="login-title" for="repassword">确认密码</label>
+            <div class="layui-form-item">
+                <label class="layui-form-label login-form"><i class="iconfont">&#xe82b;</i></label>
+                <div class="layui-input-inline login-inline">
+                    <input type="text" name="repassword" lay-verify="required" placeholder="请输入你的密码" autocomplete="off" class="layui-input">
+                </div>
             </div>
 
-        </div>
+            <label class="login-title" for="nickname">昵称</label>
+            <div class="layui-form-item">
+                <label class="layui-form-label login-form"><i class="iconfont">&#xe82b;</i></label>
+                <div class="layui-input-inline login-inline">
+                    <input type="text" name="nickname" lay-verify="required" placeholder="请输入你的昵称" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn btn-warning pull-right" lay-submit lay-filter="login"  type="submit">注册</button>
+                <div class="forgot"><a href="login.html" class="forgot">登录页面</a></div>
+            </div>
+        </form>
     </div>
-</div>
-<script>
-    window.onload = function () {
-        var btn = document.getElementById("btn");
-        btn.onclick = function () {
+	<div class="bg-changer">
+        <div class="swiper-container changer-list">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img class="item" src="./images/a.jpg" alt=""></div>
+                <div class="swiper-slide"><img class="item" src="./images/b.jpg" alt=""></div>
+                <div class="swiper-slide"><img class="item" src="./images/c.jpg" alt=""></div>
+                <div class="swiper-slide"><img class="item" src="./images/d.jpg" alt=""></div>
+                <div class="swiper-slide"><img class="item" src="./images/e.jpg" alt=""></div>
+                <div class="swiper-slide"><img class="item" src="./images/f.jpg" alt=""></div>
+                <div class="swiper-slide"><img class="item" src="./images/g.jpg" alt=""></div>
+                <div class="swiper-slide"><img class="item" src="./images/h.jpg" alt=""></div>
+                <div class="swiper-slide"><img class="item" src="./images/i.jpg" alt=""></div>
+                <div class="swiper-slide"><img class="item" src="./images/j.jpg" alt=""></div>
+                <div class="swiper-slide"><img class="item" src="./images/k.jpg" alt=""></div>
+                <div class="swiper-slide"><span class="reset">初始化</span></div>
+            </div>
+        </div>
+        <div class="bg-out"></div>
+        <div id="changer-set"><i class="iconfont">&#xe696;</i></div>   
+    </div>
+    <script>
+        $(function() {
+            layui.use('form', function(){
+              const form = layui.form();
+              form.on('submit(login)', function(data){
+                  const authObj = JSON.stringify(data.field);
+                  const authStr = JSON.parse(authObj);
+                  const username = authStr.username;
+                  const password = authStr.password;
+                  const repassword = authStr.repassword;
 
-            var email = document.getElementById("email").value;
-            var nickname = document.getElementById("nickname").value;
-            var password1 = document.getElementById("password1").value;
-            var password2 = document.getElementById("password2").value;
+                  if(password !== repassword) {
+                      layer.msg("确认密码不正确", null);
+                      return false;
+                  }
 
-            console.log("nickname"+nickname);
-            if (email == null || password1 == null || password2 == null || nickname == null) {
-                document.getElementById("msg").innerText = "信息未填写完整";
-            } else if (password1 != password2) {
-                document.getElementById("msg").innerText = "两次密码输入不一致";
-            } else {
-                var xmlHttp = createXMLHttpRequest()
-                xmlHttp.open("POST", 'http://fs2.lzfnb.top/api/user/register', true);
-                xmlHttp.onreadystatechange = handler;
-                xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xmlHttp.setRequestHeader('Access-Control-Allow-Origin', '*');
-                xmlHttp.setRequestHeader('Access-Control-Allow-Method', 'POST,GET');
-                var data = 'email=' + email + '&password=' + password1 + '&nickname=' + nickname;
-                xmlHttp.send(data);
+                  if(password.length < 6) {
+                      layer.msg("密码长度应当大于等于6位", null);
+                      return false;
+                  }
 
-                function handler() {
-                    console.log(xmlHttp.readyState);
-                    console.log(xmlHttp.status);
+                  const nickname = authStr.nickname;
+                  if(nickname.length < 4) {
+                      layer.msg("昵称应当大于等于4个字符", null);
+                      return false;
+                  }
 
-                    if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                  const xmlHttp = new XMLHttpRequest();
 
-                        var responseText = xmlHttp.responseText;
-                        var info = JSON.parse(responseText);
+                  xmlHttp.open("POST", SEND_HOST + "/api/user/register", true);
+                  xmlHttp.onreadystatechange = function () {
+                      if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+                          var responseText = xmlHttp.responseText;
+                          var info = JSON.parse(responseText);
+                          var code = info.code;
+                          if(code === 0) {
+                              var token = xmlHttp.getResponseHeader("Platform-Token");
+                              sessionStorage.setItem("token", token);
+                              layer.msg("注册成功，正在跳转至登录页面", function () {
+                                  location.href = "login.html"
+                              });
+                          } else if(code === 1) {
+                              layer.msg("邮箱名已存在", null);
+                          } else if(code === 2) {
+                              layer.msg("邮箱名不合法", null);
+                          } else {
+                              layer.msg("Server Error", null);
+                          }
+                      }
+                  };
+                  xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+                  xmlHttp.setRequestHeader('Access-Control-Allow-Origin','*');
+                  xmlHttp.setRequestHeader('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie, token');
+                  xmlHttp.setRequestHeader('Access-Control-Allow-Method','POST,GET');
 
-                        if (info.code == 1) {
-                            var msg = "邮箱已经注册";
-                            document.getElementById("msg").innerText = msg;
-
-                        }else if(info.code == 2){
-                            var msg = "格式错误";
-                            document.getElementById("msg").innerText = msg;
-
-                        }else if(info.code == 0){//成功
-                            url = "login.html";
-                            window.location.href = url;
-                            //console.log("Cookie: " + xmlHttp.getResponseHeader("Set-Cookie"));
-                        }
-
-                    }
-                }
-
-            }
-        };
-
-        function createXMLHttpRequest() {
-            return new XMLHttpRequest()
-        }
-    };
-</script>
+                  xmlHttp.send("email=" + username + "&password=" + password + "&nickname=" + nickname);
+                  return false;
+              });
+            });
+        });
+    </script>
 </body>
 </html>

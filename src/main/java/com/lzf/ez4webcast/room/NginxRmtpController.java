@@ -54,8 +54,4 @@ public class NginxRmtpController {
         response.sendError(403);
     }
 
-    @RequestMapping("done")
-    public void doneCallback(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-    }
 }

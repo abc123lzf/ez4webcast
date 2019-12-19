@@ -103,3 +103,16 @@ function sendFormData(formData, callback, method, uri, async) {
         xmlHttp.send();
     }
 }
+
+function sendJSONData(object, callback, method, uri, async) {
+    const token = sessionStorage.getItem('token');
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.open(method, SEND_HOST + uri, async);
+    xmlHttp.onreadystatechange = callback(xmlHttp);
+    if(token != null) {
+        setXhrToken(xmlHttp, token);
+    }
+    xmlHttp.setRequestHeader("Content-Type", "application/json");
+    defaultXhrHeader(xmlHttp);
+    xmlHttp.send(JSON.stringify(object));
+}

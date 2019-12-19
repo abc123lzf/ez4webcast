@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>直播间管理</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="./css/font.css">
     <link rel="stylesheet" href="./css/xadmin.css">
     <link rel="stylesheet" href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css">
@@ -111,7 +111,7 @@
             </fieldset>
 
             <div class="live-room-title-image">
-                <img id="live-room-title-image-body" src="" alt="尚未登录" />
+                <img id="live-room-title-image-body" src="" alt="尚未登录"/>
             </div>
 
             <fieldset class="layui-elem-field layui-field-title site-title">
@@ -119,22 +119,19 @@
             </fieldset>
 
             <div class="change-title">
-                <form class="layui-form">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">单行输入框</label>
-                        <div class="layui-input-block">
-                            <input id="live-title-text" type="text" name="title" placeholder="请输入标题" class="layui-input">
-                        </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">单行输入框</label>
+                    <div class="layui-input-block">
+                        <input id="live-title-text" type="text" name="title" placeholder="请输入标题" class="layui-input">
                     </div>
+                </div>
 
-                    <div class="layui-form-item">
-                        <div class="layui-input-block">
-                            <input type="submit" id="title-submit" class="layui-btn" onclick="changeTitle()"
-                                   value="确认修改"/>
-                        </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <input type="submit" id="title-submit" class="layui-btn" onclick="changeTitle()"
+                               value="确认修改"/>
                     </div>
-
-                </form>
+                </div>
             </div>
 
 
@@ -143,26 +140,24 @@
             </fieldset>
 
             <div class="change-live-title-image">
-                <form class="layui-form">
-                    <div class="layui-form-item">
-                        <label for="input-live-title-image" class="layui-form-label">
-                            <span class="x-red">*</span>选择文件
-                        </label>
-                        <div class="layui-input-inline">
-                            <input type="file" id="input-live-title-image" name="file" required lay-verify="required"
-                                   autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-form-mid layui-word-aux">
-                            不超过5MB
-                        </div>
+                <div class="layui-form-item">
+                    <label for="input-live-title-image" class="layui-form-label">
+                        <span class="x-red">*</span>选择文件
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="file" id="input-live-title-image" name="file" required lay-verify="required"
+                               autocomplete="off" class="layui-input">
                     </div>
-                    <div class="layui-form-item">
-                        <div class="layui-input-block">
-                            <input type="submit" id="post-submit-button" class="layui-btn" onclick="submitLiveTitleImage()"
-                                   value="确认修改"/>
-                        </div>
+                    <div class="layui-form-mid layui-word-aux">
+                        不超过5MB
                     </div>
-                </form>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <input type="submit" id="post-submit-button" class="layui-btn" onclick="submitLiveTitleImage()"
+                               value="确认修改"/>
+                    </div>
+                </div>
             </div>
 
             <fieldset class="layui-elem-field layui-field-title site-title">
@@ -201,7 +196,7 @@
 
         xmlHttp.onreadystatechange = function () {
             if (xmlHttp.readyState === 4) {
-                if(xmlHttp.status === 200) {
+                if (xmlHttp.status === 200) {
                     const resp = JSON.parse(xmlHttp.responseText);
                     const code = resp.code;
                     if (code === 0) {
@@ -214,7 +209,7 @@
                         console.log("Session timeout")
                     }
                 }
-            } else if(xmlHttp.status === 401) {
+            } else if (xmlHttp.status === 401) {
                 sessionStorage.removeItem('token');
                 alert("Token过期，点击跳转至登录界面");
                 location.href = "login.html";
@@ -230,10 +225,10 @@
 
         xmlHttp.onreadystatechange = function () {
             if (xmlHttp.readyState === 4) {
-                if(xmlHttp.status === 200) {
+                if (xmlHttp.status === 200) {
                     const resp = JSON.parse(xmlHttp.responseText);
                     const code = resp.code;
-                    if(code === 0) {
+                    if (code === 0) {
                         const data = resp.data;
                         const room = data.info;
                         $("#live-room-id").text(room.id);
@@ -241,7 +236,7 @@
                         $("#live-room-create-time").text(room.createTime);
                         $("#live-room-last-live-time").text(room.lastLiveTime == null ? "尚未直播" : room.lastLiveTime);
                         $("#live-stream-url").text(RTMP_HOST + data.upstreamURI);
-                        $("#live-stream-key").text(room.id + "?room=" + room.id +"&key=" + data.upstreamKey);
+                        $("#live-stream-key").text(room.id + "?room=" + room.id + "&key=" + data.upstreamKey);
                         loadImage(room.titleImage, "#live-room-title-image-body");
                     } else {
                         alert("尚未创建直播间，正在跳转至直播间创建页面");
@@ -258,14 +253,14 @@
 
     function submitLiveTitleImage() {
         const token = sessionStorage.getItem('token');
-        if(token == null) {
+        if (token == null) {
             console.log("Not login");
             return;
         }
 
         const file = $("#input-live-title-image")[0].files[0];
         let imgId = uploadImage(file);
-        if(imgId == null || imgId <= 0) {
+        if (imgId == null || imgId <= 0) {
             alert("上传图片失败");
         }
 
@@ -279,7 +274,7 @@
                 if (xmlHttp.status === 200) {
                     const resp = JSON.parse(xmlHttp.responseText);
                     const code = resp.code;
-                    if(code === 0) {
+                    if (code === 0) {
                         alert("修改成功");
                         window.location.href = "live-setup.html";
                     }
@@ -295,12 +290,12 @@
     function changeTitle() {
         const title = $("#live-title-text").val();
         const token = sessionStorage.getItem('token');
-        if(token == null) {
+        if (token == null) {
             alert("尚未登录或者Token过期");
             return;
         }
 
-        if(title.length < 4) {
+        if (title.length < 4) {
             alert("标题应当在4个字符内");
             return;
         }
@@ -313,7 +308,7 @@
                 if (xmlHttp.status === 200) {
                     const resp = JSON.parse(xmlHttp.responseText);
                     const code = resp.code;
-                    if(code === 0) {
+                    if (code === 0) {
                         alert("修改成功");
                         window.location.href = "live-setup.html";
                     }
@@ -324,7 +319,7 @@
 
     function resetRTMPKey() {
         const token = sessionStorage.getItem('token');
-        if(token == null) {
+        if (token == null) {
             alert("尚未登录或者Token过期");
             return;
         }
@@ -334,7 +329,7 @@
                 if (xmlHttp.status === 200) {
                     const resp = JSON.parse(xmlHttp.responseText);
                     const code = resp.code;
-                    if(code === 0) {
+                    if (code === 0) {
                         alert("修改成功");
                         window.location.href = "live-setup.html";
                     }

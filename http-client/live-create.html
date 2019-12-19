@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>直播间创建-ez4webcast</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="./css/font.css">
     <link rel="stylesheet" href="./css/xadmin.css">
     <link rel="stylesheet" href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css">
@@ -73,40 +73,38 @@
     <!-- 右侧主体开始 -->
     <div class="page-content">
         <div class="content">
-            <form class="layui-form">
-                <fieldset class="layui-elem-field layui-field-title site-title">
-                    <legend>直播间标题</legend>
-                </fieldset>
+            <fieldset class="layui-elem-field layui-field-title site-title">
+                <legend>直播间标题</legend>
+            </fieldset>
 
-                <div class="layui-form-item">
-                    <label for="live-title" class="layui-form-label">
-                        <span class="x-red">*</span>标题：
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="live-title" name="title" required="" lay-verify="required"
-                               autocomplete="off" class="layui-input" />
-                    </div>
+            <div class="layui-form-item">
+                <label for="live-title" class="layui-form-label">
+                    <span class="x-red">*</span>标题：
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="live-title" name="title" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input"/>
                 </div>
+            </div>
 
-                <fieldset class="layui-elem-field layui-field-title site-title">
-                    <legend>直播间封面</legend>
-                </fieldset>
+            <fieldset class="layui-elem-field layui-field-title site-title">
+                <legend>直播间封面</legend>
+            </fieldset>
 
-                <div class="layui-form-item">
-                    <label for="input-room-title-image" class="layui-form-label">
-                        <span class="x-red">*</span>封面(不超过5MB)
-                    </label>
+            <div class="layui-form-item">
+                <label for="input-room-title-image" class="layui-form-label">
+                    <span class="x-red">*</span>封面(不超过5MB)
+                </label>
 
-                    <div class="layui-input-inline">
-                        <input type="file" id="input-room-title-image" name="file" required lay-verify="required"
-                               autocomplete="off" class="layui-input">
-                    </div>
+                <div class="layui-input-inline">
+                    <input type="file" id="input-room-title-image" name="file" required lay-verify="required"
+                           autocomplete="off" class="layui-input">
                 </div>
+            </div>
 
-                <div class="layui-form-item">
-                    <button id="live-submit" class="layui-btn">提交</button>
-                </div>
-            </form>
+            <div class="layui-form-item">
+                <button id="live-submit" class="layui-btn">提交</button>
+            </div>
             <!-- 右侧内容框架，更改从这里结束 -->
         </div>
     </div>
@@ -123,7 +121,7 @@
     $(document).ready(function () {
         $("#logout-url").attr("href", SEND_HOST + "/api/user/logout");
         const token = sessionStorage.getItem('token');
-        if(token == null) {
+        if (token == null) {
             return;
         }
         const xmlHttp = new XMLHttpRequest();
@@ -133,7 +131,7 @@
             if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
                 const resp = JSON.parse(xmlHttp.responseText);
                 const code = resp.code;
-                if(code === 0) {
+                if (code === 0) {
                     const userinfo = resp.data;
                     $("#user-nick-name").text(userinfo.nickName);
                     $("#basic-info-nickname").text(userinfo.nickName);
@@ -152,12 +150,12 @@
 
     $("#live-submit").click(function () {
         const title = $("#live-title").val();
-        if(title.length <= 0) {
+        if (title.length <= 0) {
             return;
         }
 
         const imageSelect = $("#input-room-title-image");
-        if(imageSelect[0].files[0] == null) {
+        if (imageSelect[0].files[0] == null) {
             return;
         }
 
@@ -169,23 +167,23 @@
         fileXhr.open('POST', SEND_HOST + "/api/image/upload", false);
         fileXhr.onreadystatechange = function () {
             if (fileXhr.readyState === 4) {
-                if(fileXhr.status === 200) {
+                if (fileXhr.status === 200) {
                     const info = JSON.parse(fileXhr.responseText);
-                    if(info.code === 0) {
+                    if (info.code === 0) {
                         imgId = info.data;
                     } else {
                         alert("图片上传失败");
                     }
-                } else if(fileXhr.status === 401) {
+                } else if (fileXhr.status === 401) {
                     alert("请重新登录");
                     location.href = "login.html";
                 }
             }
         };
-        setXhrToken(fileXhr,token);
+        setXhrToken(fileXhr, token);
         defaultXhrHeader(fileXhr);
         fileXhr.send(file);
-        if(imgId === null) {
+        if (imgId === null) {
             return;
         }
 
@@ -199,9 +197,9 @@
             if (fileXhr.readyState === 4) {
                 if (fileXhr.status === 200) {
                     const info = JSON.parse(xhr.responseText);
-                    if(info.code === 0) {
+                    if (info.code === 0) {
                         alert("创建成功");
-                    } else if(info.code === 1) {
+                    } else if (info.code === 1) {
                         alert("创建失败:直播间已存在");
                     } else {
                         alert("Not login");

@@ -17,6 +17,9 @@ public class ResponseMessage implements Serializable {
     @JSONField
     private final String message;
 
+    @JSONField
+    private final long time = System.currentTimeMillis();
+
     public ResponseMessage(int code, String message) {
         this.code = code;
         this.message = message;
@@ -42,7 +45,11 @@ public class ResponseMessage implements Serializable {
         return message;
     }
 
+    public long getTime() {
+        return time;
+    }
+
     public String toJSONString() {
-        return String.format("{\"code\":%d,\"msg\":\"%s\"}", code, message);
+        return String.format("{\"code\":%d,\"msg\":\"%s\",\"time\": %d}", code, message, time);
     }
 }

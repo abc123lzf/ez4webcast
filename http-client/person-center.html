@@ -28,6 +28,11 @@
             clear: both;
             display: block;
         }
+
+        .nickname-legend {
+            clear: both;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -98,9 +103,31 @@
                          src="http://img.qqzhi.com/uploads/2019-01-16/145116704.jpg" style="width: 100px">
                 </div>
                 <div id="personal-base-information">
-                    <h3>昵称：<span id="basic-info-nickname">未登录</span></h3>
-                    <h3>UID：<span id="basic-info-uid">未登录</span></h3>
+                    <h3>昵称：<span id="basic-info-nickname">未登录</span></h3><br>
+                    <h3>UID：<span id="basic-info-uid">未登录</span></h3><br>
                     <h3>绑定邮箱：<span id="basic-info-email">未登录</span></h3>
+                </div>
+            </div>
+
+            <fieldset class="layui-elem-field layui-field-title site-title nickname-legend">
+                <legend>修改昵称</legend>
+            </fieldset>
+
+            <div class="update-nickname">
+                <div class="layui-form-item">
+                    <label for="nickname" class="layui-form-label">
+                        <span class="x-red">*</span>新昵称
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="nickname" name="oldpass" required="" lay-verify="required"
+                               autocomplete="off" class="layui-input" />
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label for="L_repass" class="layui-form-label">
+                    </label>
+                    <input type="submit" class="layui-btn" value="修改" onclick="updateNickname()" />
                 </div>
             </div>
 
@@ -174,6 +201,7 @@
                     </div>
                 </form>
             </div>
+
             <!-- 右侧内容框架，更改从这里结束 -->
         </div>
     </div>
@@ -250,13 +278,13 @@
                     const info = JSON.parse(xhr.responseText);
                     if(info.code === 0) {
                         alert("修改成功");
-                        window.location = "personal-center.html";
+                        window.location.href = "personal-center.html";
                     } else {
                         alert("修改失败");
                     }
                 } else if(xhr.status === 401) {
                     alert("请重新登录");
-                    location.href = "login.html";
+                    window.location.href = "login.html";
                 } else {
                     alert("Error");
                 }
@@ -266,6 +294,33 @@
         setXhrToken(xhr, token);
         defaultXhrHeader(xhr);
         xhr.send(form);
+    }
+
+    function updateNickname() {
+        const nickname = $("#nickname").val();
+        const form = new FormData();
+        form.append("new", nickname);
+        sendFormData(form, onUpdateNickName, "POST", "/api/user/manage/updatenick", true);
+    }
+
+    function onUpdateNickName(xhr) {
+        if (xhr.readyState === 4) {
+            alert("123");
+            if(xhr.status === 200) {
+                const info = JSON.parse(xhr.responseText);
+                if(info.code === 0) {
+                    alert("修改成功");
+                    window.location.href = "personal-center.html";
+                } else {
+                    alert("修改失败");
+                }
+            } else if(xhr.status === 401) {
+                alert("请重新登录");
+                window.location.href = "login.html";
+            } else {
+                alert("Error");
+            }
+        }
     }
 
 </script>

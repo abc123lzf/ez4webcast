@@ -11,7 +11,7 @@
  Target Server Version : 50727
  File Encoding         : 65001
 
- Date: 18/12/2019 14:15:54
+ Date: 19/12/2019 18:22:37
 */
 
 SET NAMES utf8mb4;
@@ -31,7 +31,7 @@ CREATE TABLE `bbs_floor_inf`  (
   `status` smallint(6) NOT NULL,
   PRIMARY KEY (`floor_id`) USING BTREE,
   INDEX `post_id`(`post_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of bbs_floor_inf
@@ -48,6 +48,10 @@ INSERT INTO `bbs_floor_inf` VALUES (9, 3, '我记得你，就是那个说5e 2300
 INSERT INTO `bbs_floor_inf` VALUES (10, 4, '液体可太惨了，连个伪强队都打不过……伪强队都能得4个major', 2, 5, '2019-12-16 16:55:04', 0);
 INSERT INTO `bbs_floor_inf` VALUES (11, 1, '那些cs的带妹的奥，不是我说，素质好点\n带不动了不丢人，带不动了4个人骂另一个，是纯纯的SM行为奥，4个憨P YY语音点也不报打你🐴呢', 3, 5, '2019-12-16 17:00:00', 0);
 INSERT INTO `bbs_floor_inf` VALUES (12, 2, '没实力，硬装p属实啥也不是', 3, 5, '2019-12-16 17:00:43', 0);
+INSERT INTO `bbs_floor_inf` VALUES (13, 1, '爷tm刚刚拿到1w4，准备买把弟弟刀，和手套，存私房钱', 4, 6, '2019-12-19 00:26:38', 0);
+INSERT INTO `bbs_floor_inf` VALUES (14, 7, '有一说一，淬火不懂最好别入手', 1, 6, '2019-12-19 02:54:36', 0);
+INSERT INTO `bbs_floor_inf` VALUES (15, 8, '要买就买661', 1, 6, '2019-12-19 02:57:18', 0);
+INSERT INTO `bbs_floor_inf` VALUES (16, 9, '玩啥子饰品 好好学学技术', 1, 6, '2019-12-19 03:15:53', 0);
 
 -- ----------------------------
 -- Table structure for bbs_post_inf
@@ -63,14 +67,15 @@ CREATE TABLE `bbs_post_inf`  (
   `status` smallint(6) NOT NULL,
   PRIMARY KEY (`post_id`) USING BTREE,
   INDEX `room_id`(`room_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of bbs_post_inf
 -- ----------------------------
-INSERT INTO `bbs_post_inf` VALUES (1, '大家好，既将加入rushb大家庭，新人有什么要注意的吗', 1, 5, '2019-12-12 09:33:47', '2019-12-12 09:33:47', 0);
+INSERT INTO `bbs_post_inf` VALUES (1, '大家好，既将加入rushb大家庭，新人有什么要注意的吗', 1, 5, '2019-12-19 03:15:53', '2019-12-19 03:15:53', 0);
 INSERT INTO `bbs_post_inf` VALUES (2, '今年还有什么大赛么？伪强队A队何时原形毕露。', 1, 5, '2019-12-16 16:52:52', '2019-12-16 16:52:52', 0);
 INSERT INTO `bbs_post_inf` VALUES (3, '那些cs的带妹的奥，不是我说，素质好点带不动了不丢人', 1, 5, '2019-12-16 17:00:00', '2019-12-16 17:00:00', 0);
+INSERT INTO `bbs_post_inf` VALUES (4, '爷tm刚刚拿到1w4，准备买把弟弟刀，和手套，存私房钱', 1, 6, '2019-12-19 00:26:38', '2019-12-19 00:26:38', 0);
 
 -- ----------------------------
 -- Table structure for bbs_reply_inf
@@ -119,7 +124,7 @@ CREATE TABLE `image_inf`  (
   `image_type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `image_upload_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`image_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of image_inf
@@ -132,6 +137,24 @@ INSERT INTO `image_inf` VALUES (5, '122b1df6-480a-4938-b5c7-3e49455b8a71', 'imag
 INSERT INTO `image_inf` VALUES (6, 'e576e4a5-b1de-4977-8a30-c0ac4c09f7b2', 'image/jpeg', '2019-12-18 12:47:03');
 INSERT INTO `image_inf` VALUES (7, 'ddbe7499-0457-4071-a49c-9fb9a7e03b5c', 'image/jpeg', '2019-12-18 12:47:30');
 INSERT INTO `image_inf` VALUES (8, '1e5d80e2-0465-4dca-96f7-5ac300d246c5', 'image/jpeg', '2019-12-18 12:48:41');
+INSERT INTO `image_inf` VALUES (9, '71fc7d9f-0fa9-4a2d-8e33-cfde06509c3a', 'image/png', '2019-12-19 15:40:02');
+INSERT INTO `image_inf` VALUES (10, '73181bb1-9c31-439f-a987-645fe502a2ab', 'image/png', '2019-12-19 15:47:27');
+INSERT INTO `image_inf` VALUES (11, '6086682b-bcf4-4bbf-8c6f-23bdcd6004ec', 'image/png', '2019-12-19 15:49:57');
+INSERT INTO `image_inf` VALUES (12, '74a7d771-b9d5-40d7-97fb-41da9261f2b3', 'image/png', '2019-12-19 15:50:08');
+INSERT INTO `image_inf` VALUES (13, 'cac50460-8303-44e8-a1bb-c8844de816db', 'image/png', '2019-12-19 15:51:48');
+INSERT INTO `image_inf` VALUES (14, '3240002d-b791-48f3-8b0a-6e8aa7f3cb7f', 'image/png', '2019-12-19 15:52:45');
+INSERT INTO `image_inf` VALUES (15, '67c5f246-b917-40cd-ac6a-29160eddc6c2', 'image/png', '2019-12-19 15:53:20');
+INSERT INTO `image_inf` VALUES (16, 'b06cdc7e-eaa8-4acf-ad95-31133c744f61', 'image/png', '2019-12-19 15:53:57');
+INSERT INTO `image_inf` VALUES (17, 'de6f3306-dd6b-47b3-bd95-98ec1886198b', 'image/png', '2019-12-19 16:04:28');
+INSERT INTO `image_inf` VALUES (18, 'c1effe1c-c103-4e8f-994a-86b6eb3d2121', 'image/png', '2019-12-19 16:06:22');
+INSERT INTO `image_inf` VALUES (19, 'ee9f1f22-5f7e-4fe6-88dc-9bd8de61dd1c', 'image/png', '2019-12-19 16:09:20');
+INSERT INTO `image_inf` VALUES (20, 'ad0e313d-3087-4be5-bb28-4c08f7ea5790', 'image/png', '2019-12-19 16:09:35');
+INSERT INTO `image_inf` VALUES (21, '4f67b49a-a5c8-457b-90bb-94b3d055cb47', 'image/png', '2019-12-19 16:09:40');
+INSERT INTO `image_inf` VALUES (22, '3625fca2-cec6-4d59-b7d6-14d8f78df7e5', 'image/png', '2019-12-19 16:10:30');
+INSERT INTO `image_inf` VALUES (23, 'a5164cf8-377e-46b7-80d9-68acce6a7e9b', 'image/png', '2019-12-19 16:43:06');
+INSERT INTO `image_inf` VALUES (24, '98c3e195-918d-48c0-afbd-cbbedd5448c7', 'image/png', '2019-12-19 17:10:38');
+INSERT INTO `image_inf` VALUES (25, '7b227192-c39a-45e5-a1c5-113353ee6469', 'image/png', '2019-12-19 17:10:51');
+INSERT INTO `image_inf` VALUES (26, '8466afd3-5c62-4c1a-86ce-1132eb77f06a', 'image/jpeg', '2019-12-19 17:15:05');
 
 -- ----------------------------
 -- Table structure for permission_inf
@@ -203,8 +226,8 @@ CREATE TABLE `room_inf`  (
 -- ----------------------------
 -- Records of room_inf
 -- ----------------------------
-INSERT INTO `room_inf` VALUES (1, 5, 'CSGO直播间', NULL, '2019-12-12 09:30:10', '2019-12-12 09:30:10');
-INSERT INTO `room_inf` VALUES (2, 6, '最真实的直播间', 8, '2019-12-18 12:48:41', NULL);
+INSERT INTO `room_inf` VALUES (1, 5, '这里有你想看的~~', 26, '2019-12-19 17:15:34', '2019-12-12 09:30:10');
+INSERT INTO `room_inf` VALUES (2, 6, '[电影] Letter from IWO JIMA', 23, '2019-12-19 17:04:14', NULL);
 
 -- ----------------------------
 -- Table structure for room_key_inf
@@ -220,7 +243,8 @@ CREATE TABLE `room_key_inf`  (
 -- ----------------------------
 -- Records of room_key_inf
 -- ----------------------------
-INSERT INTO `room_key_inf` VALUES (2, '3558841e-9dd3-458b-a59b-bdc66316aa14', '2019-12-18 13:53:47');
+INSERT INTO `room_key_inf` VALUES (1, 'bb681691-1f85-45ea-b470-9b8d0c0cd1c4', '2019-12-19 17:12:37');
+INSERT INTO `room_key_inf` VALUES (2, '4aab186d-f4aa-482a-9a88-78ed8b091692', '2019-12-19 18:06:27');
 
 -- ----------------------------
 -- Table structure for user_inf
@@ -240,8 +264,8 @@ CREATE TABLE `user_inf`  (
 -- ----------------------------
 -- Records of user_inf
 -- ----------------------------
-INSERT INTO `user_inf` VALUES (5, 'Aplus', '2712440261a0f6f469f89aff7acd892b', '695199262@qq.com', 1, '2019-12-18 02:51:56');
-INSERT INTO `user_inf` VALUES (6, '听风说语', 'e99a18c428cb38d5f260853678922e03', 'abc123lzf@126.com', 1, '2019-12-18 02:51:59');
+INSERT INTO `user_inf` VALUES (5, 'Aplus', '2712440261a0f6f469f89aff7acd892b', '695199262@qq.com', 25, '2019-12-19 17:10:50');
+INSERT INTO `user_inf` VALUES (6, '听风说语', 'e99a18c428cb38d5f260853678922e03', 'abc123lzf@126.com', 10, '2019-12-19 15:47:26');
 
 -- ----------------------------
 -- Table structure for user_role_inf

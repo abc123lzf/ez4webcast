@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>帖子详情</title>
@@ -43,6 +43,11 @@
             width: 790px;
             border: 1px solid #cccccc;
         }
+
+        .floor-content {
+            margin: 10px;
+        }
+
         .bigphoto~p{
             width: 120px;
             height: 120px;
@@ -63,10 +68,12 @@
             position: relative;
             display: inline-block;
             float: left;
-            margin-left: 6px;
+            margin-left: 8px;
         }
         .time{
-            text-align: right;margin-top: 60px
+            text-align: right;
+            margin-top: 60px;
+            margin-right: 20px;
         }
         .reply{
             margin-top: 50px;
@@ -133,8 +140,8 @@
                 </div>
                 <div class="floor-right">
                     <div>
-                        <p>{{temp.content}}</p>
-                        <p class="time">{{temp.createTime}}</p>
+                        <p class="floor-content">{{temp.content}}</p>
+                        <p class="time">发布时间：{{temp.createTime}}</p>
                     </div>
 
                     <div class="remark" v-for="reply in temp.replies">
@@ -142,30 +149,26 @@
                         <div class="reply-content">{{reply.createUser.nickName}} : {{reply.content}}</div>
                     </div>
                     <div class="reply">
-                        <input placeholder="回复" class="input">
-                        <button class="button">提交</button>
+                        <input type="text" class="reply-text input" :id="'reply-text-' + temp.id" name="text" placeholder="回复" class="input" style="color: #0C0C0C">
+                        <button type="submit" class="button" :onclick="'submitReply(' + temp.id + ')'">提交</button>
                     </div>
                 </div>
 
             </div>
         </div>
 
-
-
         <div id="floor-submit">
-            <form class="layui-form">
-                <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label">内容</label>
-                    <div class="layui-input-block">
-                        <textarea id="floor-content" placeholder="请输入内容" class="layui-textarea"></textarea>
-                    </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">内容</label>
+                <div class="layui-input-block">
+                    <textarea id="floor-content" placeholder="请输入内容" class="layui-textarea"></textarea>
                 </div>
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <input id="floor-submit-button" class="layui-btn" onclick="floorSubmit()" value="发表"/>
-                    </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <input id="floor-submit-button" class="layui-btn" onclick="floorSubmit()" value="发表"/>
                 </div>
-            </form>
+            </div>
         </div>
 
     </div>
@@ -249,33 +252,60 @@
             return;
         }
 
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", SEND_HOST + "/api/bbs/publish/floor");
         let data = {'postId': id, 'content': content};
-
-        xhr.onreadystatechange = function () {
+        sendJSONData(data, function (xhr) {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
                     const resp = JSON.parse(xhr.responseText);
                     const code = resp.code;
                     if (code === 0) {
                         alert("发表成功");
-                        window.location = "bbsdetail.html?id=" + id;
+                        window.location.href = "bbsdetail.html?id=" + id;
                     } else {
                         alert("发表失败");
                     }
                 } else if(xhr.status === 401) {
                     sessionStorage.removeItem('token');
-                    location.href = "login.html";
+                    window.location.href = "login.html";
                 }
             }
-        };
-
-        xhr.setRequestHeader("Content-Type", "application/json");
-        setXhrToken(xhr, token);
-        defaultXhrHeader(xhr);
-        xhr.send(JSON.stringify(data));
+        }, "POST", "/api/bbs/publish/floor", false);
         return false;
+    }
+
+    function submitReply(floorId) {
+        const token = sessionStorage.getItem('token');
+        if(token == null) {
+            alert("请先登录后发表回复");
+            return;
+        }
+
+        const content = $("#reply-text-" + floorId).val();
+
+        if(content == null) {
+            console.log("Content is null");
+            return;
+        }
+
+        let data = {'floorId': floorId, 'content': content};
+
+        sendJSONData(data, function (xhr) {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    const resp = JSON.parse(xhr.responseText);
+                    const code = resp.code;
+                    if (code === 0) {
+                        alert("发表成功");
+                        window.location.href = "bbsdetail.html?id=" + id;
+                    } else {
+                        alert("发表失败");
+                    }
+                } else if(xhr.status === 401) {
+                    sessionStorage.removeItem('token');
+                    window.location.href = "login.html";
+                }
+            }
+        }, "POST", "/api/bbs/publish/reply", false);
     }
 
 </script>
