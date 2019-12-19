@@ -6,6 +6,8 @@ import lombok.Data;
 import sun.misc.BASE64Encoder;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author lzf abc123lzf@126.com
@@ -13,6 +15,7 @@ import java.util.Date;
  */
 public class JSONFieldTest {
     public static void main(String[] args) {
+        Map<String, Integer> map = new HashMap<>();
         System.out.println(JSON.parseObject(""));
     }
 }
