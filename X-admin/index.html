@@ -16,6 +16,23 @@
     <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
     <script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
 
+    <style>
+        .live-room-list-body {
+            float: left;
+            margin: 30px;
+        }
+
+        .live-room-list-body p {
+            margin: 10px;
+            font-size: 20px;
+        }
+
+        .live-room-list-body img {
+            width: 350px;
+        }
+
+    </style>
+
 </head>
 <body>
 <!-- 顶部开始 -->
@@ -41,12 +58,10 @@
     <div class="page-content">
         <div id="live-room-list">
             <div class="live-room-list-body" v-for="temp in info">
-                <fieldset class="layui-elem-field layui-field-title site-title">
-                    <legend>{{temp.title}}</legend>
-                </fieldset>
                 <a v-bind:href="'live-room.html?id=' + temp.id">
-                    <img v-bind:src="'http://localhost:8080/api/image/load?id=' + temp.titleImage" alt="titleImage" style="width: 300px"/>
+                    <img v-bind:src="'http://fs2.lzfnb.top/api/image/load?id=' + temp.titleImage" alt="titleImage" style="width: 300px"/>
                 </a>
+                <p class="live-title" style="text-align: center">{{temp.title}}</p>
             </div>
         </div>
     </div>

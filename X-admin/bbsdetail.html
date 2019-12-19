@@ -18,17 +18,88 @@
     <script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
     <script type="text/javascript" src="./js/utils.js"></script>
     <style type="text/css">
-        .floor {
-            margin: 10px;
+        .floor
+        {
+            clear: both;
+            display: block;
+            align-self: center;
+            width:1000px;
+            margin-left: 200px;
+            margin-top: 30px;
         }
 
-        .floor-head-image {
+        .floor-left{
+            position:absolute;
+            display: inline-block;
+            float: left;
+            width: 150px;
+            height:auto;
+            margin-left: 40px;
+        }
+        .floor-right{
+            display: inline-block;
+            float: left;
+            margin-left: 200px;
+            width: 790px;
+            border: 1px solid #cccccc;
+        }
+        .bigphoto~p{
+            width: 120px;
+            height: 120px;
             text-align: center;
-            margin: 10px;
+            margin-left: 40px;
+        }
+        .reply-user-head-image{
+            width: 30px;
+            height: 30px;
+        }
+        .reply-user-img{
+            display: inline-block;
+            position: relative;
+            margin-left: 30px;
+            float: left;
+        }
+        .reply-content{
+            position: relative;
+            display: inline-block;
+            float: left;
+            margin-left: 6px;
+        }
+        .time{
+            text-align: right;margin-top: 60px
+        }
+        .reply{
+            margin-top: 50px;
+            display: block;
+            width: 100%;
+
+        }
+        .input{
+            margin-left: 10px;
+            height: 30px;
+            width: 680px;
+            margin-bottom: 20px;
+            margin-top: 30px;
+        }
+        .button{
+            height: 35px;
+            width: 70px;
+            background-color: #17A589;
+            box-shadow: none;
+            border-radius: 0px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        .remark{
+            clear: both;
+            display: block ;
+            width:100%;
+            height: auto;
+            margin-top: 30px;
         }
 
-        .floor-head-image img {
-            width: 100px;
+        .floor img {
+            width: 50px;
         }
     </style>
 </head>
@@ -56,28 +127,30 @@
     <div class="page-content">
         <div id="post-content">
             <div class="floor" v-for="temp in floors">
-                <div class="floor-head-image">
-                    <img v-bind:src="'http://localhost:8080/api/image/load?id=' + temp.createUser.headImage" alt="Unload" style="width: 100px"/>
-                    <p>{{temp.createUser.nickName}}</p>
+                <div class="floor-left">
+                    <img class="floor-user-image bigphoto" v-bind:src="'http://fs2.lzfnb.top:8080/api/image/load?id=' + temp.createUser.headImage" alt="Unload" style="width: 100px"/>
+                    <div><p style="text-align: center">{{temp.createUser.nickName}}</p></div>
                 </div>
-                <div class="floor-content">
-                    <p>{{temp.content}}</p>
-                </div>
-                <div class="floor-information">
-                    <p>创建时间：{{temp.createTime}}</p>
-                </div>
-                <div class="floor-replies" v-for="reply in temp.replies">
-                    <div class="floor-replies-body">
-                        <p>{{reply.createUser.nickName}} : {{reply.content}}</p>
+                <div class="floor-right">
+                    <div>
+                        <p>{{temp.content}}</p>
+                        <p class="time">{{temp.createTime}}</p>
+                    </div>
+
+                    <div class="remark" v-for="reply in temp.replies">
+                        <div class="reply-user-img"></div>
+                        <div class="reply-content">{{reply.createUser.nickName}} : {{reply.content}}</div>
+                    </div>
+                    <div class="reply">
+                        <input placeholder="回复" class="input">
+                        <button class="button">提交</button>
                     </div>
                 </div>
+
             </div>
         </div>
 
-        <br>
-        <fieldset class="layui-elem-field layui-field-title site-title">
-            <legend>发布回复</legend>
-        </fieldset>
+
 
         <div id="floor-submit">
             <form class="layui-form">

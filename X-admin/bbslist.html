@@ -21,7 +21,6 @@
         [v-cloak] {
             display: none !important;
         }
-
     </style>
 </head>
 <body>
@@ -87,7 +86,7 @@
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-input-block">
-                        <button id="post-submit-button" class="layui-btn" onclick="postSubmit()">发布</button>
+                        <input type="submit" id="post-submit-button" class="layui-btn" onclick="postSubmit()" value="发布"/>
                     </div>
                 </div>
             </form>
@@ -167,13 +166,20 @@
         const title = $("#title").val();
         const content = $("#content").val();
         const id = req['room'];
-        if(title.length <= 0 || content.length <= 0 || id === undefined) {
+        if(id === undefined) {
+            console.log("Parameter id is undef");
+            return;
+        }
+
+        alert(id);
+
+        if(title.length <= 0 || content.length <= 0) {
             return;
         }
 
         const xhr = new XMLHttpRequest();
         xhr.open("POST", SEND_HOST + "/api/bbs/publish/post");
-        let data = {"title": title, "content": content, "roomId": id};
+        let data = {title: title, content: content, roomId: id};
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
