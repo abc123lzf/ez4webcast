@@ -103,4 +103,28 @@ class RoomManageServiceImpl implements RoomManageService {
         result.setUpstreamURI("/ez4webcast");
         return response(0, result);
     }
+
+
+    @Override
+    public ServiceResponse<Void> changeTitleImage(int imageId) {
+        User user = UserUtils.contextPrincipal();
+        if(user == null) {
+            return response(-1);
+        }
+
+        int uid = user.getUid();
+        return basicRoomDao.changeRoomTitleImage(uid, imageId) ? response(0) : response(1);
+    }
+
+
+    @Override
+    public ServiceResponse<Void> changeTitle(String title) {
+        User user = UserUtils.contextPrincipal();
+        if(user == null) {
+            return response(-1);
+        }
+
+        int uid = user.getUid();
+        return basicRoomDao.changeRoomTitle(uid, title) ? response(0) : response(1);
+    }
 }

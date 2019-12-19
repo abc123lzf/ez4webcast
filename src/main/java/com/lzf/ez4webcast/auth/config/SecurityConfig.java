@@ -77,8 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutUrl("/api/user/logout")
                 .logoutSuccessHandler((req, resp, auth) -> {
-                    resp.setContentType("application/json;charset=utf-8");
-                    resp.getWriter().write(SUCCESS);
+                    resp.sendRedirect("index.html");
                 })
                 .and()
                 .httpBasic()

@@ -58,4 +58,14 @@ class BasicRoomDaoImpl extends AbstractJdbcDao implements BasicRoomDao {
     public void updateLastLiveTime(int rid) {
         jdbcTemplate.update("update room_inf set room_last_live_time = now() where room_id = ?", rid);
     }
+
+    @Override
+    public boolean changeRoomTitleImage(int uid, int imageId) {
+        return jdbcTemplate.update("update room_inf set room_image_id = ? where room_uid = ?", parameters(imageId, uid)) > 0;
+    }
+
+    @Override
+    public boolean changeRoomTitle(int uid, String title) {
+        return jdbcTemplate.update("update room_inf set room_title = ? where room_uid = ?", parameters(title, uid)) > 0;
+    }
 }

@@ -5,6 +5,7 @@ import com.lzf.ez4webcast.auth.model.User;
 import com.lzf.ez4webcast.common.ServiceResponse;
 import com.lzf.ez4webcast.image.service.BasicImageService;
 import com.lzf.ez4webcast.utils.UserUtils;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -15,6 +16,7 @@ import static com.lzf.ez4webcast.common.ServiceResponse.response;
  * @author lzf abc123lzf@126.com
  * @since 2019/12/12 13:43
  */
+@Log4j2
 @Service
 class UserManageServiceImpl implements UserManageService {
 
@@ -40,7 +42,12 @@ class UserManageServiceImpl implements UserManageService {
             return response(2);
         }
 
-        return userDao.updateHeadImage(user.getUid(), imageId) ? response(0) : response(3);
+        boolean ans = userDao.updateHeadImage(user.getUid(), imageId);
+        if(ans) {
+            user.setHeadImage(imageId);
+        }
+
+        return ans ? response(0) : response(3);
     }
 
     @Override

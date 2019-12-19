@@ -22,4 +22,8 @@ public interface BasicRoomDao {
     List<Room> fromRoomID(Collection<Integer> ids);
 
     void updateLastLiveTime(int rid);
+
+    boolean changeRoomTitleImage(int uid, int imageId);
+
+    boolean changeRoomTitle(int uid, String title);
 }

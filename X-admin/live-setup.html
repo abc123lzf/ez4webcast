@@ -18,7 +18,7 @@
 <body>
 <!-- 顶部开始 -->
 <div class="container">
-    <div class="logo"><a href="./index.html">个人中心</a></div>
+    <div class="logo"><a href="./person-center.html">个人中心</a></div>
     <div class="open-nav"><i class="iconfont">&#xe699;</i></div>
     <ul class="layui-nav right" lay-filter="">
         <li class="layui-nav-item">
@@ -39,7 +39,7 @@
         <div id="side-nav">
             <ul id="nav">
                 <li class="list" current>
-                    <a href="#">
+                    <a href="person-center.html">
                         <i class="iconfont">&#xe761;</i>
                         个人基本资料
                         <i class="iconfont nav_right">&#xe697;</i>
@@ -109,6 +109,75 @@
             <fieldset class="layui-elem-field layui-field-title site-title">
                 <legend>直播间封面</legend>
             </fieldset>
+
+            <div class="live-room-title-image">
+                <img id="live-room-title-image-body" src="" alt="尚未登录" />
+            </div>
+
+            <fieldset class="layui-elem-field layui-field-title site-title">
+                <legend>修改直播间标题</legend>
+            </fieldset>
+
+            <div class="change-title">
+                <form class="layui-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">单行输入框</label>
+                        <div class="layui-input-block">
+                            <input id="live-title-text" type="text" name="title" placeholder="请输入标题" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input type="submit" id="title-submit" class="layui-btn" onclick="changeTitle()"
+                                   value="确认修改"/>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+
+            <fieldset class="layui-elem-field layui-field-title site-title">
+                <legend>修改直播间封面</legend>
+            </fieldset>
+
+            <div class="change-live-title-image">
+                <form class="layui-form">
+                    <div class="layui-form-item">
+                        <label for="input-live-title-image" class="layui-form-label">
+                            <span class="x-red">*</span>选择文件
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="file" id="input-live-title-image" name="file" required lay-verify="required"
+                                   autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">
+                            不超过5MB
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input type="submit" id="post-submit-button" class="layui-btn" onclick="submitLiveTitleImage()"
+                                   value="确认修改"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <fieldset class="layui-elem-field layui-field-title site-title">
+                <legend>重新生成RTMP推流密钥</legend>
+            </fieldset>
+
+            <div class="reset-rtmp-key">
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <input type="submit" id="reset-rtmp-key-button" class="layui-btn" onclick="resetRTMPKey()"
+                               value="确认重置"/>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -173,19 +242,106 @@
                         $("#live-room-last-live-time").text(room.lastLiveTime == null ? "尚未直播" : room.lastLiveTime);
                         $("#live-stream-url").text(RTMP_HOST + data.upstreamURI);
                         $("#live-stream-key").text(room.id + "?room=" + room.id +"&key=" + data.upstreamKey);
+                        loadImage(room.titleImage, "#live-room-title-image-body");
                     } else {
                         alert("尚未创建直播间，正在跳转至直播间创建页面");
                         location.href = "live-create.html";
                     }
                 }
             }
-
         };
 
         setXhrToken(xmlHttp, token);
         defaultXhrHeader(xmlHttp);
         xmlHttp.send();
     });
+
+    function submitLiveTitleImage() {
+        const token = sessionStorage.getItem('token');
+        if(token == null) {
+            console.log("Not login");
+            return;
+        }
+
+        const file = $("#input-live-title-image")[0].files[0];
+        let imgId = uploadImage(file);
+        if(imgId == null || imgId <= 0) {
+            alert("上传图片失败");
+        }
+
+        const form = new FormData();
+        form.append("image", imgId);
+        let xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("POST", SEND_HOST + "/api/room/manage/titleimage", false);
+
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState === 4) {
+                if (xmlHttp.status === 200) {
+                    const resp = JSON.parse(xmlHttp.responseText);
+                    const code = resp.code;
+                    if(code === 0) {
+                        alert("修改成功");
+                        window.location.href = "live-setup.html";
+                    }
+                }
+            }
+        };
+
+        setXhrToken(xmlHttp, token);
+        defaultXhrHeader(xmlHttp);
+        xmlHttp.send(form);
+    }
+
+    function changeTitle() {
+        const title = $("#live-title-text").val();
+        const token = sessionStorage.getItem('token');
+        if(token == null) {
+            alert("尚未登录或者Token过期");
+            return;
+        }
+
+        if(title.length < 4) {
+            alert("标题应当在4个字符内");
+            return;
+        }
+
+        const form = new FormData();
+        form.append('title', title);
+
+        sendFormData(form, function (xmlHttp) {
+            if (xmlHttp.readyState === 4) {
+                if (xmlHttp.status === 200) {
+                    const resp = JSON.parse(xmlHttp.responseText);
+                    const code = resp.code;
+                    if(code === 0) {
+                        alert("修改成功");
+                        window.location.href = "live-setup.html";
+                    }
+                }
+            }
+        }, "POST", "/api/room/manage/title", false);
+    }
+
+    function resetRTMPKey() {
+        const token = sessionStorage.getItem('token');
+        if(token == null) {
+            alert("尚未登录或者Token过期");
+            return;
+        }
+
+        sendFormData(null, function (xmlHttp) {
+            if (xmlHttp.readyState === 4) {
+                if (xmlHttp.status === 200) {
+                    const resp = JSON.parse(xmlHttp.responseText);
+                    const code = resp.code;
+                    if(code === 0) {
+                        alert("修改成功");
+                        window.location.href = "live-setup.html";
+                    }
+                }
+            }
+        }, "POST", "/api/room/manage/resetkey", false);
+    }
 
 </script>
 

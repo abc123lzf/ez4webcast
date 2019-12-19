@@ -68,4 +68,40 @@ public class RoomManageController {
                 message(0, "SUCCESS", resp.data()) :
                 message(resp.code(), "FAILURE", null);
     }
+
+
+    @PostMapping("titleimage")
+    public ResponseMessage changeTitleImage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int image;
+        try {
+            image = Integer.parseInt(request.getParameter("image"));
+        } catch (NumberFormatException e) {
+            response.sendError(400);
+            return null;
+        }
+
+        ServiceResponse<Void> ans = manageService.changeTitleImage(image);
+        if(!ans.success()) {
+            return message(ans.code(), "FAILURE");
+        }
+
+        return message(0, "SUCCESS");
+    }
+
+    @PostMapping("title")
+    public ResponseMessage changeTitle(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String title = request.getParameter("title");
+        if(title == null) {
+            response.sendError(400);
+            return null;
+        }
+
+        ServiceResponse<Void> ans = manageService.changeTitle(title);
+        if(!ans.success()) {
+            return message(ans.code(), "FAILURE");
+        }
+
+        return message(0, "SUCCESS");
+    }
+
 }

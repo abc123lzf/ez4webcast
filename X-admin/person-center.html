@@ -39,7 +39,7 @@
         <div id="side-nav">
             <ul id="nav">
                 <li class="list" current>
-                    <a href="#">
+                    <a href="person-center.html">
                         <i class="iconfont">&#xe761;</i>
                         个人基本资料
                         <i class="iconfont nav_right">&#xe697;</i>
@@ -59,7 +59,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="member-del.html">
+                            <a href="live-setup.html">
                                 <i class="iconfont">&#xe6a7;</i>
                                 直播间管理
                             </a>
@@ -83,7 +83,9 @@
                          src="http://img.qqzhi.com/uploads/2019-01-16/145116704.jpg" style="width: 100px">
                 </div>
                 <div id="personal-base-information">
-                    <h3>昵称：<span id="basic-info-nickname"></span></h3>
+                    <h3>昵称：<span id="basic-info-nickname">未登录</span></h3>
+                    <h3>UID：<span id="basic-info-uid">未登录</span></h3>
+                    <h3>绑定邮箱：<span id="basic-info-email">未登录</span></h3>
                 </div>
             </div>
 
@@ -137,21 +139,25 @@
 
             <div class="change-head-image">
                 <form class="layui-form">
-                    <div class="layui-input-inline">
-                        <input type="file" id="input-head-image" name="file" required lay-verify="required"
-                               autocomplete="off" class="layui-input">
+                    <div class="layui-form-item">
+                        <label for="input-head-image" class="layui-form-label">
+                            <span class="x-red">*</span>选择文件
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="file" id="input-head-image" name="file" required lay-verify="required"
+                                   autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">
+                            不超过5MB
+                        </div>
                     </div>
                     <div class="layui-form-item">
                         <div class="layui-input-block">
                             <input type="submit" id="post-submit-button" class="layui-btn" onclick="submitHeadImage()"
-                                   value="发布"/>
+                                   value="确认修改"/>
                         </div>
                     </div>
                 </form>
-            </div>
-
-            <div class="layui-form-item">
-                <button id="live-submit" class="layui-btn">提交</button>
             </div>
             <!-- 右侧内容框架，更改从这里结束 -->
         </div>
@@ -183,27 +189,15 @@
                     const userinfo = resp.data;
                     $("#user-nick-name").text(userinfo.nickName);
                     $("#basic-info-nickname").text(userinfo.nickName);
+                    $("#basic-info-uid").text(userinfo.uid);
+                    $("#basic-info-email").text(userinfo.email);
                     $(".layui-nav-child").attr("style", "");
 
                     if (userinfo.headImage == null || userinfo.headImage === 0) {
                         return;
                     }
 
-                    const xhr = new XMLHttpRequest();
-                    xhr.open("GET", SEND_HOST + "/api/image/load?id=" + userinfo.headImage);
-                    xhr.responseType = "blob";
-                    xhr.onreadystatechange = function () {
-                        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-                            const blob = this.response;
-                            $("#basic-info-head-image").attr("src", window.URL.createObjectURL(blob));
-                        }
-                    };
-
-                    xhr.setRequestHeader("Platform-Token", token);
-                    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-                    xhr.setRequestHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie, token');
-                    xhr.setRequestHeader('Access-Control-Allow-Method', 'POST,GET');
-                    xhr.send();
+                    loadImage(userinfo.headImage, "#basic-info-head-image");
                 } else {
                     sessionStorage.removeItem('token');
                     console.log("Session timeout")
@@ -218,45 +212,45 @@
     });
 
     function submitHeadImage() {
-        const file = $("#input-head-image")[0].fields[0];
+        const token = sessionStorage.getItem('token');
+        const file = $("#input-head-image")[0].files[0];
         if(file == null) {
             alert("请选择头像");
             return;
         }
 
-        let form = new FormData();
-        form.append("file", file);
-        const token = sessionStorage.getItem('token');
-        const fileXhr = new XMLHttpRequest();
-        let imgId;
+        let imgId = uploadImage(file);
+        if(imgId == null || imgId === -1) {
+            alert("图片上传失败");
+            return;
+        }
 
-        fileXhr.open('POST', SEND_HOST + "/api/image/upload", false);
-        fileXhr.onreadystatechange = function () {
-            if (fileXhr.readyState === 4) {
-                if(fileXhr.status === 200) {
-                    const info = JSON.parse(fileXhr.responseText);
+        let form = new FormData();
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', SEND_HOST + "/api/user/manage/headimage", true);
+        form.append("image", imgId);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if(xhr.status === 200) {
+                    const info = JSON.parse(xhr.responseText);
                     if(info.code === 0) {
-                        imgId = info.data;
+                        alert("修改成功");
+                        window.location = "personal-center.html";
                     } else {
-                        alert("图片上传失败");
+                        alert("修改失败");
                     }
-                } else if(fileXhr.status === 401) {
+                } else if(xhr.status === 401) {
                     alert("请重新登录");
                     location.href = "login.html";
+                } else {
+                    alert("Error");
                 }
             }
         };
 
-        setXhrToken(fileXhr,token);
-        defaultXhrHeader(fileXhr);
-        fileXhr.send(form);
-
-        if(imgId === null) {
-            return;
-        }
-
-        form = new FormData();
-        
+        setXhrToken(xhr, token);
+        defaultXhrHeader(xhr);
+        xhr.send(form);
     }
 
 </script>

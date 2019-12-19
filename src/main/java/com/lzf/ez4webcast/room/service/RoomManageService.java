@@ -44,4 +44,17 @@ public interface RoomManageService {
      * @return 直播间信息
      */
     ServiceResponse<RoomBaseInfoVo> roomBaseInfo();
+
+
+    /**
+     * 更换直播间封面
+     * @param imageId 图片ID
+     */
+    ServiceResponse<Void> changeTitleImage(int imageId);
+
+    /**
+     * 更换直播间标题
+     * @param title 标题
+     */
+    ServiceResponse<Void> changeTitle(String title);
 }
