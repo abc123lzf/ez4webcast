@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
  * @since 2019/12/10 16:39
  * 弹幕控制器
  */
-@ServerEndpoint(value = "/api/danmaku/ws/message/{room}", configurator = SpringConfigurator.class)
+@ServerEndpoint(value = "/api/danmaku/ws/message/{room}")
 @Component
 @Log4j2
 public class DanmakuController {

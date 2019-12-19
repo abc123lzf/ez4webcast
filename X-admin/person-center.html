@@ -1,41 +1,42 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>个人中心-基本资料-ez4webcast</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta charset="UTF-8">
+    <title>个人中心-基本资料-ez4webcast</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="./css/font.css">
-	<link rel="stylesheet" href="./css/xadmin.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
     <link rel="stylesheet" href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css">
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
     <script src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
     <script type="text/javascript" src="./js/constants.js"></script>
+    <script type="text/javascript" src="./js/utils.js"></script>
 </head>
 <body>
-    <!-- 顶部开始 -->
-    <div class="container">
-        <div class="logo"><a href="./index.html">个人中心</a></div>
-        <div class="open-nav"><i class="iconfont">&#xe699;</i></div>
-        <ul class="layui-nav right" lay-filter="">
-          <li class="layui-nav-item">
+<!-- 顶部开始 -->
+<div class="container">
+    <div class="logo"><a href="./index.html">个人中心</a></div>
+    <div class="open-nav"><i class="iconfont">&#xe699;</i></div>
+    <ul class="layui-nav right" lay-filter="">
+        <li class="layui-nav-item">
             <a id="user-nick-name" href="login.html">登录/注册</a>
             <dl class="layui-nav-child" style="visibility: hidden"> <!-- 二级菜单 -->
-              <dd><a href="login.html">切换帐号</a></dd>
-              <dd><a id="logout-url" href="/api/user/logout">退出</a></dd>
+                <dd><a href="login.html">切换帐号</a></dd>
+                <dd><a id="logout-url" href="/api/user/logout">退出</a></dd>
             </dl>
-          </li>
-          <li class="layui-nav-item"><a href="index.html">首页</a></li>
-        </ul>
-    </div>
-    <!-- 顶部结束 -->
-    <!-- 中部开始 -->
-    <div class="wrapper">
-        <!-- 左侧菜单开始 -->
-        <div class="left-nav">
-          <div id="side-nav">
+        </li>
+        <li class="layui-nav-item"><a href="index.html">首页</a></li>
+    </ul>
+</div>
+<!-- 顶部结束 -->
+<!-- 中部开始 -->
+<div class="wrapper">
+    <!-- 左侧菜单开始 -->
+    <div class="left-nav">
+        <div id="side-nav">
             <ul id="nav">
                 <li class="list" current>
                     <a href="#">
@@ -66,128 +67,199 @@
                     </ul>
                 </li>
             </ul>
-          </div>
         </div>
-        <!-- 左侧菜单结束 -->
-        <!-- 右侧主体开始 -->
-        <div class="page-content">
-          <div class="content">
-              <fieldset class="layui-elem-field layui-field-title site-title">
-                  <legend>基本信息</legend>
-              </fieldset>
+    </div>
+    <!-- 左侧菜单结束 -->
+    <!-- 右侧主体开始 -->
+    <div class="page-content">
+        <div class="content">
+            <fieldset class="layui-elem-field layui-field-title site-title">
+                <legend>基本信息</legend>
+            </fieldset>
 
-              <div class="basic-info">
-                  <h3>昵称：<span id="basic-info-nickname"></span></h3>
-                  <br>
-                  <h3>头像：</h3>
-                  <img id="basic-info-head-image" alt="Unload" src="http://img.qqzhi.com/uploads/2019-01-16/145116704.jpg" style="width: 100px">
-               </div>
+            <div class="basic-info">
+                <div id="personal-head-image">
+                    <img id="basic-info-head-image" alt="Unload"
+                         src="http://img.qqzhi.com/uploads/2019-01-16/145116704.jpg" style="width: 100px">
+                </div>
+                <div id="personal-base-information">
+                    <h3>昵称：<span id="basic-info-nickname"></span></h3>
+                </div>
+            </div>
 
-              <fieldset class="layui-elem-field layui-field-title site-title">
-                  <legend>修改密码</legend>
-              </fieldset>
-              <form class="layui-form">
-                  <div class="layui-form-item">
-                      <label for="L_repass" class="layui-form-label">
-                          <span class="x-red">*</span>旧密码
-                      </label>
-                      <div class="layui-input-inline">
-                          <input type="password" id="L_oldpass" name="oldpass" required="" lay-verify="required"
-                                 autocomplete="off" class="layui-input">
-                      </div>
-                  </div>
-                  <div class="layui-form-item">
-                      <label for="L_pass" class="layui-form-label">
-                          <span class="x-red">*</span>新密码
-                      </label>
-                      <div class="layui-input-inline">
-                          <input type="password" id="L_pass" name="newpass" required="" lay-verify="required"
-                                 autocomplete="off" class="layui-input">
-                      </div>
-                      <div class="layui-form-mid layui-word-aux">
-                          6到16个字符
-                      </div>
-                  </div>
-                  <div class="layui-form-item">
-                      <label for="L_repass" class="layui-form-label">
-                          <span class="x-red">*</span>确认密码
-                      </label>
-                      <div class="layui-input-inline">
-                          <input type="password" id="L_repass" name="repass" required="" lay-verify="required"
-                                 autocomplete="off" class="layui-input">
-                      </div>
-                  </div>
-                  <div class="layui-form-item">
-                      <label for="L_repass" class="layui-form-label">
-                      </label>
-                      <button  class="layui-btn" lay-filter="save" lay-submit="">修改</button>
-                  </div>
-              </form>
+            <fieldset class="layui-elem-field layui-field-title site-title">
+                <legend>修改密码</legend>
+            </fieldset>
 
+            <div class="change-password">
+                <form class="layui-form">
+                    <div class="layui-form-item">
+                        <label for="L_repass" class="layui-form-label">
+                            <span class="x-red">*</span>旧密码
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="password" id="L_oldpass" name="oldpass" required="" lay-verify="required"
+                                   autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="L_pass" class="layui-form-label">
+                            <span class="x-red">*</span>新密码
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="password" id="L_pass" name="newpass" required="" lay-verify="required"
+                                   autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">
+                            6到16个字符
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="L_repass" class="layui-form-label">
+                            <span class="x-red">*</span>确认密码
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="password" id="L_repass" name="repass" required="" lay-verify="required"
+                                   autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="L_repass" class="layui-form-label">
+                        </label>
+                        <button class="layui-btn" lay-filter="save" lay-submit="">修改</button>
+                    </div>
+                </form>
+            </div>
+
+            <fieldset class="layui-elem-field layui-field-title site-title">
+                <legend>修改头像</legend>
+            </fieldset>
+
+            <div class="change-head-image">
+                <form class="layui-form">
+                    <div class="layui-input-inline">
+                        <input type="file" id="input-head-image" name="file" required lay-verify="required"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <input type="submit" id="post-submit-button" class="layui-btn" onclick="submitHeadImage()"
+                                   value="发布"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="layui-form-item">
+                <button id="live-submit" class="layui-btn">提交</button>
+            </div>
             <!-- 右侧内容框架，更改从这里结束 -->
-          </div>
         </div>
-
-        <!-- 右侧主体结束 -->
-    </div>
-    <!-- 中部结束 -->
-    <!-- 底部开始 -->
-    <div class="footer">
-        <div class="copyright">Copyright ©2019 ez4webcast All Rights Reserved</div>
     </div>
 
-    <script type="application/javascript">
-        $(document).ready(function () {
-            $("#logout-url").attr("href", SEND_HOST + "/api/user/logout");
-            const token = sessionStorage.getItem('token');
-            if(token == null) {
-                return;
-            }
-            const xmlHttp = new XMLHttpRequest();
-            xmlHttp.open("POST", SEND_HOST + "/api/user/context", true);
+    <!-- 右侧主体结束 -->
+</div>
+<!-- 中部结束 -->
+<!-- 底部开始 -->
+<div class="footer">
+    <div class="copyright">Copyright ©2019 ez4webcast All Rights Reserved</div>
+</div>
 
-            xmlHttp.onreadystatechange = function () {
-                if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-                    const resp = JSON.parse(xmlHttp.responseText);
-                    const code = resp.code;
-                    if(code === 0) {
-                        const userinfo = resp.data;
-                        $("#user-nick-name").text(userinfo.nickName);
-                        $("#basic-info-nickname").text(userinfo.nickName);
-                        $(".layui-nav-child").attr("style", "");
+<script type="application/javascript">
+    $(document).ready(function () {
+        $("#logout-url").attr("href", SEND_HOST + "/api/user/logout");
+        const token = sessionStorage.getItem('token');
+        if (token == null) {
+            return;
+        }
+        const xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("POST", SEND_HOST + "/api/user/context", true);
 
-                        if(userinfo.headImage == null || userinfo.headImage === 0) {
-                            return;
-                        }
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+                const resp = JSON.parse(xmlHttp.responseText);
+                const code = resp.code;
+                if (code === 0) {
+                    const userinfo = resp.data;
+                    $("#user-nick-name").text(userinfo.nickName);
+                    $("#basic-info-nickname").text(userinfo.nickName);
+                    $(".layui-nav-child").attr("style", "");
 
-                        const xhr = new XMLHttpRequest();
-                        xhr.open("GET", SEND_HOST + "/api/image/load?id=" + userinfo.headImage);
-                        xhr.responseType = "blob";
-                        xhr.onreadystatechange = function() {
-                            if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-                                const blob = this.response;
-                                $("#basic-info-head-image").attr("src", window.URL.createObjectURL(blob));
-                            }
-                        };
-
-                        xhr.setRequestHeader("Platform-Token", token);
-                        xhr.setRequestHeader('Access-Control-Allow-Origin','*');
-                        xhr.setRequestHeader('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie, token');
-                        xhr.setRequestHeader('Access-Control-Allow-Method','POST,GET');
-                        xhr.send();
-                    } else {
-                        sessionStorage.removeItem('token');
-                        console.log("Session timeout")
+                    if (userinfo.headImage == null || userinfo.headImage === 0) {
+                        return;
                     }
-                }
-            };
 
-            defaultXhrHeader(xmlHttp);
-            setXhrToken(xmlHttp, token);
-            xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-            xmlHttp.send();
-        });
-    </script>
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("GET", SEND_HOST + "/api/image/load?id=" + userinfo.headImage);
+                    xhr.responseType = "blob";
+                    xhr.onreadystatechange = function () {
+                        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+                            const blob = this.response;
+                            $("#basic-info-head-image").attr("src", window.URL.createObjectURL(blob));
+                        }
+                    };
+
+                    xhr.setRequestHeader("Platform-Token", token);
+                    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+                    xhr.setRequestHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie, token');
+                    xhr.setRequestHeader('Access-Control-Allow-Method', 'POST,GET');
+                    xhr.send();
+                } else {
+                    sessionStorage.removeItem('token');
+                    console.log("Session timeout")
+                }
+            }
+        };
+
+        defaultXhrHeader(xmlHttp);
+        setXhrToken(xmlHttp, token);
+        xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xmlHttp.send();
+    });
+
+    function submitHeadImage() {
+        const file = $("#input-head-image")[0].fields[0];
+        if(file == null) {
+            alert("请选择头像");
+            return;
+        }
+
+        let form = new FormData();
+        form.append("file", file);
+        const token = sessionStorage.getItem('token');
+        const fileXhr = new XMLHttpRequest();
+        let imgId;
+
+        fileXhr.open('POST', SEND_HOST + "/api/image/upload", false);
+        fileXhr.onreadystatechange = function () {
+            if (fileXhr.readyState === 4) {
+                if(fileXhr.status === 200) {
+                    const info = JSON.parse(fileXhr.responseText);
+                    if(info.code === 0) {
+                        imgId = info.data;
+                    } else {
+                        alert("图片上传失败");
+                    }
+                } else if(fileXhr.status === 401) {
+                    alert("请重新登录");
+                    location.href = "login.html";
+                }
+            }
+        };
+
+        setXhrToken(fileXhr,token);
+        defaultXhrHeader(fileXhr);
+        fileXhr.send(form);
+
+        if(imgId === null) {
+            return;
+        }
+
+        form = new FormData();
+        
+    }
+
+</script>
 
 </body>
 </html>
