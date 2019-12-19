@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
 @Log4j2
 public class DanmakuController {
 
-    private final ConcurrentMap<String, ConcurrentSkipListSet<Session>> clients = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, ConcurrentSkipListSet<Session>> clients = new ConcurrentHashMap<>();
 
     @OnOpen
     public void onOpen(Session session, @PathParam("room") String room) throws IOException {
@@ -35,7 +35,6 @@ public class DanmakuController {
             session.close();
             return;
         }
-
         /*ServiceResponse<Boolean> res = basicRoomService.containsRoom(rid);
         if(res.success() && !res.data()) {
             session.close();
@@ -53,7 +52,6 @@ public class DanmakuController {
 
         ConcurrentSkipListSet<Session> set = clients.get(uri);
         set.add(session);
-
     }
 
     @OnMessage
@@ -66,8 +64,11 @@ public class DanmakuController {
         set.forEach(v -> {
             if(v == session) {
                 return;
+            } else if(!v.isOpen()) {
+                set.remove(v);
+            } else {
+                v.getAsyncRemote().sendText(text);
             }
-            v.getAsyncRemote().sendText(text);
         });
     }
 

@@ -58,8 +58,8 @@
     <div class="page-content">
         <div id="live-room-list">
             <div class="live-room-list-body" v-for="temp in info">
-                <a v-bind:href="'live-room.html?id=' + temp.id">
-                    <img v-bind:src="'http://localhost:8080/api/image/load?id=' + temp.titleImage" alt="titleImage" style="width: 300px"/>
+                <a v-bind:href="'room.html?id=' + temp.id">
+                    <img v-bind:src="'/api/image/load?id=' + temp.titleImage" alt="titleImage" style="width: 300px"/>
                 </a>
                 <p class="live-title" style="text-align: center">{{temp.title}}</p>
             </div>
