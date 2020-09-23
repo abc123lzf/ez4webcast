@@ -9,7 +9,7 @@ import lombok.Data;
  * @since 2019/12/11 10:10
  */
 @Data
-public class UserVo {
+public class UserVO {
 
     @JSONField
     private Integer uid;
@@ -23,7 +23,7 @@ public class UserVo {
     @JSONField
     private Integer headImage;
 
-    public UserVo(User user) {
+    public UserVO(User user) {
         this.uid = user.getUid();
         this.nickName = user.getNickName();
         this.email = user.getEmail();

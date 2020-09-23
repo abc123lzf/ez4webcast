@@ -1,15 +1,13 @@
 package com.lzf.ez4webcast.room.service;
 
-import com.lzf.ez4webcast.auth.model.User;
 import com.lzf.ez4webcast.auth.service.BasicUserService;
-import com.lzf.ez4webcast.auth.vo.UserVo;
+import com.lzf.ez4webcast.auth.vo.UserVO;
 import com.lzf.ez4webcast.common.ServiceResponse;
 import com.lzf.ez4webcast.room.dao.BasicRoomDao;
 import com.lzf.ez4webcast.room.dao.RoomStreamKeyDao;
 import com.lzf.ez4webcast.room.model.Room;
 import com.lzf.ez4webcast.room.vo.RoomDetailVo;
 import com.lzf.ez4webcast.room.vo.RoomVo;
-import com.lzf.ez4webcast.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -56,7 +54,7 @@ class BasicRoomServiceImpl implements BasicRoomService {
             return response(1);
         }
 
-        ServiceResponse<UserVo> resp = basicUserService.findUserByUID(room.getUid());
+        ServiceResponse<UserVO> resp = basicUserService.findUserByUID(room.getUid());
         if(!resp.success()) {
             return response(2);
         }

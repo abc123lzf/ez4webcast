@@ -2,7 +2,7 @@ package com.lzf.ez4webcast.bbs.service;
 
 import com.lzf.ez4webcast.auth.model.User;
 import com.lzf.ez4webcast.auth.service.BasicUserService;
-import com.lzf.ez4webcast.auth.vo.UserVo;
+import com.lzf.ez4webcast.auth.vo.UserVO;
 import com.lzf.ez4webcast.bbs.dao.FloorDao;
 import com.lzf.ez4webcast.bbs.dao.PostDao;
 import com.lzf.ez4webcast.bbs.dao.ReplyDao;
@@ -56,7 +56,7 @@ class BasicBBSServiceImpl implements BasicBBSService {
         AtomicInteger count = new AtomicInteger(0);
         list.forEach(e -> {
             PostVo vo = new PostVo(e);
-            ServiceResponse<UserVo> resp = basicUserService.findUserByUID(e.getCreateUID());
+            ServiceResponse<UserVO> resp = basicUserService.findUserByUID(e.getCreateUID());
             if(resp.success()) {
                 vo.setCreateUser(resp.data());
             }
@@ -100,7 +100,7 @@ class BasicBBSServiceImpl implements BasicBBSService {
         });
 
 
-        Map<Integer, UserVo> uidQueryRes = mapper(basicUserService.findUserByUID(queryUIDs).data());
+        Map<Integer, UserVO> uidQueryRes = mapper(basicUserService.findUserByUID(queryUIDs).data());
         floors.forEach(e -> {
             FloorVo vo = floorMap.get(e.getId());
             vo.setCreateUser(uidQueryRes.get(e.getCreateUID()));
@@ -118,12 +118,12 @@ class BasicBBSServiceImpl implements BasicBBSService {
     }
 
 
-    private static Map<Integer, UserVo> mapper(List<UserVo> list) {
+    private static Map<Integer, UserVO> mapper(List<UserVO> list) {
         if(CollectionUtils.isEmpty(list)) {
             return Collections.emptyMap();
         }
 
-        Map<Integer, UserVo> map = new HashMap<>(list.size() * 2);
+        Map<Integer, UserVO> map = new HashMap<>(list.size() * 2);
         list.forEach(e -> map.put(e.getUid(), e));
         return map;
     }

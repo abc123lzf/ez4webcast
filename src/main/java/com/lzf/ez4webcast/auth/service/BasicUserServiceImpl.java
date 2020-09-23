@@ -2,7 +2,7 @@ package com.lzf.ez4webcast.auth.service;
 
 import com.lzf.ez4webcast.auth.dao.UserDao;
 import com.lzf.ez4webcast.auth.model.User;
-import com.lzf.ez4webcast.auth.vo.UserVo;
+import com.lzf.ez4webcast.auth.vo.UserVO;
 import com.lzf.ez4webcast.common.ServiceResponse;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,24 +55,24 @@ class BasicUserServiceImpl implements BasicUserService {
     }
 
     @Override
-    public ServiceResponse<UserVo> findUserByUID(int uid) {
+    public ServiceResponse<UserVO> findUserByUID(int uid) {
         User user = userDao.fromUID(uid);
         if(user == null) {
             return response(1);
         }
 
-        return response(0, new UserVo(user));
+        return response(0, new UserVO(user));
     }
 
     @Override
-    public ServiceResponse<List<UserVo>> findUserByUID(Collection<Integer> uidList) {
+    public ServiceResponse<List<UserVO>> findUserByUID(Collection<Integer> uidList) {
         List<User> list = userDao.fromUIDList(uidList);
         if(list == null) {
             return response(1);
         }
 
-        List<UserVo> ans = new ArrayList<>(list.size());
-        list.forEach(e -> ans.add(new UserVo(e)));
+        List<UserVO> ans = new ArrayList<>(list.size());
+        list.forEach(e -> ans.add(new UserVO(e)));
         return response(0, ans);
     }
 }

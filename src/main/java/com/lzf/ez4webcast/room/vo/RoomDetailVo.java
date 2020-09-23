@@ -1,7 +1,7 @@
 package com.lzf.ez4webcast.room.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.lzf.ez4webcast.auth.vo.UserVo;
+import com.lzf.ez4webcast.auth.vo.UserVO;
 import com.lzf.ez4webcast.room.model.Room;
 import lombok.Data;
 
@@ -13,7 +13,7 @@ import lombok.Data;
 public class RoomDetailVo extends RoomVo {
 
     @JSONField
-    private UserVo anchor;
+    private UserVO anchor;
 
     @JSONField
     private String flvUri;

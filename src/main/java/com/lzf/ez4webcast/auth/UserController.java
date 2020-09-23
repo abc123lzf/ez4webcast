@@ -3,7 +3,7 @@ package com.lzf.ez4webcast.auth;
 
 import com.lzf.ez4webcast.auth.model.User;
 import com.lzf.ez4webcast.auth.service.BasicUserService;
-import com.lzf.ez4webcast.auth.vo.UserVo;
+import com.lzf.ez4webcast.auth.vo.UserVO;
 import com.lzf.ez4webcast.common.ComplexResponseMessage;
 import com.lzf.ez4webcast.common.ResponseMessage;
 import com.lzf.ez4webcast.common.ServiceResponse;
@@ -44,12 +44,12 @@ public class UserController {
     }
 
     @PostMapping("context")
-    public ComplexResponseMessage<UserVo> contextUser() {
+    public ComplexResponseMessage<UserVO> contextUser() {
         User user = UserUtils.contextPrincipal();
         if(user == null) {
             return ComplexResponseMessage.message(1, "Not login", null);
         }
 
-        return ComplexResponseMessage.message(0, "SUCCESS", new UserVo(user));
+        return ComplexResponseMessage.message(0, "SUCCESS", new UserVO(user));
     }
 }

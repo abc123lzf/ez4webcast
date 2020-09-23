@@ -1,0 +1,33 @@
+version: '3'
+services:
+  redis:
+    image: redis:6.0
+    hostname: redis
+    container_name: redis
+    restart: always
+    command: --appendonly yes
+    networks:
+      - shopping-mall
+    ports:
+      - 6379:6379
+    volumes:
+      - /var/lib/redis:/var/lib/redis
+
+  mysql:
+    image: mysql:5.7
+    hostname: mysql
+    restart: always
+    container_name: mysql
+    networks:
+      - shopping-mall
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - LANG=C.UTF-8
+    volumes:
+      - "${MYSQL_DIR}/data:/var/lib/mysql"           # 挂载数据目录
+      - "${MYSQL_DIR}/config:/etc/mysql/conf.d"      # 挂载配置文件目录
+
+networks:
+  ez4webcast:

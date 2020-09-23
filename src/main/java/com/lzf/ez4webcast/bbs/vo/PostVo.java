@@ -1,7 +1,7 @@
 package com.lzf.ez4webcast.bbs.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.lzf.ez4webcast.auth.vo.UserVo;
+import com.lzf.ez4webcast.auth.vo.UserVO;
 import com.lzf.ez4webcast.bbs.model.Post;
 import lombok.Data;
 
@@ -28,7 +28,7 @@ public class PostVo {
     private List<FloorVo> floors;
 
     @JSONField
-    private UserVo createUser;
+    private UserVO createUser;
 
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;

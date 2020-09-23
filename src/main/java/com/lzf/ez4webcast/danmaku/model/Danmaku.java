@@ -2,7 +2,6 @@ package com.lzf.ez4webcast.danmaku.model;
 
 import com.alibaba.fastjson.JSONAware;
 import com.alibaba.fastjson.JSONObject;
-import com.lzf.ez4webcast.auth.vo.UserVo;
 import lombok.Data;
 
 import java.util.Objects;
